@@ -1,0 +1,34 @@
+{
+  "name": "fractava-notes-core",
+  "version": "0.0.1",
+  "description": "The Core for our Notes App",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fractava/notes-core.git"
+  },
+  "keywords": [
+    "notes"
+  ],
+  "author": "FRACTAVA",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/fractava/notes-core/issues"
+  },
+  "homepage": "https://github.com/fractava/notes-core#readme",
+  "dependencies": {
+    "file-loader": "^6.0.0",
+    "sass-loader": "^8.0.2",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.9.2",
+    "vue-style-loader": "^4.1.2",
+    "vuejs": "^3.0.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
