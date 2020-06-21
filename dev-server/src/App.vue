@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    <p>Dev Server Test</p>
+  <div id="devServerContainer">
     <fractava-notes />
   </div>
 </template>
@@ -14,4 +13,8 @@ export default {
 </script>
 
 <style>
+#devServerContainer {
+    width: 100%;
+    height: 100%;
+}
 </style>
