@@ -23,7 +23,19 @@ export default {
             y: false,
             pressure: false,
         },
-      }
+        objects: {
+            sketch: {
+            },
+            forms: {
+            },
+            images: {
+            },
+            files: {
+            }
+        },
+        background {
+        },
+      },
   },
   computed: {
 
