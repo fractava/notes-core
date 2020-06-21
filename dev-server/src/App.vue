@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <p>Dev Server Test</p>
+    <fractava-notes />
   </div>
 </template>
 

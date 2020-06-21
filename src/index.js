@@ -1,5 +1,7 @@
+import FractavaNotes from './components/FractavaNotes.vue';
+
 export default {
     install: function (Vue, options) {
-        console.log("hello world");
+        Vue.component("FractavaNotes", FractavaNotes)
     }
 }
