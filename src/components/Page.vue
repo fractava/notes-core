@@ -7,6 +7,7 @@
     <svg style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;" v-for="(sketch, index) in objects.sketch" :key="index">
         <line
             v-for="(line, index) in sketch.coordinates"
+            :key="index"
             :x1="line.x"
             :y1="line.y"
             :x2="sketch.coordinates[index + 1].x"
@@ -51,7 +52,7 @@ export default {
     methods: {
         pointerdown: function(event) {
             console.log("pointerdown");
-            console.log(event);
+            //console.log(event);
             this.pointer.down = true;
             this.pointer.x = event.x;
             this.pointer.y = event.y;
@@ -60,22 +61,50 @@ export default {
         pointermove: function(event) {
             if(this.pointer.down) {
                 console.log("pointermove");
-                console.log(event);
-                this.pointer.x = event.x;
-                this.pointer.y = event.y;
-                this.pointer.pressure = event.pressure || 0.5;
+                //console.log(event);
 
-                this.objects.sketch[this.objects.sketch.length -1].coordinates.push({x: event.x, y: event.y, width: event.pressure});
+                let pointerX = event.x
+                let pointerY = event.y
+                let pressure = 2*(event.pressure || 0.5);
+
+                this.pointer.x = pointerX;
+                this.pointer.y = pointerY;
+                this.pointer.pressure = pressure;
+                
+                let lastSketch = this.objects.sketch[this.objects.sketch.length -1];
+
+                let drawLine = false;
+                if(lastSketch.coordinates.length == 0) {
+                    console.log("first Line of Sketch");
+                    drawLine = true;
+                } else {
+                    let lastCoordinates = lastSketch.coordinates[lastSketch.coordinates.length -1];
+                    console.log(lastCoordinates);
+
+                    if(this.distance({x: event.x, y: event.y}, lastCoordinates) > 3) {
+                        drawLine = true;
+                    }
+                }
+                if(drawLine) {
+                    lastSketch.coordinates.push({x: event.x, y: event.y, width: this.pointer.pressure, last: true,});
+                } else {
+                    console.log("skipping line");
+                }
             }
         },
         pointerup: function(event) {
             console.log("pointerup");
-            console.log(event);
+            //console.log(event);
             this.pointer.down = false;
             this.pointer.x = false;
             this.pointer.y = false;
             this.pointer.pressure = false;
         },
+        distance: function(coordinate1, coordinate2) {
+            let a = coordinate1.x - coordinate2.x;
+            let b = coordinate1.y - coordinate2.y;
+            return Math.sqrt( a*a + b*b );
+        }
     },
 }
 </script>
