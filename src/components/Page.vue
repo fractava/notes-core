@@ -24,9 +24,6 @@
 export default {
     props: {
     },
-    mounted: function() {
-        console.log("mounted");
-    },
     data: function() {
         return {
             pointer: {
@@ -47,6 +44,7 @@ export default {
             },
             background: {
             },
+            selectedColor: "#ffffff",
         };
     },
     methods: {
@@ -56,7 +54,7 @@ export default {
             this.pointer.down = true;
             this.pointer.x = event.x;
             this.pointer.y = event.y;
-            this.objects.sketch.push({coordinates: [], color: "#ffffff"});
+            this.objects.sketch.push({coordinates: [], color: JSON.parse(JSON.stringify(this.selectedColor))});
         },
         pointermove: function(event) {
             if(this.pointer.down) {
@@ -81,12 +79,12 @@ export default {
                     let lastCoordinates = lastSketch.coordinates[lastSketch.coordinates.length -1];
                     console.log(lastCoordinates);
 
-                    if(this.distance({x: event.x, y: event.y}, lastCoordinates) > 3) {
+                    if(this.distance({x: pointerX, y: pointerY}, lastCoordinates) > 3) {
                         drawLine = true;
                     }
                 }
                 if(drawLine) {
-                    lastSketch.coordinates.push({x: event.x, y: event.y, width: this.pointer.pressure, last: true,});
+                    lastSketch.coordinates.push({x: pointerX, y: pointerY, width: pressure,});
                 } else {
                     console.log("skipping line");
                 }
