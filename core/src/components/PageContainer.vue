@@ -7,5 +7,6 @@
 .PageContainer {
     width: 100%;
     overflow: scroll;
+    touch-action: none;
 }
 </style>
