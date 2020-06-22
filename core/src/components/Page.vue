@@ -1,11 +1,11 @@
 <template>
-  <div class="Page"
+  <div id="Page"
     v-on:pointerdown="pointerdown"
     v-on:pointermove="pointermove"
     v-on:pointerup="pointerup"
+    v-on:pointerleave="pointerleave"
   >
-    <svg style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;" v-for="(sketch, index) in objects.sketch" :key="index">
-        // eslint-disable-next-line
+    <svg class="sketch" v-for="(sketch, index) in objects.sketch" :key="index">
         <line
             v-for="(line, index) in sketch.coordinates"
             :key="index"
@@ -17,12 +17,13 @@
             :style="{'stroke-width': line.width, stroke: sketch.color,}"
         />
     </svg>
-    <span>pointer: {{ pointer }}</span><br>
   </div>
 </template>
 
 <script>
 export default {
+    components: {
+    },
 	props: {
 	},
 	data: function() {
@@ -60,10 +61,16 @@ export default {
 		pointermove: function(event) {
 			if(this.pointer.down) {
 				console.log("pointermove");
-				//console.log(event);
+				console.log(event);
 
-				let pointerX = event.x;
-				let pointerY = event.y;
+                let globalX = event.x;
+                let globalY = event.y;
+
+                let offsetX = document.getElementById("Page").offsetLeft;
+                let offsetY = document.getElementById("Page").offsetTop;
+
+				let pointerX = globalX - offsetX;
+				let pointerY = globalY - offsetY;
 				let pressure = 2*(event.pressure || 0.5);
 
 				this.pointer.x = pointerX;
@@ -99,6 +106,12 @@ export default {
 			this.pointer.y = false;
 			this.pointer.pressure = false;
 		},
+        pointerleave: function(event) {
+            this.pointer.down = false;
+			this.pointer.x = false;
+			this.pointer.y = false;
+			this.pointer.pressure = false;
+        },
 		distance: function(coordinate1, coordinate2) {
 			let a = coordinate1.x - coordinate2.x;
 			let b = coordinate1.y - coordinate2.y;
@@ -111,7 +124,13 @@ export default {
 <style scoped>
 .Page {
     width: 100%;
-    height: 100%;
     touch-action: none;
+}
+.sketch {
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    top: 30%;
+    left: 0px;
 }
 </style>
