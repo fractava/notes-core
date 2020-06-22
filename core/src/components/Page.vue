@@ -144,7 +144,6 @@ export default {
 .sketch {
     width: 100%;
     position: relative;
-    /*left: 0px;*/
     z-index: -1;
 }
 </style>
