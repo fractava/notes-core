@@ -1,6 +1,8 @@
 # FRACTAVA Notes Core
 
-The Core of our Notes Apps.
+__Currently Work in Progress__
+
+The Core Libary of our Notes Apps.
 It contains the Editor, but cannot run by itself.
 
 ## Dev Server
