@@ -4,7 +4,9 @@
   "description": "The Core for our Notes App",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "npm run lint:js",
+    "lint:fix": "eslint --fix --ext .js,.vue --ignore-path .gitignore ."
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,8 @@
   },
   "homepage": "https://github.com/fractava/notes-core#readme",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^7.3.0",
+    "eslint-plugin-vue": "^6.2.2"
+  }
 }

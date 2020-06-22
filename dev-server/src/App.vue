@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'DevServer',
-  components: {
-  }
-}
+	name: "DevServer",
+	components: {
+	}
+};
 </script>
 
 <style>

@@ -6,27 +6,27 @@
 </template>
 
 <script>
-import Page from "./Page.vue"
+import Page from "./Page.vue";
 
 export default {
-    components: {
-        Page,
-    },
-    props: {
-    },
-    mounted: function() {
-        console.log("mounted");
-    },
-    data: function() {
-        return {
-    }
-    },
-    computed: {
+	components: {
+		Page,
+	},
+	props: {
+	},
+	mounted: function() {
+		console.log("mounted");
+	},
+	data: function() {
+		return {
+		};
+	},
+	computed: {
 
-    },
-    methods: {
-    }
-}
+	},
+	methods: {
+	}
+};
 </script>
 
 <style scoped>
