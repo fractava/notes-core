@@ -19,4 +19,8 @@ export default {
 </script>
 
 <style scoped>
+.Navbar {
+    background-color: gray;
+    height: 100%;
+}
 </style>

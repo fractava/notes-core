@@ -4,8 +4,9 @@
     v-on:pointermove="pointermove"
     v-on:pointerup="pointerup"
     v-on:pointerleave="pointerleave"
+    :style="{width: size.x+'px', height: size.y+'px'}"
   >
-    <svg class="sketch" v-for="(sketch, index) in objects.sketch" :key="index">
+    <svg class="sketch" v-for="(sketch, index) in objects.sketch" :style="{top: navbarHeight+'%', height: 100-navbarHeight+'%'}" :key="index" v-on:onclick="console.log('test')">
         <line
             v-for="(line, index) in sketch.coordinates"
             :key="index"
@@ -25,7 +26,10 @@ export default {
     components: {
     },
 	props: {
-	},
+        navbarHeight: {
+            type: Number,
+        }
+    },
 	data: function() {
 		return {
 			pointer: {
@@ -46,7 +50,11 @@ export default {
 			},
 			background: {
 			},
-			selectedColor: "#ffffff",
+			selectedColor: "#000000",
+            size: {
+                x: 4000,
+                y: 4000,
+            }
 		};
 	},
 	methods: {
@@ -123,14 +131,12 @@ export default {
 
 <style scoped>
 .Page {
-    width: 100%;
     touch-action: none;
 }
 .sketch {
     width: 100%;
-    height: 70%;
     position: absolute;
-    top: 30%;
     left: 0px;
+    z-index: -1;
 }
 </style>

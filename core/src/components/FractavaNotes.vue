@@ -1,18 +1,22 @@
  <template>
   <div class="FractavaNotes">
-    <navbar style="height: 30%;" />
-    <page style="height: 70%;" />
+    <navbar :style="{height: navbarHeight+'%'}" :navbarHeight="navbarHeight" />
+    <pageContainer :style="{height: 100-navbarHeight+'%'}">
+        <page :navbarHeight="navbarHeight" />
+    </pageContainer>
   </div>
 </template>
 
 <script>
 import Page from "./Page.vue";
 import Navbar from "./Navbar.vue";
+import PageContainer from "./PageContainer.vue";
 
 export default {
 	components: {
 		Page,
         Navbar,
+        PageContainer,
 	},
 	props: {
 	},
@@ -21,6 +25,7 @@ export default {
 	},
 	data: function() {
 		return {
+            navbarHeight: 10,
 		};
 	},
 	computed: {
@@ -35,7 +40,6 @@ export default {
 .FractavaNotes {
     width: 100%;
     height: 100%;
-    background-color: gray;
     touch-action: none;
 }
 </style>
