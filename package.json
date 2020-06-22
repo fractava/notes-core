@@ -1,0 +1,24 @@
+{
+  "name": "@fractava/fractava-notes-core",
+  "version": "0.0.3",
+  "description": "The Core for our Notes App",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fractava/notes-core.git"
+  },
+  "keywords": [
+    "notes"
+  ],
+  "author": "FRACTAVA",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/fractava/notes-core/issues"
+  },
+  "homepage": "https://github.com/fractava/notes-core#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}
