@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/core"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/dev-server"
+    schedule:
+      interval: "daily"
