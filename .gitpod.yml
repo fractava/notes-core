@@ -1,4 +1,4 @@
 tasks:
   - init: cd core && npm link && cd ../dev-server/ && npm install && npm link
       @fractava/fractava-notes-core
-    command: npm run serve
+    command: cd dev-server && npm run serve
