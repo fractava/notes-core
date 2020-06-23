@@ -3,6 +3,12 @@ export const Sketch = {
         lastSketch: function () {
             return this.objects.sketch[this.objects.sketch.length -1];
         },
+        newSketch: function(color){
+            this.objects.sketch.push({
+                coordinates: [],
+                color: JSON.parse(JSON.stringify(color))
+            });
+        },
         shouldDrawLine: function(x, y) {
             let lastSketch = this.lastSketch();
             let drawLine = false;

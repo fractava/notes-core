@@ -77,7 +77,8 @@ export default {
 			this.pointer.down = true;
 			this.pointer.x = event.x;
 			this.pointer.y = event.y;
-			this.objects.sketch.push({coordinates: [], color: JSON.parse(JSON.stringify(this.selectedColor))});
+			
+            this.newSketch(this.selectedColor);
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -95,9 +96,7 @@ export default {
 				this.pointer.x = globalX - offsetX;
 				this.pointer.y = globalY - offsetY;
 				this.pointer.pressure = 2*(event.pressure || 0.5);
-                
-                console.log(this.sketch);
-                
+                                
                 if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
 				    this.drawLine(this.pointer.x, this.pointer.y, this.pointer.pressure);
                 }
