@@ -1,4 +1,4 @@
-expot const sketch = {
+export const sketch = {
     methods: {
 
     },
