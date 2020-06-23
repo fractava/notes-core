@@ -67,8 +67,10 @@ export default {
 	},
 	methods: {
 		pointerdown: function(event) {
-			console.log("pointerdown");
-			//console.log(event);
+            if(this.debug) {
+                console.log("pointerdown");
+                console.log(event);
+            }
 			this.pointer.down = true;
 			this.pointer.x = event.x;
 			this.pointer.y = event.y;
@@ -76,8 +78,10 @@ export default {
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
-				console.log("pointermove");
-				console.log(event);
+                if(this.debug) {
+                    console.log("pointermove");
+                    console.log(event);
+                }
 
                 let globalX = event.x;
                 let globalY = event.y;
@@ -97,11 +101,15 @@ export default {
 
 				let drawLine = false;
 				if(lastSketch.coordinates.length == 0) {
-					console.log("first Line of Sketch");
+                    if(this.debug) {
+					    console.log("first Line of Sketch");
+                    }
 					drawLine = true;
 				} else {
 					let lastCoordinates = lastSketch.coordinates[lastSketch.coordinates.length -1];
-					console.log(lastCoordinates);
+                    if(this.debug) {
+					    console.log(lastCoordinates);
+                    }
 
 					if(this.distance({x: pointerX, y: pointerY}, lastCoordinates) > 3) {
 						drawLine = true;
@@ -110,19 +118,27 @@ export default {
 				if(drawLine) {
 					lastSketch.coordinates.push({x: pointerX, y: pointerY, width: pressure,});
 				} else {
-					console.log("skipping line");
+                    if(this.debug) {
+					    console.log("skipping line");
+                    }
 				}
 			}
 		},
-		pointerup: function(/*event*/) {
-			console.log("pointerup");
-			//console.log(event);
+		pointerup: function(event) {
+            if(this.debug) {
+                console.log("pointerup");
+                console.log(event);
+            }
 			this.pointer.down = false;
 			this.pointer.x = false;
 			this.pointer.y = false;
 			this.pointer.pressure = false;
 		},
         pointerleave: function(event) {
+            if(this.debug) {
+                console.log("pointerleave");
+                console.log(event);
+            }
             this.pointer.down = false;
 			this.pointer.x = false;
 			this.pointer.y = false;

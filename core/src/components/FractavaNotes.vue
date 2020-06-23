@@ -33,7 +33,9 @@ export default {
     },
     methods: {
         scroll: function(event) {
-            console.log(event);
+            if(this.debug) {
+                console.log(event);
+            }
             this.scrollOffsetX = event.srcElement.scrollLeft;
             this.scrollOffsetY = event.srcElement.scrollTop;
         }

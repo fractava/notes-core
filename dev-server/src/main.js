@@ -4,7 +4,7 @@ import Core from "@fractava/fractava-notes-core";
 
 Vue.config.productionTip = false;
 
-Vue.use(Core);
+Vue.use(Core, {debug: true,});
 
 new Vue({
 	render: function (h) { return h(App); },
