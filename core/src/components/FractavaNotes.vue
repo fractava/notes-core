@@ -22,6 +22,7 @@ export default {
         PageContainer,
 	},
 	props: {
+        debug: Boolean,
 	},
 	data: function() {
 		return {
