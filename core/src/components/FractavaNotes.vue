@@ -18,25 +18,28 @@ import PageContainer from "./PageContainer.vue";
 export default {
 	components: {
 		Page,
-        Navbar,
-        PageContainer,
+		Navbar,
+		PageContainer,
 	},
 	props: {
+		debug: Boolean,
 	},
 	data: function() {
 		return {
-            navbarHeight: 10,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-        };
-    },
-    methods: {
-        scroll: function(event) {
-            console.log(event);
-            this.scrollOffsetX = event.srcElement.scrollLeft;
-            this.scrollOffsetY = event.srcElement.scrollTop;
-        }
-    },
+			navbarHeight: 10,
+			scrollOffsetX: 0,
+			scrollOffsetY: 0,
+		};
+	},
+	methods: {
+		scroll: function(event) {
+			if(this.debug) {
+				console.log(event);
+			}
+			this.scrollOffsetX = event.srcElement.scrollLeft;
+			this.scrollOffsetY = event.srcElement.scrollTop;
+		}
+	},
 	computed: {
 
 	}
