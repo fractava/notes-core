@@ -1,5 +1,5 @@
 export const sketch = {
-    methods: {
+	methods: {
 
-    },
+	},
 };
