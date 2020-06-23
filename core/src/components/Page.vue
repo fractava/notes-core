@@ -24,9 +24,12 @@
 </template>
 
 <script>
+import { Sketch } from "../mixins/sketch.js";
+
 export default {
 	components: {
 	},
+    mixins: [Sketch],
 	props: {
 		navbarHeight: {
 			type: Number,
@@ -89,39 +92,15 @@ export default {
 				let offsetX = document.getElementById("Page").offsetLeft - this.scrollOffsetX;
 				let offsetY = document.getElementById("Page").offsetTop - this.scrollOffsetY;
 
-				let pointerX = globalX - offsetX;
-				let pointerY = globalY - offsetY;
-				let pressure = 2*(event.pressure || 0.5);
-
-				this.pointer.x = pointerX;
-				this.pointer.y = pointerY;
-				this.pointer.pressure = pressure;
+				this.pointer.x = globalX - offsetX;
+				this.pointer.y = globalY - offsetY;
+				this.pointer.pressure = 2*(event.pressure || 0.5);
                 
-				let lastSketch = this.objects.sketch[this.objects.sketch.length -1];
-
-				let drawLine = false;
-				if(lastSketch.coordinates.length == 0) {
-					if(this.debug) {
-						console.log("first Line of Sketch");
-					}
-					drawLine = true;
-				} else {
-					let lastCoordinates = lastSketch.coordinates[lastSketch.coordinates.length -1];
-					if(this.debug) {
-						console.log(lastCoordinates);
-					}
-
-					if(this.distance({x: pointerX, y: pointerY}, lastCoordinates) > 3) {
-						drawLine = true;
-					}
-				}
-				if(drawLine) {
-					lastSketch.coordinates.push({x: pointerX, y: pointerY, width: pressure,});
-				} else {
-					if(this.debug) {
-						console.log("skipping line");
-					}
-				}
+                console.log(this.sketch);
+                
+                if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
+				    this.drawLine(this.pointer.x, this.pointer.y, this.pointer.pressure);
+                }
 			}
 		},
 		pointerup: function(event) {
@@ -144,11 +123,6 @@ export default {
 			this.pointer.y = false;
 			this.pointer.pressure = false;
 		},
-		distance: function(coordinate1, coordinate2) {
-			let a = coordinate1.x - coordinate2.x;
-			let b = coordinate1.y - coordinate2.y;
-			return Math.sqrt( a*a + b*b );
-		}
 	},
 };
 </script>

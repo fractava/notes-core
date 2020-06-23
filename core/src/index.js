@@ -2,9 +2,18 @@ import FractavaNotes from "./components/FractavaNotes.vue";
 
 export default {
 	install: function (Vue, options) {
-		console.log(options);
-		Vue.prototype.debug = options.debug;
-
+        console.log(options);
+        
+        // global Variables
+        Vue.prototype.debug = options.debug;
+        
+        // global Functions
+        Vue.prototype.distance = function(coordinate1, coordinate2) {
+			let a = coordinate1.x - coordinate2.x;
+			let b = coordinate1.y - coordinate2.y;
+			return Math.sqrt( a*a + b*b );
+		}
+        
 		Vue.component("FractavaNotes", FractavaNotes);
 	}
 };
