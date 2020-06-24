@@ -1,6 +1,7 @@
  <template>
   <div class="FractavaNotes">
     <navbar :style="{height: navbarHeight+'%'}" :navbarHeight="navbarHeight" />
+    <p>{{ debug }}</p>
     <pageContainer
         v-on:scroll.native="scroll"
         :style="{height: 100-navbarHeight+'%'}"
@@ -14,15 +15,13 @@
 import Page from "./Page.vue";
 import Navbar from "./Navbar.vue";
 import PageContainer from "./PageContainer.vue";
+import { mapState } from 'vuex'
 
 export default {
 	components: {
 		Page,
 		Navbar,
 		PageContainer,
-	},
-	props: {
-		debug: Boolean,
 	},
 	data: function() {
 		return {
@@ -40,9 +39,7 @@ export default {
 			this.scrollOffsetY = event.srcElement.scrollTop;
 		}
 	},
-	computed: {
-
-	}
+	computed: mapState(['debug']),
 };
 </script>
 

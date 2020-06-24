@@ -1,11 +1,19 @@
 import FractavaNotes from "./components/FractavaNotes.vue";
 
+// Vuex Modules
+import main from "./vuex/mainModule.js";
+import sketchModule from "./vuex/sketchModule.js";
+
 export default {
 	install: function (Vue, options) {
         console.log(options);
         
-        // global Variables
-        Vue.prototype.debug = options.debug;
+        // register vuex modules
+        options.store.registerModule('main', main);
+        options.store.registerModule('sketch', sketchModule);
+
+        // enable or disable debug output
+        options.store.commit("setDebug", options.debug);
         
         // global Functions
         Vue.prototype.distance = function(coordinate1, coordinate2) {
