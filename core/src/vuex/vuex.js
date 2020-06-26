@@ -3,9 +3,8 @@ export default {
         debug: false,
     },
     mutations: {
-        setDebug(debug, value) {
-            console.log("setting debug to "+value);
-            debug = value;
+        setDebug(state, value) {
+            state.debug = value;
         },
     },
 };
