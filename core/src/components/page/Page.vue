@@ -1,5 +1,5 @@
 <template>
-  <div id="Page"
+  <div class="Page"
     v-on:pointerdown="pointerdown"
     v-on:pointermove="pointermove"
     v-on:pointerup="pointerup"
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { Sketch } from "../mixins/sketch.js";
+import { Sketch } from "../../mixins/sketch.js";
 import { mapState, mapGetters } from 'vuex';
 
 mapGetters
