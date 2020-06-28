@@ -3,9 +3,10 @@ import FractavaNotes from "./components/FractavaNotes.vue";
 export default {
 	install: function (Vue, options) {
         console.log(options);
-        
-        // global Variables
-        Vue.prototype.debug = options.debug;
+
+        // enable or disable debug output
+        console.log(options.debug);
+        options.store.commit("setDebug", options.debug, {module: 'core' });
         
         // global Functions
         Vue.prototype.distance = function(coordinate1, coordinate2) {

@@ -10,7 +10,9 @@ It contains the Editor, but cannot run by itself.
 The Dev Server is used to get a development server that watches the libary files and lets you test the libary without pushing in to npm.
 Its not a part of the package fractava/fractava-notes-core on npm.
 
-To start the dev server run:
+If you use Gitpod the development server gets started automatically.
+
+To start the dev server manually run:
 - cd core
 - npm link
 - cd ../dev-server

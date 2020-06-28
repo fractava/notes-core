@@ -5,7 +5,7 @@
         v-on:scroll.native="scroll"
         :style="{height: 100-navbarHeight+'%'}"
     >
-        <page :navbarHeight="navbarHeight" :scrollOffsetX="scrollOffsetX" :scrollOffsetY="scrollOffsetY"/>
+        <page/>
     </pageContainer>
   </div>
 </template>
@@ -14,6 +14,7 @@
 import Page from "./Page.vue";
 import Navbar from "./Navbar.vue";
 import PageContainer from "./PageContainer.vue";
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -21,28 +22,25 @@ export default {
 		Navbar,
 		PageContainer,
 	},
-	props: {
-		debug: Boolean,
-	},
-	data: function() {
-		return {
-			navbarHeight: 10,
-			scrollOffsetX: 0,
-			scrollOffsetY: 0,
-		};
-	},
+    mounted: function() {
+    },
 	methods: {
 		scroll: function(event) {
 			if(this.debug) {
 				console.log(event);
 			}
-			this.scrollOffsetX = event.srcElement.scrollLeft;
-			this.scrollOffsetY = event.srcElement.scrollTop;
+			let scrollOffsetX = event.srcElement.scrollLeft;
+			let scrollOffsetY = event.srcElement.scrollTop;
+
+            this.$store.commit("setScrollOffset", {x: scrollOffsetX, y: scrollOffsetY}, {module: 'core' });
 		}
 	},
-	computed: {
-
-	}
+	computed: mapState({
+        debug: state => state.core.debug,
+        navbarHeight: state => state.core.navbarHeight,
+        scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
+        scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+    }),
 };
 </script>
 
