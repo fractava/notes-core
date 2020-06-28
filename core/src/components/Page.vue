@@ -25,7 +25,9 @@
 
 <script>
 import { Sketch } from "../mixins/sketch.js";
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+
+mapGetters
 
 export default {
 	components: {
@@ -71,7 +73,7 @@ export default {
 				this.pointer.pressure = 2*(event.pressure || 0.5);
                                 
                 if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
-				    this.$store.commit("drawLine", {x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
+				    this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
                 }
 			}
 		},
@@ -96,12 +98,19 @@ export default {
 			this.pointer.pressure = false;
 		},
 	},
-    computed: mapState({
+    computed: {
+        ...mapState({
         debug: state => state.core.debug,
         loadedPage: state => state.core.loadedPage,
         navbarHeight: state => state.core.navbarHeight,
         selectedColor: state => state.core.selectedColor,
-    }),
+        scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
+        scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+        }),
+        ...mapGetters([
+            "lastSketch",
+        ]),
+    },
 };
 </script>
 

@@ -36,14 +36,14 @@ export default {
             });
         },
         drawLine: function(state, options) {
-            store.getters.lastSketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
+            console.log(state);
+            options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
         },
     },
     getters: {
         lastSketch: function (state) {
-            console.log(state.objects);
-            if(state.objects.sketch.length != 0) {
-                return state.loadedPage.objects.sketch[state.objects.sketch.length -1];
+            if(state.loadedPage.objects.sketch.length != 0) {
+                return state.loadedPage.objects.sketch[state.loadedPage.objects.sketch.length -1];
             }else {
                 return false;
             }
