@@ -29,7 +29,6 @@ export default {
             state.debug = value;
         },
         newSketch(state, color) {
-            console.log(color);
             state.loadedPage.objects.sketch.push({
                 coordinates: [],
                 color: JSON.parse(JSON.stringify(color))

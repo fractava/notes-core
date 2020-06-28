@@ -14,7 +14,7 @@
 import Page from "./Page.vue";
 import Navbar from "./Navbar.vue";
 import PageContainer from "./PageContainer.vue";
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -24,10 +24,6 @@ export default {
 	},
     mounted: function() {
     },
-	data: function() {
-		return {
-		};
-	},
 	methods: {
 		scroll: function(event) {
 			if(this.debug) {
