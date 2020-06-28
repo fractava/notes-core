@@ -5,7 +5,7 @@
         v-on:scroll.native="scroll"
         :style="{height: 100-navbarHeight+'%'}"
     >
-        <page :navbarHeight="navbarHeight" :scrollOffsetX="scrollOffsetX" :scrollOffsetY="scrollOffsetY"/>
+        <page/>
     </pageContainer>
   </div>
 </template>
@@ -23,13 +23,9 @@ export default {
 		PageContainer,
 	},
     mounted: function() {
-        console.log(this.$store.state.core.debug);
     },
 	data: function() {
 		return {
-			navbarHeight: 10,
-			scrollOffsetX: 0,
-			scrollOffsetY: 0,
 		};
 	},
 	methods: {
@@ -43,6 +39,9 @@ export default {
 	},
 	computed: mapState({
         debug: state => state.core.debug,
+        navbarHeight: state => state.core.navbarHeight,
+        scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
+        scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
     }),
 };
 </script>

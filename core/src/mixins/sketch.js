@@ -1,16 +1,7 @@
 export const Sketch = {
 	methods: {
-        lastSketch: function () {
-            return this.objects.sketch[this.objects.sketch.length -1];
-        },
-        newSketch: function(color){
-            this.objects.sketch.push({
-                coordinates: [],
-                color: JSON.parse(JSON.stringify(color))
-            });
-        },
         shouldDrawLine: function(x, y) {
-            let lastSketch = this.lastSketch();
+            let lastSketch = this.$store.getters.lastSketch
             let drawLine = false;
             
 			if(lastSketch.coordinates.length == 0) {
@@ -32,11 +23,6 @@ export const Sketch = {
 			}
             
             return drawLine;
-        },
-        drawLine: function(x, y, pressure) {
-            let lastSketch = this.lastSketch();
-
-            lastSketch.coordinates.push({x, y, width: pressure});
         },
     },
 };
