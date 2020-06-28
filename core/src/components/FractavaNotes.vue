@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import Page from "./Page.vue";
-import Navbar from "./Navbar.vue";
-import PageContainer from "./PageContainer.vue";
+import Page from "./page/Page.vue";
+import Navbar from "./navbar/Navbar.vue";
+import PageContainer from "./page/PageContainer.vue";
 import { mapState, mapGetters } from 'vuex';
 
 export default {
