@@ -22,7 +22,13 @@ export default {
             scrollOffsetY: 0,
         },
         navbarHeight: 10,
-        selectedColor: "#000000",
+        pencils: [
+            {
+                color: "#000000",
+                width: 10,
+            }
+        ],
+        selectedPencilId: 0,
     },
     mutations: {
         setDebug(state, value) {
@@ -41,6 +47,11 @@ export default {
             state.loadedPage.scrollOffsetX = options.x;
             state.loadedPage.scrollOffsetY = options.y;
         },
+        selectPencil: function(state, options) {
+            if(options.id < state.pencils.length) {
+                state.selectedPencilId = options.id;
+            }
+        },
     },
     getters: {
         lastSketch: function (state) {
@@ -49,6 +60,9 @@ export default {
             }else {
                 return false;
             }
+        },
+        selectedPencil: function(state) {
+            return state.pencils[state.selectedPencilId];
         },
     },
 };

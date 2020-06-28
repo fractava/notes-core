@@ -18,6 +18,15 @@
                 v-if="index != sketch.coordinates.length-1"
                 :style="{'stroke-width': line.width, stroke: sketch.color,}"
             />
+            <circle 
+                v-for="(line, index) in sketch.coordinates"
+                :cx="line.x"
+                :cy="line.y"
+                :r="line.width/2"
+                stroke=""
+                stroke-width="0"
+                :fill="sketch.color"
+            />
         </g>
     </svg>
   </div>
@@ -53,7 +62,7 @@ export default {
 			this.pointer.x = event.x;
 			this.pointer.y = event.y;
 			
-            this.$store.commit("newSketch", this.selectedColor, {module: 'core' });
+            this.$store.commit("newSketch", this.selectedPencil.color, {module: 'core' });
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -70,7 +79,7 @@ export default {
 
 				this.pointer.x = globalX - offsetX;
 				this.pointer.y = globalY - offsetY;
-				this.pointer.pressure = 2*(event.pressure || 0.5);
+				this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
                                 
                 if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
 				    this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
@@ -109,6 +118,7 @@ export default {
         }),
         ...mapGetters([
             "lastSketch",
+            "selectedPencil",
         ]),
     },
 };
