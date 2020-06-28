@@ -33,8 +33,10 @@ export default {
 			if(this.debug) {
 				console.log(event);
 			}
-			this.scrollOffsetX = event.srcElement.scrollLeft;
-			this.scrollOffsetY = event.srcElement.scrollTop;
+			let scrollOffsetX = event.srcElement.scrollLeft;
+			let scrollOffsetY = event.srcElement.scrollTop;
+
+            this.$store.commit("setScrollOffset", {x: scrollOffsetX, y: scrollOffsetY}, {module: 'core' });
 		}
 	},
 	computed: mapState({

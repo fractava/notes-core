@@ -36,8 +36,11 @@ export default {
             });
         },
         drawLine: function(state, options) {
-            console.log(state);
             options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
+        },
+        setScrollOffset: function(state, options) {
+            state.loadedPage.scrollOffsetX = options.x;
+            state.loadedPage.scrollOffsetY = options.y;
         },
     },
     getters: {

@@ -65,8 +65,8 @@ export default {
 				let globalX = event.x;
 				let globalY = event.y;
 
-				let offsetX = document.getElementById("Page").offsetLeft - this.scrollOffsetX;
-				let offsetY = document.getElementById("Page").offsetTop - this.scrollOffsetY;
+				let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
+				let offsetY = this.$el.offsetTop - this.scrollOffsetY;
 
 				this.pointer.x = globalX - offsetX;
 				this.pointer.y = globalY - offsetY;
