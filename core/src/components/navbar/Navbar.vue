@@ -11,6 +11,7 @@
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
+                <add-pencil/>
             </tab>
         </div>
     </div>
@@ -19,6 +20,7 @@
 <script>
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
+import addPencil from "./AddPencil.vue";
 import pencilSelector from "./pencilSelector.vue";
 import tab from "./Tab.vue";
 import { mapState, mapGetters } from 'vuex';
@@ -29,6 +31,7 @@ export default {
         tabSelector,
         tab,
         pencilSelector,
+        addPencil,
 	},
 	data: function() {
 		return {

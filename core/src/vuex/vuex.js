@@ -53,6 +53,9 @@ export default {
             state.loadedPage.scrollOffsetX = options.x;
             state.loadedPage.scrollOffsetY = options.y;
         },
+        addPencil: function(state, options) {
+            state.pencils.push({color: options.color, width: options.width,})
+        },
         selectPencil: function(state, options) {
             if(options.id < state.pencils.length) {
                 state.selectedPencilId = options.id;
