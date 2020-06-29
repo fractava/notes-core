@@ -21,6 +21,7 @@ export default {
             },
             scrollOffsetX: 0,
             scrollOffsetY: 0,
+			scale: 1.5,
         },
         navbarHeight: 10,
         pencils: [

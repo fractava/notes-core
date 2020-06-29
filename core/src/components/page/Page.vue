@@ -5,7 +5,7 @@
     v-on:pointermove="pointermove"
     v-on:pointerup="pointerup"
     v-on:pointerleave="pointerleave"
-    :style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px'}"
+    :style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')'}"
   >
     <pageTitle />
     <sketches />
@@ -82,11 +82,12 @@ export default {
 			this.$store.dispatch("pointerUp");
         },
         globalCoordinatesToPageCoordinates(globalX, globalY) {
-            let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
-            let offsetY = this.$el.offsetTop - this.scrollOffsetY;
+			console.log(this.$el.offsetTop);
+            let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
+            let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
             
-            let pageX = globalX - offsetX;
-            let pageY = globalY - offsetY;
+            let pageX =  ((1 / this.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
+            let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
             
             return {x: pageX, y: pageY,};
         }
@@ -113,6 +114,7 @@ export default {
 .Page {
     touch-action: none;
     background-color: white;
+	transform-origin: left top;
 }
 .sketch {
     width: 100%;
