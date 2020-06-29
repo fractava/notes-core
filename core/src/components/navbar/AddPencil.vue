@@ -5,11 +5,18 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
     methods: {
         add: function() {
             this.$store.commit("addPencil", {color: "#000000", width: 8,}, {module: 'core' });
+            this.$store.commit("selectPencil", {id: this.pencils.length - 1,}, {module: 'core' });
+            this.$store.commit("switchPencilSettings", {id: this.pencils.length - 1,}, {module: 'core' });
         },
     },
+    computed: mapState({
+        pencils: state => state.core.pencils,
+    }),
 };
 </script>

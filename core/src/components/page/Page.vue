@@ -69,7 +69,9 @@ export default {
             this.$store.commit("newSketch", this.selectedPencil.color, {module: 'core' });
 
             this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
-		},
+            
+            this.$store.commit("closePencilSettings", {}, {module: 'core' });
+},
 		pointermove: function(event) {
 			if(this.pointer.down) {
 				if(this.debug) {
