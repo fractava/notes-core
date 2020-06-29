@@ -1,5 +1,6 @@
 <template>
-  <div class="Page"
+  <div
+    class="Page"
     v-on:pointerdown="pointerdown"
     v-on:pointermove="pointermove"
     v-on:pointerup="pointerup"
@@ -59,10 +60,15 @@ export default {
 				console.log(event);
 			}
 			this.pointer.down = true;
-			this.pointer.x = event.x;
-			this.pointer.y = event.y;
+            
+            let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+            this.pointer.x = pageCoordinates.x;
+            this.pointer.y = pageCoordinates.y;
+			this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
 			
             this.$store.commit("newSketch", this.selectedPencil.color, {module: 'core' });
+
+            this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -71,14 +77,10 @@ export default {
 					console.log(event);
 				}
 
-				let globalX = event.x;
-				let globalY = event.y;
-
-				let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
-				let offsetY = this.$el.offsetTop - this.scrollOffsetY;
-
-				this.pointer.x = globalX - offsetX;
-				this.pointer.y = globalY - offsetY;
+                let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+                
+                this.pointer.x = pageCoordinates.x;
+                this.pointer.y = pageCoordinates.y;
 				this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
                                 
                 if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
@@ -105,7 +107,16 @@ export default {
 			this.pointer.x = false;
 			this.pointer.y = false;
 			this.pointer.pressure = false;
-		},
+        },
+        globalCoordinatesToPageCoordinates(globalX, globalY) {
+            let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
+            let offsetY = this.$el.offsetTop - this.scrollOffsetY;
+            
+            let pageX = globalX - offsetX;
+            let pageY = globalY - offsetY;
+            
+            return {x: pageX, y: pageY,};
+        }
 	},
     computed: {
         ...mapState({

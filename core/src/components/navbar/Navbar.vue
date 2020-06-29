@@ -13,7 +13,7 @@
                 <material-card><span>Tab 0 content</span></material-card>
             </tab>
             <tab id="1">
-                <material-card><span>Tab 1 content</span></material-card>
+                <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
             </tab>
         </div>
     </div>
@@ -22,6 +22,7 @@
 <script>
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
+import pencilSelector from "./pencilSelector.vue";
 import tab from "./Tab.vue";
 import { mapState, mapGetters } from 'vuex';
 
@@ -30,6 +31,7 @@ export default {
         materialCard,
         tabSelector,
         tab,
+        pencilSelector,
 	},
 	data: function() {
 		return {
@@ -37,6 +39,7 @@ export default {
 	},
     computed: mapState({
         activeNavbarTab: state => state.core.activeNavbarTab,
+        pencils: state => state.core.pencils,
     }),
 };
 </script>

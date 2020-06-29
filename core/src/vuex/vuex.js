@@ -26,6 +26,10 @@ export default {
             {
                 color: "#000000",
                 width: 10,
+            },
+            {
+                color: "#ff0000",
+                width: 15,
             }
         ],
         selectedPencilId: 0,
@@ -52,6 +56,7 @@ export default {
             if(options.id < state.pencils.length) {
                 state.selectedPencilId = options.id;
             }
+            console.log("selectPencil");
         },
         selectNavbarTab: function(state, options) {
             state.activeNavbarTab = options.id;
