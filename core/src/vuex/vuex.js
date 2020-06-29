@@ -29,6 +29,7 @@ export default {
             }
         ],
         selectedPencilId: 0,
+        activeNavbarTab: 0,
     },
     mutations: {
         setDebug(state, value) {

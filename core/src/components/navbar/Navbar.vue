@@ -1,10 +1,17 @@
  <template>
     <div class="navbar">
         <div class="navbarTabs">
-            
+            <tab-selector content="Start" id="0" />
+            <tab-selector content="Drawing" id="1" />
+            <tab-selector content="Insert" id="2" />
         </div>
         <div class="navbarContent">
-            <material-card><span>Test</span></material-card>
+            <tab id="0">
+                <material-card><span>Test</span></material-card>
+            </tab>
+            <tab id="1">
+                <material-card><span>Tab 1</span></material-card>
+            </tab>
         </div>
     </div>
 </template>
@@ -12,18 +19,22 @@
 <script>
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
-
+import tab from "./Tab.vue";
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	components: {
         materialCard,
+        tabSelector,
+        tab,
 	},
 	data: function() {
 		return {
 		};
 	},
-	methods: {
-	}
+    computed: mapState({
+        activeNavbarTab: state => state.core.activeNavbarTab,
+    }),
 };
 </script>
 
