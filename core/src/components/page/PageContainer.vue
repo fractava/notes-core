@@ -22,5 +22,6 @@
 }
 .PageContainer::-webkit-scrollbar-thumb {
     background: #757575;
+    border-radius: 8px;
 }
 </style>
