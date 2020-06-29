@@ -53,6 +53,9 @@ export default {
                 state.selectedPencilId = options.id;
             }
         },
+        selectNavbarTab: function(state, options) {
+            state.activeNavbarTab = options.id;
+        },
     },
     getters: {
         lastSketch: function (state) {

@@ -7,10 +7,10 @@
         </div>
         <div class="navbarContent">
             <tab id="0">
-                <material-card><span>Test</span></material-card>
+                <material-card><span>Tab 0 content</span></material-card>
             </tab>
             <tab id="1">
-                <material-card><span>Tab 1</span></material-card>
+                <material-card><span>Tab 1 content</span></material-card>
             </tab>
         </div>
     </div>
@@ -47,6 +47,7 @@ export default {
 }
 .navbarTabs {
     height: 20%;
+    display: flex;
 }
 .navbarContent {
     height: 80%;
