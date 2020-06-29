@@ -12,7 +12,7 @@
             <tab id="0">
                 <material-card><span>Tab 0 content</span></material-card>
             </tab>
-            <tab id="1">
+            <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
             </tab>
         </div>
