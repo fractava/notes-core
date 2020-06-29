@@ -2,6 +2,7 @@ export default {
     state: {
         debug: false,
         loadedPage: {
+            title: "Baum",
             objects: {
 				sketch: [
 				],
@@ -35,10 +36,19 @@ export default {
         selectedPencilId: 0,
         activeNavbarTab: 0,
         openedPencilSettingsId: -1,
+        pointer: {
+			down: false,
+			x: false,
+			y: false,
+			pressure: false,
+		},
     },
     mutations: {
         setDebug(state, value) {
             state.debug = value;
+        },
+        setPageTitle(state, options) {
+            state.loadedPage.title = options.title;
         },
         newSketch(state, color) {
             state.loadedPage.objects.sketch.push({
@@ -70,6 +80,9 @@ export default {
         },
         closePencilSettings(state, options) {
             state.openedPencilSettingsId = -1;
+        },
+        setPointer(state, options) {
+            state.pointer = options;
         }
     },
     getters: {
@@ -84,4 +97,9 @@ export default {
             return state.pencils[state.selectedPencilId];
         },
     },
+    actions: {
+        pointerUp: function({ commit }) {
+            commit("setPointer", {down: false, x: false, y: false, pressure: false,});
+        }
+    }
 };

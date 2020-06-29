@@ -7,6 +7,7 @@
     v-on:pointerleave="pointerleave"
     :style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px'}"
   >
+    <pageTitle />
     <sketches />
   </div>
 </template>
@@ -14,21 +15,17 @@
 <script>
 import { Sketch } from "../../mixins/sketch.js";
 import Sketches from "../objects/Sketches.vue";
+import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from 'vuex';
 
 export default {
 	components: {
         Sketches,
+        pageTitle,
 	},
     mixins: [Sketch],
 	data: function() {
 		return {
-			pointer: {
-				down: false,
-				x: false,
-				y: false,
-				pressure: false,
-			},
 		};
 	},
 	methods: {
@@ -59,9 +56,9 @@ export default {
 
                 let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
                 
-                this.pointer.x = pageCoordinates.x;
-                this.pointer.y = pageCoordinates.y;
-				this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
+                let pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
+
+                this.$store.commit("setPointer", {down: true, x: pageCoordinates.x, y: pageCoordinates.y, pressure,});
                                 
                 if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
 				    this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
@@ -72,21 +69,17 @@ export default {
 			if(this.debug) {
 				console.log("pointerup");
 				console.log(event);
-			}
-			this.pointer.down = false;
-			this.pointer.x = false;
-			this.pointer.y = false;
-			this.pointer.pressure = false;
+            }
+            
+            this.$store.dispatch("pointerUp");
 		},
 		pointerleave: function(event) {
 			if(this.debug) {
 				console.log("pointerleave");
 				console.log(event);
-			}
-			this.pointer.down = false;
-			this.pointer.x = false;
-			this.pointer.y = false;
-			this.pointer.pressure = false;
+            }
+            
+			this.$store.dispatch("pointerUp");
         },
         globalCoordinatesToPageCoordinates(globalX, globalY) {
             let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
@@ -106,6 +99,7 @@ export default {
             selectedColor: state => state.core.selectedColor,
             scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
             scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+            pointer: state => state.core.pointer,
         }),
         ...mapGetters([
             "lastSketch",
