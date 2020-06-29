@@ -1,8 +1,13 @@
 import FractavaNotes from "./components/FractavaNotes.vue";
+import VueMaterial from 'vue-material';
+import 'vue-material/dist/vue-material.min.css';
+import 'vue-material/dist/theme/default.css';
 
 export default {
 	install: function (Vue, options) {
         console.log(options);
+
+        Vue.use(VueMaterial);
 
         // enable or disable debug output
         console.log(options.debug);

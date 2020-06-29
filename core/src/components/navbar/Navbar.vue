@@ -1,10 +1,13 @@
  <template>
     <div class="navbar">
-        <div class="navbarTabs">
+        <md-tabs>
             <tab-selector content="Start" id="0" />
             <tab-selector content="Drawing" id="1" />
             <tab-selector content="Insert" id="2" />
-        </div>
+            
+            <!--<md-tab id="tab-drawing" md-label="Drawing"></md-tab>
+            <md-tab id="tab-insert" md-label="Insert"></md-tab>-->
+        </md-tabs>
         <div class="navbarContent">
             <tab id="0">
                 <material-card><span>Tab 0 content</span></material-card>

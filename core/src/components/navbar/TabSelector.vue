@@ -1,20 +1,18 @@
 <template>
-    <div class="tabSelector" v-on:click="select">
-        <span>Tab {{ id }}</span>
-    </div>
+    <md-tab :md-label="content" v-on:click="select"></md-tab>
 </template>
 
 <script>
-import materialCard from "../miscellaneous/MaterialCard.vue";
 
 export default {
     props: {
         "id": {
             default: 0,
         },
-    },
-	components: {
-        materialCard,
+        "content": {
+            type: String,
+            default: "",
+        },
     },
     methods: {
         select: function() {
@@ -23,3 +21,10 @@ export default {
     }
 };
 </script>
+
+<style>
+.tabSelector {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+</style>
