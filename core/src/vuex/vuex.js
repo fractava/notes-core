@@ -21,7 +21,7 @@ export default {
             },
             scrollOffsetX: 0,
             scrollOffsetY: 0,
-			scale: 0.5,
+			scale: 1,
         },
         navbarHeight: 10,
         pencils: [
@@ -84,7 +84,12 @@ export default {
         },
         setPointer(state, options) {
             state.pointer = options;
-        }
+        },
+		setScale(state, options) {
+			if(options.scale >= 0.1) {
+				state.loadedPage.scale = options.scale;
+			}
+		},
     },
     getters: {
         lastSketch: function (state) {
