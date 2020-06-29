@@ -3,11 +3,13 @@
         <md-button v-on:click="select" :class="{'md-raised': id == selectedPencilId}">
             <md-icon :style="{color: pencils[id].color,}">create</md-icon>
         </md-button>
-        <md-card style="position: relative; width: 100px;" v-if="id == selectedPencilId">
+        <md-card style="position: relative; width: 100px;" v-if="id == openedPencilSettingsId">
             <md-card-header>
                 <div class="md-title">Pencil Settings</div>
             </md-card-header>
-            <md-card-content>Color: Width:
+            <md-card-content>
+                Color: {{ pencils[id].color }}
+                Width: {{ pencils[id].width }}
             </md-card-content>
         </md-card>
     </div>
@@ -26,9 +28,16 @@ export default {
     computed: mapState({
         pencils: state => state.core.pencils,
         selectedPencilId: state => state.core.selectedPencilId,
+        openedPencilSettingsId: state => state.core.openedPencilSettingsId,
     }),
     methods: {
         select: function() {
+            if(this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
+                this.$store.commit("switchPencilSettings", {id: this.id,}, {module: 'core' });
+            }else {
+                this.$store.commit("closePencilSettings", {}, {module: 'core' });
+            }
+
             this.$store.commit("selectPencil", {id: this.id,}, {module: 'core' });
         }
     }

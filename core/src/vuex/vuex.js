@@ -34,6 +34,7 @@ export default {
         ],
         selectedPencilId: 0,
         activeNavbarTab: 0,
+        openedPencilSettingsId: -1,
     },
     mutations: {
         setDebug(state, value) {
@@ -61,6 +62,12 @@ export default {
         selectNavbarTab: function(state, options) {
             state.activeNavbarTab = options.id;
         },
+        switchPencilSettings(state, options) {
+            state.openedPencilSettingsId = options.id;
+        },
+        closePencilSettings(state, options) {
+            state.openedPencilSettingsId = -1;
+        }
     },
     getters: {
         lastSketch: function (state) {

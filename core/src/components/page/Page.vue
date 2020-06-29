@@ -138,10 +138,10 @@ export default {
 <style scoped>
 .Page {
     touch-action: none;
+    background-color: white;
 }
 .sketch {
     width: 100%;
     position: relative;
-    z-index: -1;
 }
 </style>
