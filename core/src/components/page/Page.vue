@@ -82,7 +82,6 @@ export default {
 			this.$store.dispatch("pointerUp");
         },
         globalCoordinatesToPageCoordinates(globalX, globalY) {
-			console.log(this.$el.offsetTop);
             let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
             let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
             
