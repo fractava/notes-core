@@ -1,10 +1,10 @@
 export const Sketch = {
 	methods: {
-        shouldDrawLine: function(x, y) {
-            let drawLine = false;
+		shouldDrawLine: function(x, y) {
+			let drawLine = false;
             
 			if(this.lastSketch.coordinates.length == 0) {
-                // First Line of Sketch -> draw line
+				// First Line of Sketch -> draw line
 				if(this.debug) {
 					console.log("first Line of Sketch");
 				}
@@ -13,7 +13,7 @@ export const Sketch = {
 				let lastCoordinates = this.lastSketch.coordinates[this.lastSketch.coordinates.length -1];
 
 				if(this.distance({x, y}, lastCoordinates) > 3) {
-                    // distance to last line > 3 -> draw line
+					// distance to last line > 3 -> draw line
 					drawLine = true;
 				}
 			}
@@ -21,7 +21,7 @@ export const Sketch = {
 				console.log("skipping line");
 			}
             
-            return drawLine;
-        },
-    },
+			return drawLine;
+		},
+	},
 };

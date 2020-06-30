@@ -9,4 +9,19 @@
     overflow: scroll;
     touch-action: none;
 }
+.PageContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+.PageContainer::-webkit-scrollbar-button {
+    display: none;
+}
+.PageContainer::-webkit-scrollbar-corner, .PageContainer::-webkit-scrollbar-track {
+    background: #e1e1e1;
+}
+.PageContainer::-webkit-scrollbar-thumb {
+    background: #757575;
+    border-radius: 8px;
+}
 </style>

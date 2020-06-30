@@ -14,7 +14,7 @@
 import Page from "./page/Page.vue";
 import Navbar from "./navbar/Navbar.vue";
 import PageContainer from "./page/PageContainer.vue";
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
 	components: {
@@ -22,8 +22,8 @@ export default {
 		Navbar,
 		PageContainer,
 	},
-    mounted: function() {
-    },
+	mounted: function() {
+	},
 	methods: {
 		scroll: function(event) {
 			if(this.debug) {
@@ -32,15 +32,15 @@ export default {
 			let scrollOffsetX = event.srcElement.scrollLeft;
 			let scrollOffsetY = event.srcElement.scrollTop;
 
-            this.$store.commit("setScrollOffset", {x: scrollOffsetX, y: scrollOffsetY}, {module: 'core' });
+			this.$store.commit("setScrollOffset", {x: scrollOffsetX, y: scrollOffsetY}, {module: "core" });
 		}
 	},
 	computed: mapState({
-        debug: state => state.core.debug,
-        navbarHeight: state => state.core.navbarHeight,
-        scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
-        scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
-    }),
+		debug: state => state.core.debug,
+		navbarHeight: state => state.core.navbarHeight,
+		scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
+		scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+	}),
 };
 </script>
 

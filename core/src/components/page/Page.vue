@@ -1,55 +1,33 @@
 <template>
-  <div class="Page"
-    v-on:pointerdown="pointerdown"
-    v-on:pointermove="pointermove"
-    v-on:pointerup="pointerup"
-    v-on:pointerleave="pointerleave"
-    :style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px'}"
-  >
-    <svg class="sketch" :style="{width: loadedPage.size.x, height: loadedPage.size.y}">
-        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index">
-            <line
-                v-for="(line, index) in sketch.coordinates"
-                :key="index"
-                :x1="line.x"
-                :y1="line.y"
-                :x2="sketch.coordinates[index + 1].x"
-                :y2="sketch.coordinates[index + 1].y"
-                v-if="index != sketch.coordinates.length-1"
-                :style="{'stroke-width': line.width, stroke: sketch.color,}"
-            />
-            <circle 
-                v-for="(line, index) in sketch.coordinates"
-                :cx="line.x"
-                :cy="line.y"
-                :r="line.width/2"
-                stroke=""
-                stroke-width="0"
-                :fill="sketch.color"
-            />
-        </g>
-    </svg>
+	<div class="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+		<div
+			class="Page"
+			v-on:pointerdown="pointerdown"
+			v-on:pointermove="pointermove"
+			v-on:pointerup="pointerup"
+			v-on:pointerleave="pointerleave"
+			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')'}"
+		>
+			<pageTitle />
+			<sketches />
+	</div>
   </div>
 </template>
 
 <script>
 import { Sketch } from "../../mixins/sketch.js";
-import { mapState, mapGetters } from 'vuex';
-
-mapGetters
+import Sketches from "../objects/Sketches.vue";
+import pageTitle from "../objects/PageTitle.vue";
+import { mapState, mapGetters } from "vuex";
 
 export default {
 	components: {
+		Sketches,
+		pageTitle,
 	},
-    mixins: [Sketch],
+	mixins: [Sketch],
 	data: function() {
 		return {
-			pointer: {
-				down: false,
-				x: false,
-				y: false,
-				pressure: false,
-			},
 		};
 	},
 	methods: {
@@ -59,10 +37,17 @@ export default {
 				console.log(event);
 			}
 			this.pointer.down = true;
-			this.pointer.x = event.x;
-			this.pointer.y = event.y;
+            
+			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+			this.pointer.x = pageCoordinates.x;
+			this.pointer.y = pageCoordinates.y;
+			this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
 			
-            this.$store.commit("newSketch", this.selectedPencil.color, {module: 'core' });
+			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
+
+			this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+
+			this.$store.commit("closePencilSettings", {}, {module: "core" });
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -71,19 +56,15 @@ export default {
 					console.log(event);
 				}
 
-				let globalX = event.x;
-				let globalY = event.y;
+				let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+                
+				let pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
 
-				let offsetX = this.$el.offsetLeft - this.scrollOffsetX;
-				let offsetY = this.$el.offsetTop - this.scrollOffsetY;
-
-				this.pointer.x = globalX - offsetX;
-				this.pointer.y = globalY - offsetY;
-				this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
+				this.$store.commit("setPointer", {down: true, x: pageCoordinates.x, y: pageCoordinates.y, pressure,});
                                 
-                if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
-				    this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: 'core' });
-                }
+				if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
+					this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+				}
 			}
 		},
 		pointerup: function(event) {
@@ -91,46 +72,53 @@ export default {
 				console.log("pointerup");
 				console.log(event);
 			}
-			this.pointer.down = false;
-			this.pointer.x = false;
-			this.pointer.y = false;
-			this.pointer.pressure = false;
+            
+			this.$store.dispatch("pointerUp");
 		},
 		pointerleave: function(event) {
 			if(this.debug) {
 				console.log("pointerleave");
 				console.log(event);
 			}
-			this.pointer.down = false;
-			this.pointer.x = false;
-			this.pointer.y = false;
-			this.pointer.pressure = false;
+            
+			this.$store.dispatch("pointerUp");
 		},
+		globalCoordinatesToPageCoordinates(globalX, globalY) {
+			let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
+			let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
+            
+			let pageX =  ((1 / this.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
+			let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
+            
+			return {x: pageX, y: pageY,};
+		}
 	},
-    computed: {
-        ...mapState({
-        debug: state => state.core.debug,
-        loadedPage: state => state.core.loadedPage,
-        navbarHeight: state => state.core.navbarHeight,
-        selectedColor: state => state.core.selectedColor,
-        scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
-        scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
-        }),
-        ...mapGetters([
-            "lastSketch",
-            "selectedPencil",
-        ]),
-    },
+	computed: {
+		...mapState({
+			debug: state => state.core.debug,
+			loadedPage: state => state.core.loadedPage,
+			navbarHeight: state => state.core.navbarHeight,
+			selectedColor: state => state.core.selectedColor,
+			scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
+			scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+			pointer: state => state.core.pointer,
+		}),
+		...mapGetters([
+			"lastSketch",
+			"selectedPencil",
+		]),
+	},
 };
 </script>
 
 <style scoped>
 .Page {
     touch-action: none;
+    background-color: white;
+	transform-origin: left top;
 }
 .sketch {
     width: 100%;
     position: relative;
-    z-index: -1;
 }
 </style>
