@@ -1,12 +1,20 @@
 import FractavaNotes from "./components/FractavaNotes.vue";
+
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
 export default {
 	install: function (Vue, options) {
 		console.log(options);
-
+		
+		Vue.use(VueQuillEditor, /* { default global options } */);
+		
 		Vue.use(VueMaterial);
 
 		// enable or disable debug output
