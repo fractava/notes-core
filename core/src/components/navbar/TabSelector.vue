@@ -5,20 +5,20 @@
 <script>
 
 export default {
-    props: {
-        "id": {
-            default: 0,
-        },
-        "content": {
-            type: String,
-            default: "",
-        },
-    },
-    methods: {
-        select: function() {
-            this.$store.commit("selectNavbarTab", {id: this.id,}, {module: 'core' });
-        },
-    }
+	props: {
+		"id": {
+			default: 0,
+		},
+		"content": {
+			type: String,
+			default: "",
+		},
+	},
+	methods: {
+		select: function() {
+			this.$store.commit("selectNavbarTab", {id: this.id,}, {module: "core" });
+		},
+	}
 };
 </script>
 

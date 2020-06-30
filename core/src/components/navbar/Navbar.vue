@@ -15,9 +15,9 @@
                 <add-pencil/>
             </tab>
 			<tab id="2"></tab>
-	 		<tab id="3">
+			<tab id="3">
 				<zoom-control/>
-	 		</tab>
+			</tab>
         </div>
     </div>
 </template>
@@ -29,26 +29,26 @@ import addPencil from "./AddPencil.vue";
 import zoomControl from "./ZoomControl.vue";
 import pencilSelector from "./pencilSelector.vue";
 import tab from "./Tab.vue";
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
 	components: {
-        materialCard,
-        tabSelector,
-        tab,
-        pencilSelector,
-        addPencil,
+		materialCard,
+		tabSelector,
+		tab,
+		pencilSelector,
+		addPencil,
 		zoomControl,
 	},
 	data: function() {
 		return {
-            openedPencilSettingsId: -1,
+			openedPencilSettingsId: -1,
 		};
 	},
-    computed: mapState({
-        activeNavbarTab: state => state.core.activeNavbarTab,
-        pencils: state => state.core.pencils,
-    }),
+	computed: mapState({
+		activeNavbarTab: state => state.core.activeNavbarTab,
+		pencils: state => state.core.pencils,
+	}),
 };
 </script>
 

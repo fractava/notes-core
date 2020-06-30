@@ -16,30 +16,30 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-    props: {
-        id: {
-            type: Number,
-            default: 0,
-        },
-    },
-    computed: mapState({
-        pencils: state => state.core.pencils,
-        selectedPencilId: state => state.core.selectedPencilId,
-        openedPencilSettingsId: state => state.core.openedPencilSettingsId,
-    }),
-    methods: {
-        select: function() {
-            if(this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
-                this.$store.commit("switchPencilSettings", {id: this.id,}, {module: 'core' });
-            }else {
-                this.$store.commit("closePencilSettings", {}, {module: 'core' });
-            }
+	props: {
+		id: {
+			type: Number,
+			default: 0,
+		},
+	},
+	computed: mapState({
+		pencils: state => state.core.pencils,
+		selectedPencilId: state => state.core.selectedPencilId,
+		openedPencilSettingsId: state => state.core.openedPencilSettingsId,
+	}),
+	methods: {
+		select: function() {
+			if(this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
+				this.$store.commit("switchPencilSettings", {id: this.id,}, {module: "core" });
+			}else {
+				this.$store.commit("closePencilSettings", {}, {module: "core" });
+			}
 
-            this.$store.commit("selectPencil", {id: this.id,}, {module: 'core' });
-        }
-    }
+			this.$store.commit("selectPencil", {id: this.id,}, {module: "core" });
+		}
+	}
 };
 </script>

@@ -17,30 +17,30 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-    methods: {
-        stopPropagation: function(event) {
-            console.log("preventing event");
-            event.stopPropagation();
-            this.$store.dispatch("pointerUp");
-        },
-    },
-    computed: {
-        title: {
-            set(title) {
-                this.$store.commit('setPageTitle', { title }, {module: 'core' });
-            },
-            get() {
-                return this.loadedPage.title;
-            }
-        },
-        ...mapState({
-            loadedPage: state => state.core.loadedPage,
-            navbarHeight: state => state.core.navbarHeight,
-        }),
-    },
+	methods: {
+		stopPropagation: function(event) {
+			console.log("preventing event");
+			event.stopPropagation();
+			this.$store.dispatch("pointerUp");
+		},
+	},
+	computed: {
+		title: {
+			set(title) {
+				this.$store.commit("setPageTitle", { title }, {module: "core" });
+			},
+			get() {
+				return this.loadedPage.title;
+			}
+		},
+		...mapState({
+			loadedPage: state => state.core.loadedPage,
+			navbarHeight: state => state.core.navbarHeight,
+		}),
+	},
 };
 </script>
 

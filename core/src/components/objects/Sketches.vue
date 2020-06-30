@@ -13,6 +13,7 @@
             />
             <circle 
                 v-for="(line, index) in sketch.coordinates"
+				:key="index"
                 :cx="line.x"
                 :cy="line.y"
                 :r="line.width/2"
@@ -25,11 +26,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-    computed: mapState({
-        loadedPage: state => state.core.loadedPage,
-    }),
-}
+	computed: mapState({
+		loadedPage: state => state.core.loadedPage,
+	}),
+};
 </script>

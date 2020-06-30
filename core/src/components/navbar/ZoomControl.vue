@@ -10,19 +10,19 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
 	methods: {
 		plus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: 'core' });
+			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: "core" });
 		},
 		minus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale - 0.1,}, {module: 'core' });
+			this.$store.commit("setScale", {scale: this.loadedPage.scale - 0.1,}, {module: "core" });
 		},
 	},
 	computed: mapState({
-        loadedPage: state => state.core.loadedPage,
-    }),
-}
+		loadedPage: state => state.core.loadedPage,
+	}),
+};
 </script>

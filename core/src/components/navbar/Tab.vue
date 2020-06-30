@@ -5,18 +5,18 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-    props: {
-        "id": {
-            default: 0,
-        },
-    },
-    computed: mapState({
-        activeNavbarTab: state => state.core.activeNavbarTab,
-    }),
-}
+	props: {
+		"id": {
+			default: 0,
+		},
+	},
+	computed: mapState({
+		activeNavbarTab: state => state.core.activeNavbarTab,
+	}),
+};
 </script>
 
 <style>
