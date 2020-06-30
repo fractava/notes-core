@@ -1,5 +1,5 @@
 <template>
-    <svg class="sketch" :style="{width: loadedPage.size.x, height: loadedPage.size.y}">
+    <svg class="sketch" :style="{width: loadedPage.size.x + 'px', height: loadedPage.size.y + 'px'}">
         <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index">
             <line
                 v-for="(line, index) in sketch.coordinates"

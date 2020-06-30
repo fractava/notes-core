@@ -6,6 +6,17 @@ export default {
 			objects: {
 				sketch: [
 				],
+				textBoxes: [
+					{
+						position: {
+							x: 50,
+							y: 50,
+							width: 500,
+							height: 600,
+						},
+						content: "Dies ist ein Test",
+					},
+				],
 				forms: {
 				},
 				images: {
@@ -89,6 +100,9 @@ export default {
 			if(options.scale >= 0.1) {
 				state.loadedPage.scale = options.scale;
 			}
+		},
+		setTextBoxContent(state, options) {
+			state.loadedPage.objects.textBoxes[options.id].content = options.content;
 		},
 	},
 	getters: {

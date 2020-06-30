@@ -10,6 +10,7 @@
 		>
 			<pageTitle />
 			<sketches />
+			<textBoxes />
 	</div>
   </div>
 </template>
@@ -17,6 +18,7 @@
 <script>
 import { Sketch } from "../../mixins/sketch.js";
 import Sketches from "../objects/Sketches.vue";
+import textBoxes from "../objects/TextBoxes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
 
@@ -24,6 +26,7 @@ export default {
 	components: {
 		Sketches,
 		pageTitle,
+		textBoxes,
 	},
 	mixins: [Sketch],
 	data: function() {
@@ -44,9 +47,11 @@ export default {
 			this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
 			
 			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
-
-			this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
-
+			
+			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
+				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+			}
+			
 			this.$store.commit("closePencilSettings", {}, {module: "core" });
 		},
 		pointermove: function(event) {
@@ -62,7 +67,7 @@ export default {
 
 				this.$store.commit("setPointer", {down: true, x: pageCoordinates.x, y: pageCoordinates.y, pressure,});
                                 
-				if(this.shouldDrawLine(this.pointer.x, this.pointer.y)) {
+				if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
 					this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
 				}
 			}
@@ -83,7 +88,7 @@ export default {
             
 			this.$store.dispatch("pointerUp");
 		},
-		globalCoordinatesToPageCoordinates(globalX, globalY) {
+		globalCoordinatesToPageCoordinates: function(globalX, globalY) {
 			let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
 			let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
             
@@ -91,7 +96,7 @@ export default {
 			let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
             
 			return {x: pageX, y: pageY,};
-		}
+		},
 	},
 	computed: {
 		...mapState({
