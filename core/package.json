@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/fractava/notes-core#readme",
   "dependencies": {
-    "vue-material": "^1.0.0-beta-14"
+    "vue-material": "^1.0.0-beta-14",
+    "vue-quill-editor": "^3.0.6"
   },
   "devDependencies": {
     "eslint": "^7.3.0",

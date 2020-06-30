@@ -3,7 +3,7 @@
         <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index">
             <line
                 v-for="(line, index) in sketch.coordinates"
-                :key="index"
+                :key="'sketch-' + index"
                 :x1="line.x"
                 :y1="line.y"
                 :x2="sketch.coordinates[index + 1].x"
@@ -13,7 +13,7 @@
             />
             <circle 
                 v-for="(line, index) in sketch.coordinates"
-				:key="index"
+				:key="'line-' + index"
                 :cx="line.x"
                 :cy="line.y"
                 :r="line.width/2"
