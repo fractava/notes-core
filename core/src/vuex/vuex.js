@@ -139,7 +139,7 @@ export default {
 			}else {
 				return false;
 			}
-			console.log(formats);
+			//console.log(formats);
 			return formats[options.format];
 		},
 	},

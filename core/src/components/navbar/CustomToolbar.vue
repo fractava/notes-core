@@ -356,15 +356,11 @@
                     </svg>
                 </span>
                 <span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-font-picker">
-										<span tabindex="0" role="button" class="ql-picker-item" data-value="serif" v-on:click="setFormat('font', 'serif')" :class="{'ql-selected': isFormat('font', 'serif')}"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="monospace" v-on:click="setFormat('font', 'monospace')" :class="{'ql-selected': isFormat('font', 'monospace')}"></span>
+										<span role="button" class="ql-picker-item" v-for="font in fonts" v-on:click="setFormat('font', font)" :class="{'ql-selected': isFormat('font', font)}">{{ font }}</span>
                 </span>
             </span>
             <select class="ql-font" style="display: none;">
-							<option v-for="font in fonts" :selected="isFormat(font, 'serif')"></option>
-                <!--<option :selected="isFormat('font', 'serif')" :value="font">{{ font }}</option>
-                <option :selected="isFormat('font', 'serif')" value="serif"></option>
-                <option :selected="isFormat('font', 'serif')" value="monospace"></option>-->
+							<option v-for="font in fonts" :selected="isFormat(font, 'serif')">{{ font }}</option>
             </select>
         </span>
         <span class="ql-formats">
@@ -486,7 +482,7 @@ export default {
 			textColorPickerExtended: false,
 			backgroundColorPickerExtended: false,
 			fontPickerExpanded: false,
-			fonts: ["Arial", "Courier New", "Georgia", "Trebuchet MS", "Lucida Sans Unicode", "Times New Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean"],
+			fonts: ["Roboto", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		}
 	},
 	methods: {
@@ -518,6 +514,7 @@ export default {
 			}
 		},
 		setFormat: function(format, value) {
+			console.log("setting " + format + " to " + value);
 			this.$store.commit("formatText", {format, value}, {module: "core" });
 		},
 		setFormatRelative: function(format, value) {
@@ -526,7 +523,7 @@ export default {
 			this.setFormat(format, currentFormat + value);
 		},
 		isFormat: function(format, value) {
-			console.log(this.getFormat(format) + ': ' + (this.getFormat(format) == value));
+			//console.log(format + ': ' + (this.getFormat(format) == value));
 			return this.getFormat(format) == value;
 		},
 	},
@@ -538,7 +535,52 @@ export default {
 }
 </script>
 <style>
-	.ql-picker-label:before {
-		content: "" !important;
+	.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: '' !important;
+	}
+	.ql-snow .ql-picker.ql-font .ql-picker-label::before, .ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: '' !important;
+	}
+	.ql-snow .ql-picker.ql-font {
+    width: 200px !important;
+	}
+	.ql-font-Arial {
+		font-family: Arial;
+	}
+	.ql-font-Roboto {
+		font-family: Roboto;
+	}
+	.ql-font-Courier-New {
+		font-family: Courier New;
+	}
+	.ql-font-Georgia {
+		font-family: Georgia;
+	}
+	.ql-font-Trebuchet-MS {
+		font-family: Trebuchet MS;
+	}
+	.ql-font-Lucida-Sans-Unicode {
+		font-family: Lucida Sans Unicode;
+	}
+	.ql-font-Times-New-Roman {
+		font-family: Times New Roman;
+	}
+	.ql-font-Verdana {
+		font-family: Verdana;
+	}
+	.ql-font-Futura {
+		font-family: Futura;
+	}
+	.ql-font-Charter {
+		font-family: Charter;
+	}
+	.ql-font-Terminal {
+		font-family: Terminal;
+	}
+	.ql-font-Clean {
+		font-family: Clean;
+	}
+	.ql-font-Helvetica {
+		font-family: Helvetica;
 	}
 </style>
