@@ -1,5 +1,5 @@
 <template>
-    <div v-if="id == activeNavbarTab">
+    <div class="navbarTab" v-if="id == activeNavbarTab">
         <slot />
     </div>
 </template>

@@ -10,11 +10,12 @@ export default {
 					{
 						position: {
 							x: 50,
-							y: 50,
+							y: 100,
 							width: 500,
 							height: 600,
 						},
 						content: "Dies ist ein Test",
+						quill: false,
 					},
 				],
 				forms: {
@@ -104,6 +105,15 @@ export default {
 		setTextBoxContent(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].content = options.content;
 		},
+		assignQuillToTextBox(state, options) {
+			state.loadedPage.objects.textBoxes[options.id].quill = options.quill;
+		},
+		formatText(state, options) {
+			state.loadedPage.objects.textBoxes[0].quill.format(options.format, options.value, "user");
+		},
+		focusQuill(state) {
+			state.loadedPage.objects.textBoxes[0].quill.focus();
+		}
 	},
 	getters: {
 		lastSketch: function (state) {
@@ -116,10 +126,26 @@ export default {
 		selectedPencil: function(state) {
 			return state.pencils[state.selectedPencilId];
 		},
+		textSelection: function(state) {
+			if(state.loadedPage.objects.textBoxes[0].quill) {
+				return state.loadedPage.objects.textBoxes[0].quill.getSelection();
+			} else {
+				return false;
+			}
+		},
+		getFormat: (state) => (options) => {
+			if(state.loadedPage.objects.textBoxes[0].quill) {
+				var formats = state.loadedPage.objects.textBoxes[0].quill.getFormat(options.index, options.length);
+			}else {
+				return false;
+			}
+			console.log(formats);
+			return formats[options.format];
+		},
 	},
 	actions: {
 		pointerUp: function({ commit }) {
 			commit("setPointer", {down: false, x: false, y: false, pressure: false,});
-		}
+		},
 	}
 };

@@ -1,23 +1,28 @@
 <template>
 	<div
 		class="textBoxContainer"
-		 :style="{top: this.textBox.position.x + 'px', left: this.textBox.position.y + 'px', width: this.textBox.position.width + 'px', height: this.textBox.position.height + 'px',}"
+		 :style="{top: this.textBox.position.y + 'px', left: this.textBox.position.x + 'px', width: this.textBox.position.width + 'px', height: this.textBox.position.height + 'px',}"
 		 :class="{active: this.active,}"
 	>
-		<quill-editor
+		<quill
 			class="textBox"
 			v-model="content"
 			@blur="onEditorBlur($event)"
 			@focus="onEditorFocus($event)"
 			@ready="onEditorReady($event)"
+			v-on:assign:quill="assignQuill"
 		/>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import quill from "./quill.vue";
 
 export default {
+	components: {
+		quill,
+	},
 	props: {
 		id: {
 			type: Number,
@@ -50,18 +55,22 @@ export default {
 			this.active = true;
 		},
 		onEditorFocus: function() {
-			
+
 		},
 		onEditorReady: function() {
-			
+
 		},
 		onEditorBlur: function() {
 			this.active = false;
 		},
+		assignQuill: function(quill) {
+			console.log(quill);
+			this.$store.commit("assignQuillToTextBox", { id: this.id, quill }, {module: "core" });
+		},
 	},
 };
 </script>
-<style>
+<style scoped>
 	.textBoxContainer {
 		position: absolute;
 		z-index: 2;
@@ -69,8 +78,5 @@ export default {
 	.textBox {
 		width: 100%;
 		height: 100%;
-	}
-	.ql-toolbar {
-		display: none;
 	}
 </style>

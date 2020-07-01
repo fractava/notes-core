@@ -8,7 +8,7 @@
         </md-tabs>
         <div class="navbarContent">
             <tab id="0">
-                <material-card><span>Tab 0 content</span></material-card>
+								<custom-toolbar />
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -26,6 +26,7 @@
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
 import addPencil from "./AddPencil.vue";
+import customToolbar from "./CustomToolbar.vue";
 import zoomControl from "./ZoomControl.vue";
 import pencilSelector from "./pencilSelector.vue";
 import tab from "./Tab.vue";
@@ -39,6 +40,7 @@ export default {
 		pencilSelector,
 		addPencil,
 		zoomControl,
+		customToolbar,
 	},
 	data: function() {
 		return {
