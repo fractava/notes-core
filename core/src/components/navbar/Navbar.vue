@@ -8,7 +8,7 @@
         </md-tabs>
         <div class="navbarContent">
             <tab id="0">
-								<custom-toolbar v-if="focusedObjectType == 'textBoxes'"/>
+								<custom-toolbar v-if="focusedObjectType == 'textBoxes'" />
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="ql-toolbar ql-snow" v-on:click="focusQuill">
+    <div class="ql-toolbar ql-snow">
         <span class="ql-formats">
             <button type="button" class="ql-bold" v-on:click="toggleFormat('bold')" :class="{'ql-active': isFormat('bold', true)}">
                 <svg viewBox="0 0 18 18">
@@ -486,9 +486,6 @@ export default {
 		}
 	},
 	methods: {
-		focusQuill: function() {
-			this.$store.commit("focusQuill");
-		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
 		},

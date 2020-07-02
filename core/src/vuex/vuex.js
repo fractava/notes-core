@@ -111,10 +111,9 @@ export default {
 			state.loadedPage.objects.textBoxes[options.id].quill = options.quill;
 		},
 		formatText(state, options) {
-			state.loadedPage.objects.textBoxes[0].quill.format(options.format, options.value, "user");
-		},
-		focusQuill(state) {
-			state.loadedPage.objects.textBoxes[0].quill.focus();
+			if(state.focusedObjectType == "textBoxes") {
+				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
+			}
 		},
 		focusObject(state, options) {
 			state.focusedObjectType = options.type;
@@ -134,20 +133,21 @@ export default {
 			return state.pencils[state.selectedPencilId];
 		},
 		textSelection: function(state) {
-			if(state.loadedPage.objects.textBoxes[0].quill) {
-				return state.loadedPage.objects.textBoxes[0].quill.getSelection();
-			} else {
-				return false;
+			if(state.focusedObjectType == "textBoxes") {
+				if(state.loadedPage.objects.textBoxes[state.focuseObjectId].quill) {
+					return state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.getSelection();
+				}
 			}
+
+			return false;
 		},
 		getFormat: (state) => (options) => {
-			if(state.loadedPage.objects.textBoxes[0].quill) {
-				var formats = state.loadedPage.objects.textBoxes[0].quill.getFormat(options.index, options.length);
-			}else {
+			if(state.focusedObjectType == "textBoxes") {
+				if(state.loadedPage.objects.textBoxes[state.focuseObjectId].quill) {
+					return state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.getFormat(options.index, options.length)[options.format];
+				}
 				return false;
 			}
-			//console.log(formats);
-			return formats[options.format];
 		},
 		focusedObject: (state) => (options) => {
 			return state.objects[state.focusedObjectType][state.focuseObjectId];

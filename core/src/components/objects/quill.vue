@@ -200,4 +200,7 @@
 	.ql-container {
 		border-top: 1px solid #ccc !important;
 	}
+	.ql-toolbar.ql-snow {
+		border: none !important;
+	}
 </style>
