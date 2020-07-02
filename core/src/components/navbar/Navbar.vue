@@ -8,7 +8,7 @@
         </md-tabs>
         <div class="navbarContent">
             <tab id="0">
-								<custom-toolbar />
+								<custom-toolbar v-if="focusedObjectType == 'textBoxes'"/>
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -50,6 +50,7 @@ export default {
 	computed: mapState({
 		activeNavbarTab: state => state.core.activeNavbarTab,
 		pencils: state => state.core.pencils,
+		focusedObjectType: state => state.core.focusedObjectType,
 	}),
 };
 </script>

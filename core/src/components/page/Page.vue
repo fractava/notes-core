@@ -40,18 +40,19 @@ export default {
 				console.log(event);
 			}
 			this.pointer.down = true;
-            
+
 			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
 			this.pointer.x = pageCoordinates.x;
 			this.pointer.y = pageCoordinates.y;
 			this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
-			
+
 			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
-			
+
 			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
 				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+				this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 			}
-			
+
 			this.$store.commit("closePencilSettings", {}, {module: "core" });
 		},
 		pointermove: function(event) {
@@ -62,11 +63,11 @@ export default {
 				}
 
 				let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
-                
+
 				let pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
 
 				this.$store.commit("setPointer", {down: true, x: pageCoordinates.x, y: pageCoordinates.y, pressure,});
-                                
+
 				if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
 					this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
 				}
@@ -77,7 +78,7 @@ export default {
 				console.log("pointerup");
 				console.log(event);
 			}
-            
+
 			this.$store.dispatch("pointerUp");
 		},
 		pointerleave: function(event) {
@@ -85,16 +86,16 @@ export default {
 				console.log("pointerleave");
 				console.log(event);
 			}
-            
+
 			this.$store.dispatch("pointerUp");
 		},
 		globalCoordinatesToPageCoordinates: function(globalX, globalY) {
 			let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
 			let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
-            
+
 			let pageX =  ((1 / this.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
 			let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
-            
+
 			return {x: pageX, y: pageY,};
 		},
 	},

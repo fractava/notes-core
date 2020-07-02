@@ -8,6 +8,7 @@
 			v-on:pointermove="stopPropagation"
 			v-on:pointerup="stopPropagation"
 			v-on:pointerleave="stopPropagation"
+			:focused="focusedObjectType == 'textBox' && focuseObjectId == index"
 		/>
 	</div>
 </template>
@@ -30,6 +31,8 @@ export default {
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
+			focusedObjectType: state => state.core.focusedObjectType,
+			focuseObjectId: state => state.core.focuseObjectId,
 		}),
 	},
 }

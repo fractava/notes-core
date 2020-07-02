@@ -92,7 +92,10 @@
         type: Object,
         required: false,
         default: () => ({})
-      }
+      },
+			focused: {
+				type: Boolean,
+			}
     },
     mounted() {
       this.initialize();
@@ -178,7 +181,15 @@
         if (this.quill) {
           this.quill.enable(!newVal)
         }
-      }
+      },
+			focused(newVal, oldVal) {
+				console.log(newVal);
+				if(newVal == true) {
+					this.quill.focus();
+				} else {
+					this.quill.blur();
+				}
+			}
     }
   }
 </script>

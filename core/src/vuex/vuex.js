@@ -55,6 +55,8 @@ export default {
 			y: false,
 			pressure: false,
 		},
+		focusedObjectType: false,
+		focuseObjectId: false,
 	},
 	mutations: {
 		setDebug(state, value) {
@@ -113,7 +115,12 @@ export default {
 		},
 		focusQuill(state) {
 			state.loadedPage.objects.textBoxes[0].quill.focus();
-		}
+		},
+		focusObject(state, options) {
+			state.focusedObjectType = options.type;
+			state.focuseObjectId = options.id;
+			console.log(options);
+		},
 	},
 	getters: {
 		lastSketch: function (state) {
@@ -141,6 +148,9 @@ export default {
 			}
 			//console.log(formats);
 			return formats[options.format];
+		},
+		focusedObject: (state) => (options) => {
+			return state.objects[state.focusedObjectType][state.focuseObjectId];
 		},
 	},
 	actions: {

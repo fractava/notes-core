@@ -3,6 +3,7 @@
 		class="textBoxContainer"
 		 :style="{top: this.textBox.position.y + 'px', left: this.textBox.position.x + 'px', width: this.textBox.position.width + 'px', height: this.textBox.position.height + 'px',}"
 		 :class="{active: this.active,}"
+		 v-on:pointerdown="pointerdown"
 	>
 		<quill
 			class="textBox"
@@ -11,6 +12,7 @@
 			@focus="onEditorFocus($event)"
 			@ready="onEditorReady($event)"
 			v-on:assign:quill="assignQuill"
+			:focused="focused"
 		/>
 	</div>
 </template>
@@ -26,6 +28,9 @@ export default {
 	props: {
 		id: {
 			type: Number,
+		},
+		focused: {
+			type: Boolean,
 		},
 	},
 	data: function() {
@@ -66,6 +71,9 @@ export default {
 		assignQuill: function(quill) {
 			console.log(quill);
 			this.$store.commit("assignQuillToTextBox", { id: this.id, quill }, {module: "core" });
+		},
+		pointerdown: function(event) {
+			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
 		},
 	},
 };
