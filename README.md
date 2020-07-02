@@ -13,6 +13,10 @@ Its not a part of the package fractava/fractava-notes-core on npm.
 If you use Gitpod the development server gets started automatically.
 
 To start the dev server manually run:
+- sudo sh start.sh
+
+OR:
+
 - cd core
 - npm link
 - cd ../dev-server
