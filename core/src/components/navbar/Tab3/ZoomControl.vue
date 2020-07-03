@@ -9,6 +9,9 @@
 		<md-button v-on:click="reset">
 			<md-icon>highlight_alt</md-icon>
 		</md-button>
+		<md-button v-on:click="snapToWidth">
+			<md-icon>highlight_alt</md-icon>
+		</md-button>
 	</div>
 </template>
 
@@ -26,6 +29,35 @@ export default {
 		reset: function() {
 			this.$store.commit("setScale", {scale: 1,}, {module: "core" });
 		},
+		snapToWidth: function() {
+			let bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
+
+			let mostLeft = this.loadedPage.objects.textBoxes[0].position.x;
+			let mostRight = this.loadedPage.objects.textBoxes[0].position.x + this.loadedPage.objects.textBoxes[0].position.width;
+
+			for(let textBoxId in this.loadedPage.objects.textBoxes) {
+				let textBox = this.loadedPage.objects.textBoxes[textBoxId];
+				if(textBox.position.x < mostLeft) {
+					mostLeft = textBox.x;
+				}
+
+				if(textBox.position.x + textBox.position.width > mostRight) {
+					mostRight = textBox.position.x + textBox.position.width;
+				}
+			}
+			console.log(mostLeft, mostRight);
+
+			let deltaX = mostRight - mostLeft;
+
+			let scale = bodyWidth / deltaX;
+
+			console.log(scale);
+
+			this.$store.commit("setScale", {scale,}, {module: "core" });
+
+			document.getElementsByClassName("PageContainer")[0].scrollLeft = mostLeft * scale;
+		}
+
 	},
 	computed: mapState({
 		loadedPage: state => state.core.loadedPage,
