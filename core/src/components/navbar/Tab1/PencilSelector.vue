@@ -3,11 +3,12 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
+				:md-active="openedPencilSettingsId == id"
 				class="selectPencilButton"
 				v-on:click="select"
 				:class="{'md-raised': id == selectedPencilId}"
 			>
-				<md-button md-menu-trigger>
+				<md-button>
 					<md-icon :style="{color: pencils[id].color,}">create</md-icon>
 				</md-button>
 
