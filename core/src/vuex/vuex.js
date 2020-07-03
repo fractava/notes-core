@@ -15,7 +15,7 @@ export default {
 							height: 600,
 						},
 						content: "Dies ist ein Test",
-						quill: false,
+						quill: undefined,
 					},
 				],
 				forms: {
@@ -68,7 +68,20 @@ export default {
 		newSketch(state, color) {
 			state.loadedPage.objects.sketch.push({
 				coordinates: [],
-				color: JSON.parse(JSON.stringify(color))
+				color: JSON.parse(JSON.stringify(color)),
+			});
+		},
+		newTextBox(state, options) {
+			console.log("newTextBox");
+			state.loadedPage.objects.textBoxes.push({
+				position: {
+					x: options.x,
+					y: options.y,
+					width: options.width,
+					height: options.height,
+				},
+				content: "",
+				quill: undefined,
 			});
 		},
 		drawLine: function(state, options) {

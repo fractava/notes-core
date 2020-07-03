@@ -15,9 +15,7 @@
                 <add-pencil/>
             </tab>
 						<tab id="2" style="display: flex; flex-direction: row;">
-							<md-button>
-									<md-icon>post_add</md-icon>
-							</md-button>
+							<add-text-box />
 						</tab>
 			<tab id="2"></tab>
 			<tab id="3">
@@ -28,13 +26,24 @@
 </template>
 
 <script>
+// miscellaneous
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
-import addPencil from "./Tab1/AddPencil.vue";
-import customToolbar from "./Tab0/QuillToolbar.vue";
-import zoomControl from "./Tab3/ZoomControl.vue";
-import pencilSelector from "./Tab1/PencilSelector.vue";
 import tab from "./Tab.vue";
+
+// Tab 0
+import customToolbar from "./Tab0/QuillToolbar.vue";
+
+// Tab 1
+import addPencil from "./Tab1/AddPencil.vue";
+import pencilSelector from "./Tab1/PencilSelector.vue";
+
+// Tab 2
+import addTextBox from "./Tab2/AddTextBox.vue";
+
+// Tab 3
+import zoomControl from "./Tab3/ZoomControl.vue";
+
 import { mapState } from "vuex";
 
 export default {
@@ -46,6 +55,7 @@ export default {
 		addPencil,
 		zoomControl,
 		customToolbar,
+		addTextBox,
 	},
 	data: function() {
 		return {
