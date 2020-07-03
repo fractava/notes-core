@@ -35,7 +35,7 @@ export default {
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
 	},
-}
+};
 </script>
 
 <style>

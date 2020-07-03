@@ -349,7 +349,7 @@
         <span class="ql-formats">
             <span class="ql-font ql-picker" :class="{'ql-expanded': fontPickerExpanded}" v-on:click="fontPickerExpanded = !fontPickerExpanded">
                 <span class="ql-picker-label" tabindex="0" role="button" aria-controls="ql-font-picker">
-									<span>{{ getFormat("font") }}</span>
+									<span>{{ getFormat("font") || "default" }}</span>
                     <svg viewBox="0 0 18 18">
                         <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
                         <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
@@ -472,7 +472,7 @@
 </template>
 
 <script>
-import Toolbar from 'quill/modules/toolbar.js';
+import Toolbar from "quill/modules/toolbar.js";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -483,7 +483,7 @@ export default {
 			backgroundColorPickerExtended: false,
 			fontPickerExpanded: false,
 			fonts: ["Roboto", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
-		}
+		};
 	},
 	methods: {
 		selectedText: function() {
@@ -529,7 +529,7 @@ export default {
 			loadedPage: state => state.core.loadedPage,
 		}),
 	},
-}
+};
 </script>
 <style>
 	.ql-snow .ql-picker.ql-font .ql-picker-item::before {

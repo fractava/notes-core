@@ -23,6 +23,7 @@
   "homepage": "https://github.com/fractava/notes-core#readme",
   "dependencies": {
     "font-detective": "^2.0.0",
+    "vue-color": "^2.7.1",
     "vue-material": "^1.0.0-beta-14",
     "vue-quill-editor": "^3.0.6"
   },
