@@ -57,8 +57,12 @@ export default {
 		},
 		focusedObjectType: false,
 		focuseObjectId: false,
+		editingMode: "editing",
 	},
 	mutations: {
+		switchEditingMode(state, options) {
+			state.editingMode = options.mode;
+		},
 		setDebug(state, value) {
 			state.debug = value;
 		},

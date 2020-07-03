@@ -8,7 +8,7 @@
         </md-tabs>
         <div class="navbarContent">
             <tab id="0">
-								<custom-toolbar v-if="focusedObjectType == 'textBoxes'" />
+								<quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -32,7 +32,7 @@ import tabSelector from "./TabSelector.vue";
 import tab from "./Tab.vue";
 
 // Tab 0
-import customToolbar from "./Tab0/QuillToolbar.vue";
+import quillToolbar from "./Tab0/QuillToolbar.vue";
 
 // Tab 1
 import addPencil from "./Tab1/AddPencil.vue";
@@ -54,7 +54,7 @@ export default {
 		pencilSelector,
 		addPencil,
 		zoomControl,
-		customToolbar,
+		quillToolbar,
 		addTextBox,
 	},
 	data: function() {
