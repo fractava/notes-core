@@ -25,7 +25,7 @@ export default {
 			this.$store.dispatch("pointerUp");
 		},
 		focused: function(index) {
-			return this.focusedObjectType == 'textBox' && this.focuseObjectId == index;
+			return this.focusedObjectType == "textBox" && this.focuseObjectId == index;
 		},
 	},
 	components: {

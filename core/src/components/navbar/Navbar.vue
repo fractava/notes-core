@@ -27,7 +27,6 @@
 
 <script>
 // miscellaneous
-import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
 import tab from "./Tab.vue";
 
@@ -48,7 +47,6 @@ import { mapState } from "vuex";
 
 export default {
 	components: {
-		materialCard,
 		tabSelector,
 		tab,
 		pencilSelector,

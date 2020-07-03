@@ -52,9 +52,9 @@ export default {
 			}
 		},
 		disabled: function() {
-			console.log("disabled: " + (this.editingMode != 'editing'));
+			console.log("disabled: " + (this.editingMode != "editing"));
 			console.log(this.editingMode);
-			return this.editingMode != 'editing';
+			return this.editingMode != "editing";
 		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
