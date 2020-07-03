@@ -132,51 +132,15 @@
             </button>
         </span>
         <span class="ql-formats">
-            <span class="ql-color ql-picker ql-color-picker" :class="{'ql-expanded': textColorPickerExtended}" v-on:click="textColorPickerExtended = !textColorPickerExtended">
-                <span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2">
+            <span class="ql-color ql-picker ql-color-picker">
+                <span class="ql-picker-label" tabindex="0" role="button" v-on:click="textColorPickerExtended = !textColorPickerExtended">
                     <svg viewBox="0 0 18 18">
                         <line class="ql-color-label ql-stroke ql-transparent" x1="3" x2="15" y1="15" y2="15"></line>
                         <polyline class="ql-stroke" points="5.5 11 9 3 12.5 11"></polyline>
                         <line class="ql-stroke" x1="11.63" x2="6.38" y1="9" y2="9"></line>
                     </svg>
                 </span>
-                <span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2">
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary ql-selected"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#e60000" style="background-color: rgb(230, 0, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ff9900" style="background-color: rgb(255, 153, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ffff00" style="background-color: rgb(255, 255, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#008a00" style="background-color: rgb(0, 138, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#0066cc" style="background-color: rgb(0, 102, 204);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#9933ff" style="background-color: rgb(153, 51, 255);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ffffff" style="background-color: rgb(255, 255, 255);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#facccc" style="background-color: rgb(250, 204, 204);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ffebcc" style="background-color: rgb(255, 235, 204);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ffffcc" style="background-color: rgb(255, 255, 204);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#cce8cc" style="background-color: rgb(204, 232, 204);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#cce0f5" style="background-color: rgb(204, 224, 245);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ebd6ff" style="background-color: rgb(235, 214, 255);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#bbbbbb" style="background-color: rgb(187, 187, 187);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#f06666" style="background-color: rgb(240, 102, 102);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ffc266" style="background-color: rgb(255, 194, 102);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#ffff66" style="background-color: rgb(255, 255, 102);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#66b966" style="background-color: rgb(102, 185, 102);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#66a3e0" style="background-color: rgb(102, 163, 224);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#c285ff" style="background-color: rgb(194, 133, 255);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#888888" style="background-color: rgb(136, 136, 136);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#a10000" style="background-color: rgb(161, 0, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#b26b00" style="background-color: rgb(178, 107, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#b2b200" style="background-color: rgb(178, 178, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#006100" style="background-color: rgb(0, 97, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#0047b2" style="background-color: rgb(0, 71, 178);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#6b24b2" style="background-color: rgb(107, 36, 178);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#444444" style="background-color: rgb(68, 68, 68);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#5c0000" style="background-color: rgb(92, 0, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#663d00" style="background-color: rgb(102, 61, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#666600" style="background-color: rgb(102, 102, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#003700" style="background-color: rgb(0, 55, 0);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#002966" style="background-color: rgb(0, 41, 102);"></span>
-                    <span tabindex="0" role="button" class="ql-picker-item" data-value="#3d1466" style="background-color: rgb(61, 20, 102);"></span>
-                </span>
+								<color-picker style="position: relative;" v-if="textColorPickerExtended" />
             </span>
             <select class="ql-color" style="display: none;">
                 <option selected="selected"></option>
@@ -474,15 +438,19 @@
 <script>
 import Toolbar from "quill/modules/toolbar.js";
 import { mapState, mapGetters } from "vuex";
+import colorPicker from "../ColorPicker.vue";
 
 export default {
+	components: {
+		colorPicker,
+	},
 	data: function(){
 		return {
 			alignPickerExpanded: false,
 			textColorPickerExtended: false,
 			backgroundColorPickerExtended: false,
 			fontPickerExpanded: false,
-			fonts: ["Roboto", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
+			fonts: ["Roboto", "Calibri", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		};
 	},
 	methods: {
@@ -579,5 +547,8 @@ export default {
 	}
 	.ql-font-Helvetica {
 		font-family: Helvetica;
+	}
+	.ql-font-Calibri {
+		font-family: Calibri;
 	}
 </style>

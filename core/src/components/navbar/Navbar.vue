@@ -14,6 +14,11 @@
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
                 <add-pencil/>
             </tab>
+						<tab id="2" style="display: flex; flex-direction: row;">
+							<md-button>
+									<md-icon>post_add</md-icon>
+							</md-button>
+						</tab>
 			<tab id="2"></tab>
 			<tab id="3">
 				<zoom-control/>
@@ -25,10 +30,10 @@
 <script>
 import materialCard from "../miscellaneous/MaterialCard.vue";
 import tabSelector from "./TabSelector.vue";
-import addPencil from "./AddPencil.vue";
-import customToolbar from "./CustomToolbar.vue";
-import zoomControl from "./ZoomControl.vue";
-import pencilSelector from "./pencilSelector.vue";
+import addPencil from "./Tab1/AddPencil.vue";
+import customToolbar from "./Tab0/QuillToolbar.vue";
+import zoomControl from "./Tab3/ZoomControl.vue";
+import pencilSelector from "./Tab1/PencilSelector.vue";
 import tab from "./Tab.vue";
 import { mapState } from "vuex";
 

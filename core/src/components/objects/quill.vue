@@ -12,7 +12,7 @@ import _Quill from "quill";
 const Quill = window.Quill || _Quill;
 
 var FontAttributor = Quill.import("attributors/class/font");
-FontAttributor.whitelist = ["", "Arial", "Roboto", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"];
+FontAttributor.whitelist = ["", "Arial", "Calibri", "Roboto", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"];
 Quill.register(FontAttributor, true);
 
 const defaultOptions = {
