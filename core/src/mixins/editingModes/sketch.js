@@ -1,5 +1,27 @@
+import { mapState, mapGetters } from "vuex";
+
 export const Sketch = {
 	methods: {
+		sketchPointerDown: function(event) {
+			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
+
+			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
+				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+			}
+
+			this.$store.commit("closePencilSettings", {}, {module: "core" });
+		},
+		sketchPointerMove: function(event) {
+			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
+				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+			}
+		},
+		sketchPointerUp: function(event) {
+
+		},
+		sketchPointerLeave: function(event) {
+
+		},
 		shouldDrawLine: function(x, y, event) {
 			let drawLine = false;
 
@@ -39,5 +61,10 @@ export const Sketch = {
 			}
 			return false;
 		},
+	},
+	computed: {
+		...mapState({
+			selectedColor: state => state.core.selectedColor,
+		})
 	},
 };

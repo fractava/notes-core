@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { Sketch } from "../../mixins/sketch.js";
+import { Sketch } from "../../mixins/editingModes/sketch.js";
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import pageTitle from "../objects/PageTitle.vue";
@@ -39,21 +39,12 @@ export default {
 				console.log("pointerdown");
 				console.log(event);
 			}
-			this.pointer.down = true;
 
-			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
-			this.pointer.x = pageCoordinates.x;
-			this.pointer.y = pageCoordinates.y;
-			this.pointer.pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
+			this.setPointerPositionFromEvent(event);
 
-			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
-
-			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
-				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
-				this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
+			if(this.editingMode == "drawing") {
+				this.sketchPointerDown(event);
 			}
-
-			this.$store.commit("closePencilSettings", {}, {module: "core" });
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -62,14 +53,10 @@ export default {
 					console.log(event);
 				}
 
-				let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+				this.setPointerPositionFromEvent(event);
 
-				let pressure = this.selectedPencil.width * 2 * (event.pressure || 0.5);
-
-				this.$store.commit("setPointer", {down: true, x: pageCoordinates.x, y: pageCoordinates.y, pressure,});
-
-				if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
-					this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
+				if(this.editingMode == "drawing") {
+					this.sketchPointerMove(event);
 				}
 			}
 		},
@@ -77,6 +64,10 @@ export default {
 			if(this.debug) {
 				console.log("pointerup");
 				console.log(event);
+			}
+
+			if(this.editingMode == "drawing") {
+				this.sketchPointerUp(event);
 			}
 
 			this.$store.dispatch("pointerUp");
@@ -87,7 +78,21 @@ export default {
 				console.log(event);
 			}
 
+			if(this.editingMode == "drawing") {
+				this.sketchPointerLeave(event);
+			}
+
 			this.$store.dispatch("pointerUp");
+		},
+		setPointerPositionFromEvent: function(event) {
+			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
+
+			this.$store.commit("setPointer", {
+				down: true,
+				x: pageCoordinates.x,
+				y: pageCoordinates.y,
+				pressure: this.calculatePressure(event),
+			});
 		},
 		globalCoordinatesToPageCoordinates: function(globalX, globalY) {
 			let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
@@ -98,15 +103,18 @@ export default {
 
 			return {x: pageX, y: pageY,};
 		},
+		calculatePressure: function(event) {
+			return this.selectedPencil.width * 2 * (event.pressure || 0.5);
+		},
 	},
 	computed: {
 		...mapState({
 			debug: state => state.core.debug,
 			loadedPage: state => state.core.loadedPage,
 			navbarHeight: state => state.core.navbarHeight,
-			selectedColor: state => state.core.selectedColor,
 			scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
 			scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
+			editingMode: state => state.core.editingMode,
 			pointer: state => state.core.pointer,
 		}),
 		...mapGetters([
