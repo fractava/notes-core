@@ -1,17 +1,24 @@
 <template>
     <div>
-        <md-button v-on:click="select" :class="{'md-raised': id == selectedPencilId}">
-            <md-icon :style="{color: pencils[id].color,}">create</md-icon>
-        </md-button>
-        <md-card style="position: relative; width: 100px;" v-if="id == openedPencilSettingsId">
-            <md-card-header>
-                <div class="md-title">Pencil Settings</div>
-            </md-card-header>
-            <md-card-content>
-                Color: {{ pencils[id].color }}
-                Width: {{ pencils[id].width }}
-            </md-card-content>
-        </md-card>
+			<md-menu
+				md-direction="bottom-start"
+				md-align-trigger
+				class="selectPencilButton"
+				v-on:click="select"
+				:class="{'md-raised': id == selectedPencilId}"
+			>
+				<md-button md-menu-trigger>
+					<md-icon :style="{color: pencils[id].color,}">create</md-icon>
+				</md-button>
+
+				<md-menu-content>
+					<span>
+						Pencil Settings:
+						Color: {{ pencils[id].color }}
+						Width: {{ pencils[id].width }}
+					</span>
+				</md-menu-content>
+			</md-menu>
     </div>
 </template>
 
@@ -43,3 +50,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+.selectPencilButton, .selectPencilButton button {
+	height: 100%;
+}
+</style>

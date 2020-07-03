@@ -82,6 +82,6 @@ export default {
     display: flex;
 }
 .navbarContent {
-    height: 80%;
+    height: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<md-button v-on:click="add">
+	<md-button class="addTextBoxButton" v-on:click="add">
 			<md-icon>post_add</md-icon>
 	</md-button>
 </template>
@@ -13,3 +13,9 @@ export default {
 	},
 };
 </script>
+<style scoped>
+.addTextBoxButton {
+	height: 100%;
+	margin: 0px;
+}
+</style>

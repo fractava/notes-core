@@ -1,5 +1,5 @@
 <template>
-    <md-button v-on:click="add">
+    <md-button class="addPencilButton" v-on:click="add">
         <md-icon>add</md-icon>
     </md-button>
 </template>
@@ -20,3 +20,10 @@ export default {
 	}),
 };
 </script>
+
+<style scoped>
+.addPencilButton {
+	height: 100%;
+	margin: 0px;
+}
+</style>

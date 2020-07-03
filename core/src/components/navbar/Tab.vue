@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style>
-
+.navbarTab {
+	height: 100%;
+}
 </style>

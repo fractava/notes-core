@@ -1,15 +1,15 @@
 <template>
-	<div>
-		<md-button v-on:click="plus">
+	<div class="zoomControlContainer">
+		<md-button class="zoomControlButton" v-on:click="plus">
 			<md-icon>add</md-icon>
 		</md-button>
-		<md-button v-on:click="minus">
+		<md-button class="zoomControlButton" v-on:click="minus">
 			<md-icon>remove</md-icon>
 		</md-button>
-		<md-button v-on:click="reset">
+		<md-button class="zoomControlButton" v-on:click="reset">
 			<md-icon>highlight_alt</md-icon>
 		</md-button>
-		<md-button v-on:click="snapToWidth">
+		<md-button class="zoomControlButton" v-on:click="snapToWidth">
 			<md-icon>highlight_alt</md-icon>
 		</md-button>
 	</div>
@@ -49,7 +49,7 @@ export default {
 
 			let deltaX = mostRight - mostLeft;
 
-			let scale = bodyWidth / deltaX;
+			let scale = (bodyWidth / deltaX) - 0.1;
 
 			console.log(scale);
 
@@ -64,3 +64,13 @@ export default {
 	}),
 };
 </script>
+
+<style scoped>
+.zoomControlContainer {
+	height: 100%;
+}
+.zoomControlButton {
+	height: 100%;
+	margin: 0px;
+}
+</style>
