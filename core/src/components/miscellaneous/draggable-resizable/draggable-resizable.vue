@@ -224,7 +224,13 @@ export default {
     onResize: {
       type: Function,
       default: () => true
-    }
+    },
+		maxX: {
+			type: Number,
+		},
+		maxY: {
+			type: Number,
+		}
   },
 
   data: function () {
@@ -605,6 +611,10 @@ export default {
 
       const left = restrictToBounds(deltaX, this.bounds.minLeft, this.bounds.maxLeft)
 
+			if(left < 0) {
+				left = 0;
+			}
+
       this.left = left
       this.right = this.parentWidth - this.width - left
     },
@@ -612,6 +622,10 @@ export default {
       const [_, deltaY] = snapToGrid(this.grid, this.left, val, this.scale)
 
       const top = restrictToBounds(deltaY, this.bounds.minTop, this.bounds.maxTop)
+
+			if(top < 0) {
+				top = 0;
+			}
 
       this.top = top
       this.bottom = this.parentHeight - this.height - top
@@ -646,6 +660,10 @@ export default {
           this.bounds.maxBottom
         )
 
+				if(bottom < (1- this.maxY)) {
+					return;
+				}
+
         if (this.lockAspectRatio && this.resizingOnY) {
           right = this.right - (this.bottom - bottom) * aspectFactor
         }
@@ -655,6 +673,10 @@ export default {
           this.bounds.minTop,
           this.bounds.maxTop
         )
+
+				if(top < 8) {
+					return;
+				}
 
         if (this.lockAspectRatio && this.resizingOnY) {
           left = this.left - (this.top - top) * aspectFactor
@@ -668,6 +690,10 @@ export default {
           this.bounds.maxRight
         )
 
+				if(right < (1- this.maxX)) {
+					return;
+				}
+
         if (this.lockAspectRatio && this.resizingOnX) {
           bottom = this.bottom - (this.right - right) / aspectFactor
         }
@@ -677,6 +703,10 @@ export default {
           this.bounds.minLeft,
           this.bounds.maxLeft
         )
+
+				if(left < 8) {
+					return;
+				}
 
         if (this.lockAspectRatio && this.resizingOnX) {
           top = this.top - (this.left - left) / aspectFactor

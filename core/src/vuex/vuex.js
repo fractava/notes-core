@@ -161,9 +161,13 @@ export default {
 			}
 		},
 		moveTextBox(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].position.x = options.x;
-			state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
-
+			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
+				state.loadedPage.objects.textBoxes[options.id].position.x = options.x;
+			}
+			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
+				state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
+			}
+			
 			console.log(state.loadedPage.objects.textBoxes[options.id]);
 		},
 		resizeTextBox(state, options) {
