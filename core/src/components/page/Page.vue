@@ -127,9 +127,10 @@ export default {
 
 <style scoped>
 .Page {
-    touch-action: none;
-    background-color: white;
+  touch-action: none;
+  background-color: white;
 	transform-origin: left top;
+	transition: all 1s ease 0s;
 }
 .sketch {
     width: 100%;

@@ -16,6 +16,7 @@
             </tab>
 						<tab id="2" style="display: flex; flex-direction: row;">
 							<add-text-box />
+							<add-symbol />
 						</tab>
 			<tab id="2"></tab>
 			<tab id="3">
@@ -39,6 +40,7 @@ import pencilSelector from "./Tab1/PencilSelector.vue";
 
 // Tab 2
 import addTextBox from "./Tab2/AddTextBox.vue";
+import addSymbol from "./Tab2/AddSymbol.vue";
 
 // Tab 3
 import zoomControl from "./Tab3/ZoomControl.vue";
@@ -54,6 +56,7 @@ export default {
 		zoomControl,
 		quillToolbar,
 		addTextBox,
+		addSymbol,
 	},
 	data: function() {
 		return {
