@@ -48,6 +48,7 @@ export default {
 }
 .symbolsMenu, .symbolsMenu .md-menu-content-container {
 	min-width: fit-content;
+	max-width: fit-content !important;
   height: fit-content;
 	max-width: 60vh;
 }
