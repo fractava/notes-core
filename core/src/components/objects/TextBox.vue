@@ -3,15 +3,16 @@
 		class="textBoxContainer"
 		:class="{disabled: disabled}"
 	>
-		<vue-draggable-resizable
-			class="textBoxContainer"
+		<draggable-resizable
 			:w="textBox.position.width"
 			:h="textBox.position.height"
 			:x="textBox.position.x"
 			:y="textBox.position.y"
 			@dragging="onDrag"
 			@resizing="onResize"
-			:parent="false">
+			:parent="false"
+			:active="active"
+		>
 			<quill
 				class="textBox"
 				v-model="content"
@@ -22,19 +23,19 @@
 				:focused="focused"
 				:disabled="disabled"
 			/>
-		</vue-draggable-resizable>
+		</draggable-resizable>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import quill from "./quill.vue";
-import VueDraggableResizable from 'vue-draggable-resizable'
+import draggableResizable from '../miscellaneous/draggable-resizable/draggable-resizable.vue';
 
 export default {
 	components: {
 		quill,
-		VueDraggableResizable,
+		draggableResizable,
 	},
 	props: {
 		id: {
@@ -74,6 +75,7 @@ export default {
 	},
 	methods: {
 		onResize: function (x, y, width, height) {
+			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
 			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
 		},
 		onDrag: function (x, y) {
@@ -110,9 +112,6 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
-	/*.disabled .ql-container {
-		border: none !important;
-	}*/
 
 	/* Resizeable */
 	.handle {
