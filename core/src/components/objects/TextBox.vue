@@ -30,7 +30,6 @@
 import { mapState } from "vuex";
 import quill from "./quill.vue";
 import VueDraggableResizable from 'vue-draggable-resizable'
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 
 export default {
 	components: {
@@ -75,10 +74,10 @@ export default {
 	},
 	methods: {
 		onResize: function (x, y, width, height) {
-
+			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
 		},
 		onDrag: function (x, y) {
-
+			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
 		},
 		onEditorFocus: function() {
 			this.active = true;
@@ -114,4 +113,68 @@ export default {
 	/*.disabled .ql-container {
 		border: none !important;
 	}*/
+
+	/* Resizeable */
+	.handle {
+	  box-sizing: border-box;
+	  position: absolute;
+	  width: 10px;
+	  height: 10px;
+	  background: #ffffff;
+	  border: 1px solid #ccc;
+	}
+	.handle-tl {
+	  top: -9px;
+	  left: -9px;
+	  cursor: nw-resize;
+	}
+	.handle-tm {
+	  top: -9px;
+	  left: 50%;
+	  margin-left: -5px;
+	  cursor: n-resize;
+	}
+	.handle-tr {
+	  top: -9px;
+	  right: -9px;
+	  cursor: ne-resize;
+	}
+	.handle-ml {
+	  top: 50%;
+	  margin-top: -5px;
+	  left: -9px;
+	  cursor: w-resize;
+	}
+	.handle-mr {
+	  top: 50%;
+	  margin-top: -5px;
+	  right: -9px;
+	  cursor: e-resize;
+	}
+	.handle-bl {
+	  bottom: -9px;
+	  left: -9px;
+	  cursor: sw-resize;
+	}
+	.handle-bm {
+	  bottom: -9px;
+	  left: 50%;
+	  margin-left: -5px;
+	  cursor: s-resize;
+	}
+	.handle-br {
+	  bottom: -9px;
+	  right: -9px;
+	  cursor: se-resize;
+	}
+	@media only screen and (max-width: 768px) {
+	  [class*="handle-"]:before {
+	    content: '';
+	    left: -9px;
+	    right: -9px;
+	    bottom: -9px;
+	    top: -9px;
+	    position: absolute;
+	  }
+	}
 </style>
