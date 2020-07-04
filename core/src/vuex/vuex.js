@@ -60,77 +60,29 @@ export default {
 		editingMode: "editing",
 	},
 	mutations: {
-		switchEditingMode(state, options) {
-			state.editingMode = options.mode;
-		},
+		// System
 		setDebug(state, value) {
 			state.debug = value;
 		},
+
+		// Navbar
+		selectNavbarTab(state, options) {
+			state.activeNavbarTab = options.id;
+		},
+
+		// Page
+		switchEditingMode(state, options) {
+			state.editingMode = options.mode;
+		},
 		setPageTitle(state, options) {
 			state.loadedPage.title = options.title;
-		},
-		newSketch(state, color) {
-			state.loadedPage.objects.sketch.push({
-				coordinates: [],
-				color: JSON.parse(JSON.stringify(color)),
-			});
-		},
-		newTextBox(state, options) {
-			console.log("newTextBox");
-			state.loadedPage.objects.textBoxes.push({
-				position: {
-					x: options.x,
-					y: options.y,
-					width: options.width,
-					height: options.height,
-				},
-				content: "",
-				quill: undefined,
-			});
-		},
-		drawLine(state, options) {
-			options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
 		},
 		setScrollOffset(state, options) {
 			state.loadedPage.scrollOffsetX = options.x;
 			state.loadedPage.scrollOffsetY = options.y;
 		},
-		addPencil(state, options) {
-			state.pencils.push({color: options.color, width: options.width,});
-		},
-		selectPencil(state, options) {
-			if(options.id < state.pencils.length) {
-				state.selectedPencilId = options.id;
-			}
-			console.log("selectPencil");
-		},
-		selectNavbarTab(state, options) {
-			state.activeNavbarTab = options.id;
-		},
-		switchPencilSettings(state, options) {
-			state.openedPencilSettingsId = options.id;
-		},
-		closePencilSettings(state) {
-			state.openedPencilSettingsId = -1;
-		},
 		setPointer(state, options) {
 			state.pointer = options;
-		},
-		setScale(state, options) {
-			if(options.scale >= 0.1) {
-				state.loadedPage.scale = options.scale;
-			}
-		},
-		setTextBoxContent(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].content = options.content;
-		},
-		assignQuillToTextBox(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].quill = options.quill;
-		},
-		formatText(state, options) {
-			if(state.focusedObjectType == "textBoxes") {
-				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
-			}
 		},
 		focusObject(state, options) {
 			state.focusedObjectType = options.type;
@@ -152,6 +104,63 @@ export default {
 				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
 			}else {
 				console.log("no scroll y")
+			}
+		},
+		setScale(state, options) {
+			if(options.scale >= 0.1) {
+				state.loadedPage.scale = options.scale;
+			}
+		},
+
+		// Sketch
+		newSketch(state, color) {
+			state.loadedPage.objects.sketch.push({
+				coordinates: [],
+				color: JSON.parse(JSON.stringify(color)),
+			});
+		},
+		drawLine(state, options) {
+			options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
+		},
+		addPencil(state, options) {
+			state.pencils.push({color: options.color, width: options.width,});
+		},
+		selectPencil(state, options) {
+			if(options.id < state.pencils.length) {
+				state.selectedPencilId = options.id;
+			}
+			console.log("selectPencil");
+		},
+		switchPencilSettings(state, options) {
+			state.openedPencilSettingsId = options.id;
+		},
+		closePencilSettings(state) {
+			state.openedPencilSettingsId = -1;
+		},
+
+		// Text Boxes
+		newTextBox(state, options) {
+			console.log("newTextBox");
+			state.loadedPage.objects.textBoxes.push({
+				position: {
+					x: options.x,
+					y: options.y,
+					width: options.width,
+					height: options.height,
+				},
+				content: "",
+				quill: undefined,
+			});
+		},
+		setTextBoxContent(state, options) {
+			state.loadedPage.objects.textBoxes[options.id].content = options.content;
+		},
+		assignQuillToTextBox(state, options) {
+			state.loadedPage.objects.textBoxes[options.id].quill = options.quill;
+		},
+		formatText(state, options) {
+			if(state.focusedObjectType == "textBoxes") {
+				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
 			}
 		},
 	},
