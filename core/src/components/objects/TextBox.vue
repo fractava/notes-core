@@ -8,10 +8,14 @@
 			:h="textBox.position.height"
 			:x="textBox.position.x"
 			:y="textBox.position.y"
+			:minHeight="50"
+			:minWidth="50"
 			@dragging="onDrag"
 			@resizing="onResize"
 			:parent="false"
 			:active="active"
+			:maxX="loadedPage.size.x"
+			:maxY="loadedPage.size.y"
 		>
 			<quill
 				class="textBox"
