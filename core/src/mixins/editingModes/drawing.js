@@ -1,8 +1,8 @@
 import { mapState, mapGetters } from "vuex";
 
-export const Sketch = {
+export const drawing = {
 	methods: {
-		sketchPointerDown: function(event) {
+		drawingPointerDown: function(event) {
 			this.$store.commit("newSketch", this.selectedPencil.color, {module: "core" });
 
 			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
@@ -11,15 +11,15 @@ export const Sketch = {
 
 			this.$store.commit("closePencilSettings", {}, {module: "core" });
 		},
-		sketchPointerMove: function(event) {
+		drawingPointerMove: function(event) {
 			if(this.shouldDrawLine(this.pointer.x, this.pointer.y, event)) {
 				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
 			}
 		},
-		sketchPointerUp: function(event) {
+		drawingPointerUp: function(event) {
 
 		},
-		sketchPointerLeave: function(event) {
+		drawingPointerLeave: function(event) {
 
 		},
 		shouldDrawLine: function(x, y, event) {
