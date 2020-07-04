@@ -1,29 +1,41 @@
 <template>
 	<div
 		class="textBoxContainer"
-		:style="{top: this.textBox.position.y + 'px', left: this.textBox.position.x + 'px', width: this.textBox.position.width + 'px', height: this.textBox.position.height + 'px',}"
 		:class="{disabled: disabled}"
 	>
-		<quill
-			class="textBox"
-			v-model="content"
-			@blur="onEditorBlur($event)"
-			@focus="onEditorFocus($event)"
-			@ready="onEditorReady($event)"
-			v-on:assign:quill="assignQuill"
-			:focused="focused"
-			:disabled="disabled"
-		/>
+		<vue-draggable-resizable
+			class="textBoxContainer"
+			:w="textBox.position.width"
+			:h="textBox.position.height"
+			:x="textBox.position.x"
+			:y="textBox.position.y"
+			@dragging="onDrag"
+			@resizing="onResize"
+			:parent="false">
+			<quill
+				class="textBox"
+				v-model="content"
+				@blur="onEditorBlur($event)"
+				@focus="onEditorFocus($event)"
+				@ready="onEditorReady($event)"
+				v-on:assign:quill="assignQuill"
+				:focused="focused"
+				:disabled="disabled"
+			/>
+		</vue-draggable-resizable>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import quill from "./quill.vue";
+import VueDraggableResizable from 'vue-draggable-resizable'
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
 
 export default {
 	components: {
 		quill,
+		VueDraggableResizable,
 	},
 	props: {
 		id: {
@@ -62,6 +74,12 @@ export default {
 		}),
 	},
 	methods: {
+		onResize: function (x, y, width, height) {
+
+		},
+		onDrag: function (x, y) {
+
+		},
 		onEditorFocus: function() {
 			this.active = true;
 			if(this.editingMode == "editing"){
@@ -86,6 +104,8 @@ export default {
 	.textBoxContainer {
 		position: absolute;
 		z-index: 2;
+		top: 0px;
+		left: 0px;
 	}
 	.textBox {
 		width: 100%;
