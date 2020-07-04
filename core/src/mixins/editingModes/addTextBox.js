@@ -17,10 +17,15 @@ export const addTextBox = {
 			this.addTextBoxEndCoordinates.y = this.pointer.y;
 		},
 		addTextBoxPointerUp: function(event) {
-			let width = this.addTextBoxEndCoordinates.x - this.addTextBoxStartCoordinates.x;
-			let height = this.addTextBoxEndCoordinates.y - this.addTextBoxStartCoordinates.y;
+			let startX = Math.min(this.addTextBoxEndCoordinates.x, this.addTextBoxStartCoordinates.x);
+			let endX = Math.max(this.addTextBoxEndCoordinates.x, this.addTextBoxStartCoordinates.x);
+			let startY = Math.min(this.addTextBoxEndCoordinates.y, this.addTextBoxStartCoordinates.y);
+			let endY = Math.max(this.addTextBoxEndCoordinates.y, this.addTextBoxStartCoordinates.y);
+
+			let width = endX - startX;
+			let height = endY - startY;
 			console.log(width, height);
-			this.$store.commit("newTextBox", {x: this.addTextBoxStartCoordinates.x, y: this.addTextBoxStartCoordinates.y, width, height,}, {module: "core" });
+			this.$store.commit("newTextBox", {x: startX, y: startY, width, height,}, {module: "core" });
 			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
 		},
 		addTextBoxPointerLeave: function() {

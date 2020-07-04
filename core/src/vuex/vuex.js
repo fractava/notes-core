@@ -7,16 +7,6 @@ export default {
 				sketch: [
 				],
 				textBoxes: [
-					{
-						position: {
-							x: 50,
-							y: 100,
-							width: 500,
-							height: 600,
-						},
-						content: "Dies ist ein Test",
-						quill: undefined,
-					},
 				],
 				forms: {
 				},
