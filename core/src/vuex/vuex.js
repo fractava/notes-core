@@ -163,6 +163,13 @@ export default {
 				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
 			}
 		},
+		insertText(state, options) {
+			if(state.focusedObjectType == "textBoxes") {
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				let selection = quill.getSelection();
+				quill.insertText(selection.index, options.text, {});
+			}
+		},
 	},
 	getters: {
 		// Page
