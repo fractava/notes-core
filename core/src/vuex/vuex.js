@@ -88,23 +88,23 @@ export default {
 				quill: undefined,
 			});
 		},
-		drawLine: function(state, options) {
+		drawLine(state, options) {
 			options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
 		},
-		setScrollOffset: function(state, options) {
+		setScrollOffset(state, options) {
 			state.loadedPage.scrollOffsetX = options.x;
 			state.loadedPage.scrollOffsetY = options.y;
 		},
-		addPencil: function(state, options) {
+		addPencil(state, options) {
 			state.pencils.push({color: options.color, width: options.width,});
 		},
-		selectPencil: function(state, options) {
+		selectPencil(state, options) {
 			if(options.id < state.pencils.length) {
 				state.selectedPencilId = options.id;
 			}
 			console.log("selectPencil");
 		},
-		selectNavbarTab: function(state, options) {
+		selectNavbarTab(state, options) {
 			state.activeNavbarTab = options.id;
 		},
 		switchPencilSettings(state, options) {
@@ -136,6 +136,23 @@ export default {
 			state.focusedObjectType = options.type;
 			state.focuseObjectId = options.id;
 			console.log(options);
+		},
+		scroll(state, options) {
+			if(options.x != undefined) {
+				console.log("scroll x");
+				state.loadedPage.scrollOffsetX = options.x;
+				document.getElementsByClassName("PageContainer")[0].scrollLeft = options.x * state.loadedPage.scale;
+				console.log(document.getElementsByClassName("PageContainer")[0].scrollLeft);
+			}else {
+				console.log("no scroll x");
+			}
+			if(options.y != undefined) {
+				console.log("scroll y");
+				state.loadedPage.scrollOffsetY = options.y;
+				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
+			}else {
+				console.log("no scroll y")
+			}
 		},
 	},
 	getters: {

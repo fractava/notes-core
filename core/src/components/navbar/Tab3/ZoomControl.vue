@@ -27,7 +27,9 @@ export default {
 			this.$store.commit("setScale", {scale: this.loadedPage.scale - 0.1,}, {module: "core" });
 		},
 		reset: function() {
+			console.log("reset");
 			this.$store.commit("setScale", {scale: 1,}, {module: "core" });
+			this.$store.commit("scroll", {x: 0, y: 0,}, {module: "core" });
 		},
 		snapToWidth: function() {
 			let bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
@@ -54,10 +56,8 @@ export default {
 			console.log(scale);
 
 			this.$store.commit("setScale", {scale,}, {module: "core" });
-
-			document.getElementsByClassName("PageContainer")[0].scrollLeft = mostLeft * scale;
-		}
-
+			this.$store.commit("scroll", {x: mostLeft,}, {module: "core" });
+		},
 	},
 	computed: mapState({
 		loadedPage: state => state.core.loadedPage,
