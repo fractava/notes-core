@@ -165,6 +165,12 @@ export default {
 		},
 	},
 	getters: {
+		// Page
+		focusedObject: (state) => (options) => {
+			return state.objects[state.focusedObjectType][state.focuseObjectId];
+		},
+
+		// Sketch
 		lastSketch: function (state) {
 			if(state.loadedPage.objects.sketch.length != 0) {
 				return state.loadedPage.objects.sketch[state.loadedPage.objects.sketch.length -1];
@@ -175,6 +181,8 @@ export default {
 		selectedPencil: function(state) {
 			return state.pencils[state.selectedPencilId];
 		},
+
+		// TextBoxes
 		textSelection: function(state) {
 			if(state.focusedObjectType == "textBoxes") {
 				if(state.loadedPage.objects.textBoxes[state.focuseObjectId].quill) {
@@ -192,11 +200,9 @@ export default {
 				return false;
 			}
 		},
-		focusedObject: (state) => (options) => {
-			return state.objects[state.focusedObjectType][state.focuseObjectId];
-		},
 	},
 	actions: {
+		// Page
 		pointerUp: function({ commit }) {
 			commit("setPointer", {down: false, x: false, y: false, pressure: false,});
 		},
