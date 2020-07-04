@@ -57,7 +57,7 @@ export default {
 		},
 		focusedObjectType: false,
 		focuseObjectId: false,
-		editingMode: "editing",
+		editingMode: "addTextBox",
 	},
 	mutations: {
 		// System
