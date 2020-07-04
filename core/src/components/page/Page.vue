@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import { Sketch } from "../../mixins/editingModes/sketch.js";
+import { drawing } from "../../mixins/editingModes/drawing.js";
+import { addTextBox } from "../../mixins/editingModes/addTextBox.js";
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import pageTitle from "../objects/PageTitle.vue";
@@ -28,7 +29,7 @@ export default {
 		pageTitle,
 		textBoxes,
 	},
-	mixins: [Sketch],
+	mixins: [drawing, addTextBox],
 	data: function() {
 		return {
 		};
@@ -42,9 +43,14 @@ export default {
 
 			this.setPointerPositionFromEvent(event);
 
-			if(this.editingMode == "drawing") {
-				this.sketchPointerDown(event);
-			}
+			switch(this.editingMode) {
+				case "drawing":
+					this.drawingPointerDown(event);
+					break;
+				case "addTextBox":
+					this.addTextBoxPointerDown(event);
+					break;
+			};
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -55,9 +61,14 @@ export default {
 
 				this.setPointerPositionFromEvent(event);
 
-				if(this.editingMode == "drawing") {
-					this.sketchPointerMove(event);
-				}
+				switch(this.editingMode) {
+					case "drawing":
+						this.drawingPointerMove(event);
+						break;
+					case "addTextBox":
+						this.addTextBoxPointerMove(event);
+						break;
+				};
 			}
 		},
 		pointerup: function(event) {
@@ -66,8 +77,13 @@ export default {
 				console.log(event);
 			}
 
-			if(this.editingMode == "drawing") {
-				this.sketchPointerUp(event);
+			switch(this.editingMode) {
+				case "drawing":
+					this.drawingPointerUp(event);
+					break;
+				case "addTextBox":
+					this.addTextBoxPointerUp(event);
+					break;
 			}
 
 			this.$store.dispatch("pointerUp");
@@ -78,8 +94,13 @@ export default {
 				console.log(event);
 			}
 
-			if(this.editingMode == "drawing") {
-				this.sketchPointerLeave(event);
+			switch(this.editingMode) {
+				case "drawing":
+					this.drawingPointerLeave(event);
+					break;
+					case "addTextBox":
+						this.addTextBoxPointerLeave(event);
+						break;
 			}
 
 			this.$store.dispatch("pointerUp");

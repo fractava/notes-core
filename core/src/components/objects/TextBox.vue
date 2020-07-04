@@ -91,7 +91,7 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
-	.disabled .ql-container {
+	/*.disabled .ql-container {
 		border: none !important;
-	}
+	}*/
 </style>
