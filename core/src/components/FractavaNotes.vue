@@ -44,9 +44,23 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .FractavaNotes {
     width: 100%;
     height: 100%;
+}
+.grid {
+	background-size: var(--backgroundSize) var(--backgroundSize) !important;
+	background-image:
+	linear-gradient(to right, rgba(0,0,0,0.2) 1px, transparent 1px),
+	linear-gradient(to bottom, rgba(0,0,0,0.2) 1px, transparent 1px) !important;
+}
+.dottedGrid {
+	background-size: var(--backgroundSize) var(--backgroundSize) !important;
+  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px) !important;
+}
+.lines {
+	background-size: var(--backgroundSize) var(--backgroundSize) !important;
+	background-image: linear-gradient(to bottom, rgba(0,0,0,0.2) 1px, transparent 1px) !important;
 }
 </style>

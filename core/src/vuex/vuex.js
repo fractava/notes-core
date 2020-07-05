@@ -16,6 +16,8 @@ export default {
 				},
 			},
 			background: {
+				type: "grid",
+				size: 50,
 			},
 			size: {
 				x: 4000,
@@ -101,6 +103,12 @@ export default {
 				state.loadedPage.scale = options.scale;
 			}
 		},
+		selectBackground(state, options) {
+			state.loadedPage.background.type = options.type;
+		},
+		setBackgroundSize(state, options) {
+			state.loadedPage.background.size = options.size;
+		},
 
 		// Sketch
 		newSketch(state, color) {
@@ -167,7 +175,7 @@ export default {
 			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
 				state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
 			}
-			
+
 			console.log(state.loadedPage.objects.textBoxes[options.id]);
 		},
 		resizeTextBox(state, options) {
