@@ -4,7 +4,7 @@
 				md-direction="bottom-start"
 				md-align-trigger
 				:md-active="openedPencilSettingsId == id"
-				class="selectPencilButton"
+				class="navbarButton"
 				v-on:click="select"
 				:class="{'md-raised': id == selectedPencilId}"
 			>
@@ -12,7 +12,7 @@
 					<md-icon :style="{color: pencils[id].color,}">create</md-icon>
 				</md-button>
 
-				<md-menu-content>
+				<md-menu-content class="navbarMenu">
 					<span>
 						Pencil Settings:
 						Color: {{ pencils[id].color }}

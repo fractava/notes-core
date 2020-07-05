@@ -64,10 +64,3 @@ export default {
 	}),
 };
 </script>
-
-<style scoped>
-.zoomControlButton {
-	height: 100%;
-	margin: 0px;
-}
-</style>

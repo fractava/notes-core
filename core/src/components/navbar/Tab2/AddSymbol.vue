@@ -3,7 +3,7 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
-				class="addSymbolButton"
+				class="navbarButton"
 			>
 				<md-button md-menu-trigger>
 					<md-icon>emoji_symbols</md-icon>
@@ -38,9 +38,6 @@ export default {
 };
 </script>
 <style>
-.addSymbolButton, .addSymbolButton button {
-	height: 100%;
-}
 .symbolsContainer {
 	display: grid;
   grid-template-columns: 25% 25% 25% 25%;

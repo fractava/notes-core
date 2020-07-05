@@ -3,7 +3,7 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
-				class="backgroundSelector navbarButton"
+				class="navbarButton"
 			>
 				<md-button
 					md-menu-trigger
@@ -11,7 +11,7 @@
 					<md-icon>border_all</md-icon>
 				</md-button>
 
-				<md-menu-content class="symbolsMenu">
+				<md-menu-content class="navbarMenu">
 					<span>
 						<span class="md-headline">Page Background:</span>
 						<div class="backgroundsContainer">
