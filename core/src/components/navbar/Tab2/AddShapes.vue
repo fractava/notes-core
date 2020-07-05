@@ -4,13 +4,13 @@
 				md-direction="bottom-start"
 				md-align-trigger
 				md-close-on-click
-				class="addFormButton"
+				class="navbarButton"
 			>
 				<md-button md-menu-trigger>
 					<md-icon>category</md-icon>
 				</md-button>
 
-				<md-menu-content class="addFormMenu">
+				<md-menu-content class="navbarMenu">
 					<span>
 						<div class="addFormContainer">
 							<md-button v-on:click="add('circle')">
@@ -32,7 +32,6 @@ import { mapState, mapGetters } from "vuex";
 export default {
 	methods: {
 		add: function(type) {
-			//this.$store.commit("addShape", {type, x: 100, y: 100, width: 100, height: 200, }, {module: "core" });
 			this.$store.commit("switchEditingMode", {mode: "addShape", information: type,}, {module: "core" });
 		},
 	},
@@ -43,8 +42,3 @@ export default {
 	},
 };
 </script>
-<style scoped>
-.addFormButton, .addFormButton button {
-	height: 100%;
-}
-</style>

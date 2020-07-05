@@ -2,7 +2,7 @@ export default {
 	state: {
 		debug: false,
 		loadedPage: {
-			title: "Baum",
+			title: "",
 			objects: {
 				sketch: [
 				],
@@ -184,7 +184,7 @@ export default {
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
 		},
 
-		// Forms
+		// Shapes
 		newShape(state, options) {
 			console.log("newShape");
 			state.loadedPage.objects.shapes.push({
