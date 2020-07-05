@@ -1,5 +1,11 @@
 <template>
 	<div class="zoomControlContainer">
+		<md-button class="zoomControlButton" v-on:click="undo">
+			<md-icon>undo</md-icon>
+		</md-button>
+		<md-button class="zoomControlButton" v-on:click="redo">
+			<md-icon>redo</md-icon>
+		</md-button>
 		<md-button class="zoomControlButton" v-on:click="plus">
 			<md-icon>add</md-icon>
 		</md-button>
@@ -20,6 +26,12 @@ import { mapState } from "vuex";
 
 export default {
 	methods: {
+		undo: function() {
+			this.$store.dispatch("restoreHistory", -1);
+		},
+		redo: function() {
+			this.$store.dispatch("restoreHistory", 1);
+		},
 		plus: function() {
 			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: "core" });
 		},
