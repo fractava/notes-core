@@ -108,9 +108,10 @@ export default {
 <style>
 	.textBoxContainer {
 		position: absolute;
-		z-index: 2;
 		top: 0px;
 		left: 0px;
+		width: 0px;
+    height: 0px;
 	}
 	.textBox {
 		width: 100%;
