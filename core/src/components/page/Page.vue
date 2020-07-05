@@ -10,8 +10,9 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
-			<sketches />
-			<textBoxes />
+			<sketches class="collectionContainer" />
+			<textBoxes class="collectionContainer" />
+			<shapes class="collectionContainer" />
 	</div>
   </div>
 </template>
@@ -19,8 +20,10 @@
 <script>
 import { drawing } from "../../mixins/editingModes/drawing.js";
 import { addTextBox } from "../../mixins/editingModes/addTextBox.js";
+import { addShape } from "../../mixins/editingModes/addShape.js";
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
+import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
 
@@ -29,8 +32,9 @@ export default {
 		Sketches,
 		pageTitle,
 		textBoxes,
+		shapes,
 	},
-	mixins: [drawing, addTextBox],
+	mixins: [drawing, addTextBox, addShape],
 	data: function() {
 		return {
 		};
@@ -51,6 +55,9 @@ export default {
 				case "addTextBox":
 					this.addTextBoxPointerDown(event);
 					break;
+				case "addShape":
+					this.addShapePointerDown(event);
+					break;
 			};
 		},
 		pointermove: function(event) {
@@ -69,6 +76,9 @@ export default {
 					case "addTextBox":
 						this.addTextBoxPointerMove(event);
 						break;
+					case "addShape":
+						this.addShapePointerMove(event);
+						break;
 				};
 			}
 		},
@@ -84,6 +94,9 @@ export default {
 					break;
 				case "addTextBox":
 					this.addTextBoxPointerUp(event);
+					break;
+				case "addShape":
+					this.addShapePointerUp(event);
 					break;
 			}
 
@@ -101,6 +114,9 @@ export default {
 					break;
 					case "addTextBox":
 						this.addTextBoxPointerLeave(event);
+						break;
+					case "addShape":
+						this.addShapePointerLeave(event);
 						break;
 			}
 
@@ -137,6 +153,7 @@ export default {
 			scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
 			scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
 			editingMode: state => state.core.editingMode,
+			editingModeAdditionalInformation: state => state.core.editingModeAdditionalInformation,
 			pointer: state => state.core.pointer,
 		}),
 		...mapGetters([
@@ -154,8 +171,9 @@ export default {
 	transform-origin: left top;
 	transition: all 1s ease 0s;
 }
-.sketch {
-    width: 100%;
-    position: relative;
+.collectionContainer {
+		position: absolute;
+    top: 0px;
+    left: 0px;
 }
 </style>

@@ -3,6 +3,7 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
+				md-close-on-click
 				class="addFormButton"
 			>
 				<md-button md-menu-trigger>
@@ -31,7 +32,8 @@ import { mapState, mapGetters } from "vuex";
 export default {
 	methods: {
 		add: function(type) {
-			this.$store.commit("addForm", {type,}, {module: "core" });
+			//this.$store.commit("addShape", {type, x: 100, y: 100, width: 100, height: 200, }, {module: "core" });
+			this.$store.commit("switchEditingMode", {mode: "addShape", information: type,}, {module: "core" });
 		},
 	},
 	computed: {

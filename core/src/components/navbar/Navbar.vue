@@ -16,7 +16,7 @@
             </tab>
 						<tab id="2" style="display: flex; flex-direction: row;">
 							<add-text-box />
-							<add-forms />
+							<add-shapes />
 							<add-symbol />
 						</tab>
 						<tab id="3" style="display: flex; flex-direction: row;">
@@ -42,7 +42,7 @@ import pencilSelector from "./Tab1/PencilSelector.vue";
 // Tab 2
 import addTextBox from "./Tab2/AddTextBox.vue";
 import addSymbol from "./Tab2/AddSymbol.vue";
-import addForms from "./Tab2/AddForms.vue";
+import addShapes from "./Tab2/AddShapes.vue";
 
 // Tab 3
 import zoomControl from "./Tab3/ZoomControl.vue";
@@ -61,7 +61,7 @@ export default {
 		quillToolbar,
 		addTextBox,
 		addSymbol,
-		addForms,
+		addShapes,
 	},
 	data: function() {
 		return {

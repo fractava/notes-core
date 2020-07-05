@@ -8,12 +8,12 @@ export default {
 				],
 				textBoxes: [
 				],
-				forms: {
-				},
-				images: {
-				},
-				files: {
-				},
+				shapes: [
+				],
+				images: [
+				],
+				files: [
+				],
 			},
 			background: {
 				type: "grid",
@@ -50,6 +50,7 @@ export default {
 		focusedObjectType: false,
 		focuseObjectId: false,
 		editingMode: "addTextBox",
+		editingModeAdditionalInformation: "",
 	},
 	mutations: {
 		// System
@@ -65,6 +66,7 @@ export default {
 		// Page
 		switchEditingMode(state, options) {
 			state.editingMode = options.mode;
+			state.editingModeAdditionalInformation = options.information;
 		},
 		setPageTitle(state, options) {
 			state.loadedPage.title = options.title;
@@ -181,6 +183,20 @@ export default {
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
+		},
+
+		// Forms
+		newShape(state, options) {
+			console.log("newShape");
+			state.loadedPage.objects.shapes.push({
+				type: options.type,
+				position: {
+					x: options.x,
+					y: options.y,
+					width: options.width,
+					height: options.height,
+				},
+			});
 		},
 	},
 	getters: {
