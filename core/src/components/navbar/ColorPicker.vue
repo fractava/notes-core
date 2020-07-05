@@ -3,16 +3,13 @@
 	class="sketchPicker"
 	@input="update"
 	:value="color"
-	:presetColors="[
-		'#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'
-	]"
+	:presetColors="presetColors"
 	></sketch-picker>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 import { Sketch } from "vue-color";
-
-console.log(Sketch);
 
 export default {
 	components: {
@@ -26,8 +23,13 @@ export default {
 	},
 	methods: {
 		update: function(color) {
-			console.log(color);
+			this.$emit('update', color);
 		},
+	},
+	computed: {
+		...mapState({
+			presetColors: state => state.core.presetColors,
+		}),
 	},
 };
 </script>
@@ -35,5 +37,12 @@ export default {
 <style>
 .sketchPicker {
 	z-index: 1;
+}
+.vc-sketch {
+	box-shadow: none !important;
+}
+.vc-sketch-presets {
+	display: flex;
+	flex-wrap: wrap;
 }
 </style>

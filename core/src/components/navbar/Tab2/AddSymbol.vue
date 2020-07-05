@@ -9,7 +9,7 @@
 					<md-icon>emoji_symbols</md-icon>
 				</md-button>
 
-				<md-menu-content class="symbolsMenu">
+				<md-menu-content class="navbarMenu">
 					<span>
 						<span class="md-headline">Symbols:</span>
 						<div class="symbolsContainer">
@@ -45,11 +45,5 @@ export default {
 	display: grid;
   grid-template-columns: 25% 25% 25% 25%;
 	width: fit-content;
-}
-.symbolsMenu, .symbolsMenu .md-menu-content-container {
-	min-width: fit-content;
-	max-width: fit-content !important;
-  height: fit-content;
-	max-width: 60vh;
 }
 </style>

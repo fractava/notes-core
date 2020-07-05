@@ -51,6 +51,7 @@ export default {
 		focuseObjectId: false,
 		editingMode: "addTextBox",
 		editingModeAdditionalInformation: "",
+		presetColors:['#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'],
 	},
 	mutations: {
 		// System
@@ -194,6 +195,10 @@ export default {
 					width: options.width,
 					height: options.height,
 				},
+				color: {
+					stroke: "#000000",
+					fill: "#ffffff00",
+				},
 			});
 		},
 		moveShape(state, options) {
@@ -207,6 +212,12 @@ export default {
 		resizeShape(state, options) {
 			state.loadedPage.objects.shapes[options.id].position.width = options.width;
 			state.loadedPage.objects.shapes[options.id].position.height = options.height;
+		},
+		setFillColor(state, options) {
+			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
+		},
+		setStrokeColor(state, options) {
+			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
 	},
 	getters: {

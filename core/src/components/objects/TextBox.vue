@@ -14,7 +14,7 @@
 			@resizing="onResize"
 			@deactivated="deactivate"
 			:parent="false"
-			:active="active"
+			:enabled="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
 		>

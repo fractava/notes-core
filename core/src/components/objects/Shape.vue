@@ -11,7 +11,7 @@
 			@resizing="onResize"
 			@deactivated="deactivate"
 			:parent="false"
-			:active="active"
+			:enabled="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
 		>
@@ -19,12 +19,14 @@
 				class="shape"
 				v-if="shape.type=='square'"
 				style="border: 4px solid;"
+				:style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
 				v-on:click="activate"
 			/>
 			<div
 				class="shape"
 				v-if="shape.type=='circle'"
 				style="border: 4px solid; border-radius: 100%;"
+				:style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
 				v-on:click="activate"
 			/>
 		</draggable-resizable>

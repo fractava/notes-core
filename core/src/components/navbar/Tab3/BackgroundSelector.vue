@@ -3,7 +3,7 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
-				class="backgroundSelector"
+				class="backgroundSelector navbarButton"
 			>
 				<md-button
 					md-menu-trigger
@@ -72,9 +72,6 @@ export default {
 };
 </script>
 <style scoped>
-.backgroundSelector, .backgroundSelector button {
-	height: 100%;
-}
 .sizeSlider {
 	width: 90%;
 }
