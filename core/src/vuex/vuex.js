@@ -177,8 +177,6 @@ export default {
 			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
 				state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
 			}
-
-			console.log(state.loadedPage.objects.textBoxes[options.id]);
 		},
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
@@ -197,6 +195,18 @@ export default {
 					height: options.height,
 				},
 			});
+		},
+		moveShape(state, options) {
+			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
+				state.loadedPage.objects.shapes[options.id].position.x = options.x;
+			}
+			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
+				state.loadedPage.objects.shapes[options.id].position.y = options.y;
+			}
+		},
+		resizeShape(state, options) {
+			state.loadedPage.objects.shapes[options.id].position.width = options.width;
+			state.loadedPage.objects.shapes[options.id].position.height = options.height;
 		},
 	},
 	getters: {

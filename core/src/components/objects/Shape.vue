@@ -9,21 +9,23 @@
 			:minWidth="50"
 			@dragging="onDrag"
 			@resizing="onResize"
+			@deactivated="deactivate"
 			:parent="false"
 			:active="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
-			v-on:click="activate"
 		>
 			<div
 				class="shape"
 				v-if="shape.type=='square'"
 				style="border: 4px solid;"
+				v-on:click="activate"
 			/>
 			<div
 				class="shape"
 				v-if="shape.type=='circle'"
 				style="border: 4px solid; border-radius: 100%;"
+				v-on:click="activate"
 			/>
 		</draggable-resizable>
 	</div>
@@ -41,22 +43,25 @@ export default {
 			type: Number,
 		},
 	},
-	data: function() {
-		return {
-			active: false,
-		};
-	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
+			focusedObjectType: state => state.core.focusedObjectType,
+			focuseObjectId: state => state.core.focuseObjectId,
 		}),
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
+		},
+		active: function() {
+			return this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
 		},
 	},
 	methods: {
 		activate: function() {
 			this.$store.commit("focusObject", {type: "shapes", id: this.id,}, {module: "core" });
+		},
+		deactivate: function() {
+			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
 		onResize: function (x, y, width, height) {
 			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });

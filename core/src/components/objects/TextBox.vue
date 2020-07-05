@@ -12,6 +12,7 @@
 			:minWidth="50"
 			@dragging="onDrag"
 			@resizing="onResize"
+			@deactivated="deactivate"
 			:parent="false"
 			:active="active"
 			:maxX="loadedPage.size.x"
@@ -96,6 +97,9 @@ export default {
 		},
 		onEditorBlur: function() {
 			this.active = false;
+			this.deactivate();
+		},
+		deactivate: function() {
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
 		assignQuill: function(quill) {
