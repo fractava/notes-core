@@ -181,8 +181,6 @@ export default {
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
-
-			console.log(state.loadedPage.objects.textBoxes[options.id]);
 		},
 	},
 	getters: {
