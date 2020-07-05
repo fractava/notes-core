@@ -3,13 +3,13 @@
 			<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
-				class="addSymbolButton"
+				class="navbarButton"
 			>
 				<md-button md-menu-trigger>
 					<md-icon>emoji_symbols</md-icon>
 				</md-button>
 
-				<md-menu-content class="symbolsMenu">
+				<md-menu-content class="navbarMenu">
 					<span>
 						<span class="md-headline">Symbols:</span>
 						<div class="symbolsContainer">
@@ -38,18 +38,9 @@ export default {
 };
 </script>
 <style>
-.addSymbolButton, .addSymbolButton button {
-	height: 100%;
-}
 .symbolsContainer {
 	display: grid;
   grid-template-columns: 25% 25% 25% 25%;
 	width: fit-content;
-}
-.symbolsMenu, .symbolsMenu .md-menu-content-container {
-	min-width: fit-content;
-	max-width: fit-content !important;
-  height: fit-content;
-	max-width: 60vh;
 }
 </style>

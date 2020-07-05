@@ -103,7 +103,7 @@ export default {
       type: Boolean,
       default: false
     },
-    active: {
+    enabled: {
       type: Boolean,
       default: false
     },
@@ -258,7 +258,6 @@ export default {
       maxH: this.maxHeight,
 
       handle: null,
-      enabled: this.active,
       resizing: false,
       dragging: false,
       zIndex: this.z
@@ -375,13 +374,6 @@ export default {
           return
         }
 
-        if (!this.enabled) {
-          this.enabled = true
-
-          this.$emit('activated')
-          this.$emit('update:active', true)
-        }
-
         if (this.draggable) {
           this.dragging = true
         }
@@ -419,13 +411,6 @@ export default {
       const regex = new RegExp(this.className + '-([trmbl]{2})', '')
 
       if (!this.$el.contains(target) && !regex.test(target.className)) {
-        if (this.enabled && !this.preventDeactivation) {
-          this.enabled = false
-
-          this.$emit('deactivated')
-          this.$emit('update:active', false)
-        }
-
         removeEvent(document.documentElement, eventsFor.move, this.handleResize)
       }
 
@@ -835,15 +820,6 @@ export default {
   },
 
   watch: {
-    active (val) {
-      this.enabled = val
-
-      if (val) {
-        this.$emit('activated')
-      } else {
-        this.$emit('deactivated')
-      }
-    },
     z (val) {
       if (val >= 0 || val === 'auto') {
         this.zIndex = val

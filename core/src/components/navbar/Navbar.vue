@@ -9,6 +9,7 @@
         <div class="navbarContent">
             <tab id="0">
 								<quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
+								<shape-toolbar v-if="focusedObjectType == 'shapes'" />
             </tab>
             <tab id="1" style="display: flex; flex-direction: row;">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -16,13 +17,13 @@
             </tab>
 						<tab id="2" style="display: flex; flex-direction: row;">
 							<add-text-box />
+							<add-shapes />
 							<add-symbol />
 						</tab>
-			<tab id="2"></tab>
-			<tab id="3" style="display: flex; flex-direction: row;"">
-				<zoom-control/>
-				<background-selector />
-			</tab>
+						<tab id="3" style="display: flex; flex-direction: row;">
+							<zoom-control/>
+							<background-selector />
+						</tab>
         </div>
     </div>
 </template>
@@ -34,6 +35,7 @@ import tab from "./Tab.vue";
 
 // Tab 0
 import quillToolbar from "./Tab0/QuillToolbar.vue";
+import shapeToolbar from "./Tab0/ShapeToolbar.vue";
 
 // Tab 1
 import addPencil from "./Tab1/AddPencil.vue";
@@ -42,6 +44,7 @@ import pencilSelector from "./Tab1/PencilSelector.vue";
 // Tab 2
 import addTextBox from "./Tab2/AddTextBox.vue";
 import addSymbol from "./Tab2/AddSymbol.vue";
+import addShapes from "./Tab2/AddShapes.vue";
 
 // Tab 3
 import zoomControl from "./Tab3/ZoomControl.vue";
@@ -58,8 +61,10 @@ export default {
 		zoomControl,
 		backgroundSelector,
 		quillToolbar,
+		shapeToolbar,
 		addTextBox,
 		addSymbol,
+		addShapes,
 	},
 	data: function() {
 		return {
@@ -74,7 +79,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .navbar {
     background-color: #F8F8F8;
     height: 100%;
@@ -87,5 +92,15 @@ export default {
 }
 .navbarContent {
     height: 100%;
+}
+.navbarButton, .navbarButton button {
+	height: 100% !important;
+	margin: 0px !important;
+}
+.navbarMenu, .md-menu-content-container, .md-list {
+	min-width: fit-content !important;
+	max-width: fit-content !important;
+  height: fit-content;
+	max-width: 60vh;
 }
 </style>

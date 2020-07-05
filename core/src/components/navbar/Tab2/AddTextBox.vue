@@ -1,5 +1,5 @@
 <template>
-	<md-button class="addTextBoxButton" v-on:click="add">
+	<md-button class="navbarButton" v-on:click="add">
 			<md-icon>post_add</md-icon>
 	</md-button>
 </template>

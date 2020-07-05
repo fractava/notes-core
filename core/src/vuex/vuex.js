@@ -2,18 +2,18 @@ export default {
 	state: {
 		debug: false,
 		loadedPage: {
-			title: "Baum",
+			title: "",
 			objects: {
 				sketch: [
 				],
 				textBoxes: [
 				],
-				forms: {
-				},
-				images: {
-				},
-				files: {
-				},
+				shapes: [
+				],
+				images: [
+				],
+				files: [
+				],
 			},
 			background: {
 				type: "grid",
@@ -50,6 +50,8 @@ export default {
 		focusedObjectType: false,
 		focuseObjectId: false,
 		editingMode: "addTextBox",
+		editingModeAdditionalInformation: "",
+		presetColors:['#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'],
 	},
 	mutations: {
 		// System
@@ -65,6 +67,7 @@ export default {
 		// Page
 		switchEditingMode(state, options) {
 			state.editingMode = options.mode;
+			state.editingModeAdditionalInformation = options.information;
 		},
 		setPageTitle(state, options) {
 			state.loadedPage.title = options.title;
@@ -175,12 +178,46 @@ export default {
 			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
 				state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
 			}
-
-			console.log(state.loadedPage.objects.textBoxes[options.id]);
 		},
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
+		},
+
+		// Shapes
+		newShape(state, options) {
+			console.log("newShape");
+			state.loadedPage.objects.shapes.push({
+				type: options.type,
+				position: {
+					x: options.x,
+					y: options.y,
+					width: options.width,
+					height: options.height,
+				},
+				color: {
+					stroke: "#000000",
+					fill: "#ffffff00",
+				},
+			});
+		},
+		moveShape(state, options) {
+			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
+				state.loadedPage.objects.shapes[options.id].position.x = options.x;
+			}
+			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
+				state.loadedPage.objects.shapes[options.id].position.y = options.y;
+			}
+		},
+		resizeShape(state, options) {
+			state.loadedPage.objects.shapes[options.id].position.width = options.width;
+			state.loadedPage.objects.shapes[options.id].position.height = options.height;
+		},
+		setFillColor(state, options) {
+			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
+		},
+		setStrokeColor(state, options) {
+			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
 	},
 	getters: {

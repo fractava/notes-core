@@ -1,15 +1,15 @@
 <template>
 	<div class="zoomControlContainer">
-		<md-button class="zoomControlButton" v-on:click="plus">
+		<md-button class="navbarButton" v-on:click="plus">
 			<md-icon>add</md-icon>
 		</md-button>
-		<md-button class="zoomControlButton" v-on:click="minus">
+		<md-button class="navbarButton" v-on:click="minus">
 			<md-icon>remove</md-icon>
 		</md-button>
-		<md-button class="zoomControlButton" v-on:click="reset">
+		<md-button class="navbarButton" v-on:click="reset">
 			<md-icon>highlight_alt</md-icon>
 		</md-button>
-		<md-button class="zoomControlButton" v-on:click="snapToWidth">
+		<md-button class="navbarButton" v-on:click="snapToWidth">
 			<md-icon>highlight_alt</md-icon>
 		</md-button>
 	</div>
@@ -64,13 +64,3 @@ export default {
 	}),
 };
 </script>
-
-<style scoped>
-.zoomControlContainer {
-	height: 100%;
-}
-.zoomControlButton {
-	height: 100%;
-	margin: 0px;
-}
-</style>
