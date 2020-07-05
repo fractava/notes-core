@@ -11,7 +11,7 @@
                 <quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
             </tab>
             <tab id="1" class="tab-flex">
-                <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
+                <pencil-selector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencil-selector>
                 <add-pencil/>
             </tab>
             <tab id="2" class="tab-flex">
@@ -28,37 +28,37 @@
 
 <script>
 // miscellaneous
-import tabSelector from "./TabSelector.vue";
-import tab from "./Tab.vue";
+import TabSelector from "./TabSelector.vue";
+import Tab from "./Tab.vue";
 
 // MultiTab
 import HistoryControl from "./MultiTab/HistoryControl";
 
 // Tab 0
-import quillToolbar from "./Tab0/QuillToolbar.vue";
+import QuillToolbar from "./Tab0/QuillToolbar.vue";
 
 // Tab 1
-import addPencil from "./Tab1/AddPencil.vue";
-import pencilSelector from "./Tab1/PencilSelector.vue";
+import AddPencil from "./Tab1/AddPencil.vue";
+import PencilSelector from "./Tab1/PencilSelector.vue";
 
 // Tab 2
-import addTextBox from "./Tab2/AddTextBox.vue";
+import AddTextBox from "./Tab2/AddTextBox.vue";
 
 // Tab 3
-import zoomControl from "./Tab3/ZoomControl.vue";
+import ZoomControl from "./Tab3/ZoomControl.vue";
 
 import { mapState } from "vuex";
 
 export default {
 	components: {
 		HistoryControl,
-		tabSelector,
-		tab,
-		pencilSelector,
-		addPencil,
-		zoomControl,
-		quillToolbar,
-		addTextBox,
+		TabSelector,
+		Tab,
+		PencilSelector,
+		AddPencil,
+		ZoomControl,
+		QuillToolbar,
+		AddTextBox,
 	},
 	data: function() {
 		return {
@@ -80,10 +80,7 @@ export default {
     display: flex;
     flex-direction: column;
 }
-.navbarTabs {
-    height: 20%;
-    display: flex;
-}
+
 .navbarContent {
     height: 100%;
 }
