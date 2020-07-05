@@ -11,7 +11,15 @@
 
 <script>
 export default {
-	name: "HistoryControl"
+	name: "HistoryControl",
+	methods: {
+		undo: function() {
+			this.$store.dispatch("restoreHistory", -1);
+		},
+		redo: function() {
+			this.$store.dispatch("restoreHistory", 1);
+		},
+	}
 };
 </script>
 

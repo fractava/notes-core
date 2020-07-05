@@ -20,12 +20,6 @@ import { mapState } from "vuex";
 
 export default {
 	methods: {
-		undo: function() {
-			this.$store.dispatch("restoreHistory", -1);
-		},
-		redo: function() {
-			this.$store.dispatch("restoreHistory", 1);
-		},
 		plus: function() {
 			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: "core" });
 		},
