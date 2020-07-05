@@ -8,17 +8,18 @@
         </md-tabs>
         <div class="navbarContent">
             <tab id="0">
-								<quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
+                <quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
             </tab>
-            <tab id="1" style="display: flex; flex-direction: row;">
+            <tab id="1" class="tab-flex">
                 <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
                 <add-pencil/>
             </tab>
-						<tab id="2" style="display: flex; flex-direction: row;">
-							<add-text-box />
-						</tab>
-			<tab id="2"></tab>
-			<tab id="3">
+            <tab id="2" class="tab-flex">
+                <history-control />
+                <add-text-box />
+            </tab>
+			<tab id="3" class="tab-flex">
+                <history-control />
 				<zoom-control/>
 			</tab>
         </div>
@@ -29,6 +30,9 @@
 // miscellaneous
 import tabSelector from "./TabSelector.vue";
 import tab from "./Tab.vue";
+
+// MultiTab
+import HistoryControl from "./MultiTab/HistoryControl";
 
 // Tab 0
 import quillToolbar from "./Tab0/QuillToolbar.vue";
@@ -47,6 +51,7 @@ import { mapState } from "vuex";
 
 export default {
 	components: {
+		HistoryControl,
 		tabSelector,
 		tab,
 		pencilSelector,
@@ -81,5 +86,10 @@ export default {
 }
 .navbarContent {
     height: 100%;
+}
+
+.tab-flex {
+    display: flex;
+    flex-direction: row;
 }
 </style>

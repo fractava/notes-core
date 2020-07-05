@@ -1,11 +1,5 @@
 <template>
 	<div class="zoomControlContainer">
-		<md-button class="zoomControlButton" v-on:click="undo">
-			<md-icon>undo</md-icon>
-		</md-button>
-		<md-button class="zoomControlButton" v-on:click="redo">
-			<md-icon>redo</md-icon>
-		</md-button>
 		<md-button class="zoomControlButton" v-on:click="plus">
 			<md-icon>add</md-icon>
 		</md-button>
