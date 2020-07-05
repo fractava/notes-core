@@ -19,8 +19,9 @@
 							<add-symbol />
 						</tab>
 			<tab id="2"></tab>
-			<tab id="3">
+			<tab id="3" style="display: flex; flex-direction: row;"">
 				<zoom-control/>
+				<background-selector />
 			</tab>
         </div>
     </div>
@@ -44,6 +45,7 @@ import addSymbol from "./Tab2/AddSymbol.vue";
 
 // Tab 3
 import zoomControl from "./Tab3/ZoomControl.vue";
+import backgroundSelector from "./Tab3/BackgroundSelector.vue";
 
 import { mapState } from "vuex";
 
@@ -54,6 +56,7 @@ export default {
 		pencilSelector,
 		addPencil,
 		zoomControl,
+		backgroundSelector,
 		quillToolbar,
 		addTextBox,
 		addSymbol,

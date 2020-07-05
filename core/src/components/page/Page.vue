@@ -2,11 +2,12 @@
 	<div class="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
 		<div
 			class="Page"
+			:class="[loadedPage.background.type]"
 			v-on:pointerdown="pointerdown"
 			v-on:pointermove="pointermove"
 			v-on:pointerup="pointerup"
 			v-on:pointerleave="pointerleave"
-			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')'}"
+			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
 			<sketches />
