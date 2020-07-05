@@ -35,6 +35,15 @@ export default {
 			scrollOffsetY: 0,
 			scale: 1,
 		},
+		historyStep: 0,
+		history: [
+			{
+				location: 0,
+				type: "textBox",
+				oldValue: "Test",
+				newValue: "Neu"
+			}
+		],
 		navbarHeight: 10,
 		pencils: [
 			{
@@ -103,7 +112,7 @@ export default {
 				state.loadedPage.scrollOffsetY = options.y;
 				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
 			}else {
-				console.log("no scroll y")
+				console.log("no scroll y");
 			}
 		},
 		setScale(state, options) {
@@ -163,6 +172,18 @@ export default {
 				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
 			}
 		},
+		// History
+		pushHistory(state, action) {
+			state.history.push(action);
+		},
+		clearHistory(state, index) {
+			for(let i = 0; i > index; i--) {
+				state.history.pop();
+			}
+		},
+		setHistoryStep(state, historyStep) {
+			state.historyStep = historyStep;
+		}
 	},
 	getters: {
 		// Page
@@ -206,5 +227,38 @@ export default {
 		pointerUp: function({ commit }) {
 			commit("setPointer", {down: false, x: false, y: false, pressure: false,});
 		},
+		pushHistory({commit, state}, action) {
+			const isHistoryDirty = () => state.historyStep < 0;
+
+			if (isHistoryDirty()) {
+				commit("clearHistory", state.historyStep);
+			}
+			commit("pushHistory", action);
+		},
+		restoreHistory({commit, state}, delta) {
+			let historyIndex = state.history.length - state.historyStep + delta;
+			console.log(state.history);
+			console.log(historyIndex);
+			let historyObject = state.history[historyIndex];
+			console.log(historyObject);
+			switch (historyObject.type) {
+			case "textBox":
+				this.dispatch("setTextBoxContent", { id: historyObject.location, content: delta < 1 ? historyObject.oldValue : historyObject.newValue, ignoreHistory: true });
+				break;
+			}
+			commit("setHistoryStep", historyIndex);
+		},
+		setTextBoxContent({commit, state}, options) {
+			if (!options.ignoreHistory) {
+				this.dispatch("pushHistory", {
+					type: "textBox",
+					location: options.id,
+					newValue: options.content,
+					oldValue: state.loadedPage.objects.textBoxes[options.id].content
+				});
+			}
+
+			commit("setTextBoxContent", options, {module: "core"});
+		}
 	}
 };

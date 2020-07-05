@@ -45,7 +45,7 @@ export default {
 		},
 		content: {
 			set(content) {
-				this.$store.commit("setTextBoxContent", { id: this.id, content }, {module: "core" });
+				this.$store.dispatch("setTextBoxContent", { id: this.id, content, ignoreHistory: false });
 			},
 			get() {
 				return this.textBox.content;
