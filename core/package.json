@@ -25,7 +25,8 @@
     "font-detective": "^2.0.0",
     "vue-color": "^2.7.1",
     "vue-material": "^1.0.0-beta-14",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "^3.0.6",
+    "vuex-undo-redo": "^1.1.4"
   },
   "devDependencies": {
     "eslint": "^7.3.0",
