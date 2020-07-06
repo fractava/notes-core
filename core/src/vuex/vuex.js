@@ -89,23 +89,17 @@ export default {
 		focusObject(state, options) {
 			state.focusedObjectType = options.type;
 			state.focuseObjectId = options.id;
-			console.log(options);
 		},
 		scroll(state, options) {
 			if(options.x != undefined) {
-				console.log("scroll x");
 				state.loadedPage.scrollOffsetX = options.x;
 				document.getElementsByClassName("PageContainer")[0].scrollLeft = options.x * state.loadedPage.scale;
-				console.log(document.getElementsByClassName("PageContainer")[0].scrollLeft);
 			}else {
-				console.log("no scroll x");
 			}
 			if(options.y != undefined) {
-				console.log("scroll y");
 				state.loadedPage.scrollOffsetY = options.y;
 				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
 			}else {
-				console.log("no scroll y");
 			}
 		},
 		setScale(state, options) {
@@ -174,7 +168,6 @@ export default {
 		removeFormat(state) {
 			if(state.focusedObjectType == "textBoxes") {
 				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
-				console.log(quill);
 				let selection = quill.getSelection();
 
 				quill.removeFormat(selection.index, selection.length, "user");
@@ -263,8 +256,9 @@ export default {
 		// TextBoxes
 		textSelection: function(state) {
 			if(state.focusedObjectType == "textBoxes") {
-				if(state.loadedPage.objects.textBoxes[state.focuseObjectId].quill) {
-					return state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.getSelection();
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				if(quill) {
+					return quill.getSelection();
 				}
 			}
 
@@ -272,8 +266,9 @@ export default {
 		},
 		getFormat: (state) => (options) => {
 			if(state.focusedObjectType == "textBoxes") {
-				if(state.loadedPage.objects.textBoxes[state.focuseObjectId].quill) {
-					return state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.getFormat(options.index, options.length)[options.format];
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				if(quill) {
+					return quill.getFormat(options.index, options.length)[options.format];
 				}
 				return false;
 			}

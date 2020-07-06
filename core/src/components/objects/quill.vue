@@ -17,42 +17,20 @@ Quill.register(FontAttributor, true);
 
 // generate font size whitelist
 let fontSizeWhiteList = [];
-for(let i = 5; i <= 30; i++) {
-	fontSizeWhiteList.push([i/*+"px"*/]);
+for(let i = 5; i <= 100; i++) {
+	fontSizeWhiteList.push(i+"px");
 }
 
-/*var Size = Quill.import('attributors/style/size');
-console.log(Size);*/
-
-/*var fontSizeStyle = Quill.import('attributors/style/size');
-console.log(fontSizeStyle.whitelist);
-fontSizeStyle.whitelist = fontSizeWhiteList;
-Quill.register(fontSizeStyle, true);*/
-
-/*Size.whitelist = fontSizeWhiteList;
-Quill.register(Size, true);*/
-//import Parchment from 'parchment';
-var Parchment = Quill.import('parchment');
-/*let Test = new Parchment.Attributor.Style('test', 'test', {
-  whitelist: fontSizeWhiteList,
-});
-Parchment.register(Test);*/
-
-/*let Display = new Parchment.Attributor.Attribute('display', 'display');
-Parchment.register(Display);*/
-
-let SizeStyle = new Parchment.Attributor.Style('size', 'font-size', {
-  scope: Parchment.Scope.INLINE,
-  whitelist: fontSizeWhiteList
-});
- Quill.register(SizeStyle);
+var Size = Quill.import('attributors/style/size');
+Size.whitelist = fontSizeWhiteList;
+Quill.register(Size, true);
 
 const defaultOptions = {
 	theme: "snow",
 	boundary: document.body,
 	modules: {
 		toolbar: [
-			[{ 'size': fontSizeWhiteList }, false],
+			[{ 'size': fontSizeWhiteList }],
 			["link", "image", "video"],
 			["box"],
 		]

@@ -150,15 +150,12 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="linkDialogActive = true">
 			<md-icon>link</md-icon>
 		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('font-size', -1, 20, 'px')">
+		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
 			<md-icon>arrow_drop_down</md-icon>
 		</md-button>
-		{{ getFormat("font-size") }}
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('font-size', 10, 20, 'px')">
+		{{ getFormat("size") }}
+		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
 			<md-icon>arrow_drop_up</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('size', '20')">
-			test
 		</md-button>
   </div>
 </div>
@@ -181,16 +178,12 @@ export default {
 		};
 	},
 	methods: {
-		test: function() {
-			console.log(Parchment);
-		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
 		},
 		getFormat: function(format) {
 			let selection = this.selectedText();
 			if(selection) {
-				console.log(format, this.$store.getters.getFormat({index: selection.index, length: selection.length, format}));
 				return this.$store.getters.getFormat({index: selection.index, length: selection.length, format});
 			} else {
 				return false;
@@ -212,16 +205,26 @@ export default {
 		setFormat: function(format, value) {
 			this.$store.commit("formatText", {format, value}, {module: "core" });
 		},
-		setFormatRelative: function(format, value, defaultValue, unit) {
-			let currentFormat = this.getFormat(format) || defaultValue || 0;
+		setFormatRelative: function(format, value) {
+			let currentFormat = this.getFormat(format) || 0;
+			this.setFormat(format, currentFormat + value);
+		},
+		setFormatRelativeAdvanced: function(formatSetName, formatGetName, value, defaultValue, unit) {
+			let currentFormat = this.getFormat(formatGetName);
+
+			if(currentFormat && unit) {
+				currentFormat = currentFormat.replace(unit, "");
+				currentFormat = parseInt(currentFormat);
+			}
+
+			currentFormat = currentFormat || defaultValue || 0;
 
 			let newVal = currentFormat + value;
 			if(unit) {
 				newVal += unit;
 			}
 
-			console.log(newVal);
-			this.setFormat(format, newVal);
+			this.setFormat(formatSetName, newVal);
 		},
 		isFormat: function(format, value) {
 			return this.getFormat(format) == value;
@@ -240,7 +243,6 @@ export default {
 			this.setFormat('link', value);
 		},
 		onLinkCancel () {
-			console.log("cancel");
 		}
 	},
 	computed: {
@@ -259,10 +261,8 @@ export default {
 	watch: {
 		linkDialogActive: function(newVal) {
 			if(newVal) {
-				console.log("opened");
 				this.$store.commit("openedDialog", {}, {module: "core" });
 			} else {
-				console.log("closed");
 				this.$store.commit("closedDialog", {}, {module: "core" });
 			}
 		}

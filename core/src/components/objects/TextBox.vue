@@ -74,7 +74,6 @@ export default {
 	},
 	methods: {
 		activate: function() {
-			console.log("activate");
 			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
 		},
 		deactivate: function() {
