@@ -52,9 +52,6 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('strike')" :class="{'md-raised': isFormat('strike', true)}">
 			<md-icon>strikethrough_s</md-icon>
 		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('strike')" :class="{'md-raised': isFormat('strike', true)}">
-			<md-icon>strikethrough_s</md-icon>
-		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('blockquote')" :class="{'md-raised': isFormat('blockquote', true)}">
 			<md-icon>format_quote</md-icon>
 		</md-button>
