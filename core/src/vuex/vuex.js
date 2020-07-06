@@ -49,7 +49,7 @@ export default {
 		},
 		focusedObjectType: false,
 		focuseObjectId: false,
-		editingMode: "addTextBox",
+		editingMode: "editing",
 		editingModeAdditionalInformation: "",
 		presetColors:['#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'],
 	},
