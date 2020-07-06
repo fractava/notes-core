@@ -52,11 +52,18 @@ export default {
 		editingMode: "editing",
 		editingModeAdditionalInformation: "",
 		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
+		openedDialog: false,
 	},
 	mutations: {
 		// System
 		setDebug(state, value) {
 			state.debug = value;
+		},
+		openedDialog(state) {
+			state.openedDialog = true;
+		},
+		closedDialog(state) {
+			state.openedDialog = false;
 		},
 
 		// Navbar
@@ -162,6 +169,21 @@ export default {
 		formatText(state, options) {
 			if(state.focusedObjectType == "textBoxes") {
 				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
+			}
+		},
+		removeFormat(state) {
+			if(state.focusedObjectType == "textBoxes") {
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				console.log(quill);
+				let selection = quill.getSelection();
+
+				quill.removeFormat(selection.index, selection.length, "user");
+			}
+		},
+		quillPrompt(state, options) {
+			if(state.focusedObjectType == "textBoxes") {
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				quill.prompt('Enter link URL');
 			}
 		},
 		insertText(state, options) {

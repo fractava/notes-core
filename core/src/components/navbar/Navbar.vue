@@ -97,6 +97,9 @@ export default {
 	height: 100% !important;
 	margin: 0px !important;
 }
+.smallNavbarButton {
+	min-width: 40px !important;
+}
 .navbarMenu, .md-menu-content-container, .md-list {
 	min-width: fit-content !important;
 	max-width: fit-content !important;

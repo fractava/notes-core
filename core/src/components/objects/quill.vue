@@ -14,6 +14,18 @@ var FontAttributor = Quill.import("attributors/class/font");
 FontAttributor.whitelist = ["", "Arial", "Calibri", "Roboto", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"];
 Quill.register(FontAttributor, true);
 
+
+// generate font size whitelist
+let fontSizeWhiteList = [];
+for(let i = 1; i <= 200; i++) {
+	fontSizeWhiteList.push([i+"px"]);
+}
+
+var Size = Quill.import('attributors/style/size');
+console.log(Size);
+Size.whitelist = fontSizeWhiteList;
+Quill.register(Size, true);
+
 const defaultOptions = {
 	theme: "snow",
 	boundary: document.body,
@@ -130,7 +142,9 @@ export default {
 				// Mark model as touched if editor lost focus
 				this.quill.on("selection-change", range => {
 					if (!range) {
-						this.$emit("blur", this.quill);
+						if(this.focused) {
+							this.quill.focus();
+						}
 					} else {
 						this.$emit("focus", this.quill);
 					}
