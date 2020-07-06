@@ -85,9 +85,6 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', 1)">
 			<md-icon>format_indent_increase</md-icon>
 		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', 1)">
-			<md-icon>format_indent_increase</md-icon>
-		</md-button>
 		<md-menu
 			md-direction="bottom-start"
 			md-align-trigger
@@ -160,6 +157,9 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('font-size', 10, 20, 'px')">
 			<md-icon>arrow_drop_up</md-icon>
 		</md-button>
+		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('size', '20')">
+			test
+		</md-button>
   </div>
 </div>
 
@@ -168,6 +168,7 @@
 <script>
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
+import Parchment from 'parchment';
 
 export default {
 	components: {
@@ -180,12 +181,16 @@ export default {
 		};
 	},
 	methods: {
+		test: function() {
+			console.log(Parchment);
+		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
 		},
 		getFormat: function(format) {
 			let selection = this.selectedText();
 			if(selection) {
+				console.log(format, this.$store.getters.getFormat({index: selection.index, length: selection.length, format}));
 				return this.$store.getters.getFormat({index: selection.index, length: selection.length, format});
 			} else {
 				return false;
@@ -207,10 +212,16 @@ export default {
 		setFormat: function(format, value) {
 			this.$store.commit("formatText", {format, value}, {module: "core" });
 		},
-		setFormatRelative: function(format, value, defaultValue, appendix) {
+		setFormatRelative: function(format, value, defaultValue, unit) {
 			let currentFormat = this.getFormat(format) || defaultValue || 0;
-			console.log("currentFormat", currentFormat, currentFormat + value + appendix);
-			this.setFormat(format, currentFormat + value + appendix);
+
+			let newVal = currentFormat + value;
+			if(unit) {
+				newVal += unit;
+			}
+
+			console.log(newVal);
+			this.setFormat(format, newVal);
 		},
 		isFormat: function(format, value) {
 			return this.getFormat(format) == value;

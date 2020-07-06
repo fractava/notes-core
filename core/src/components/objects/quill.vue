@@ -17,34 +17,44 @@ Quill.register(FontAttributor, true);
 
 // generate font size whitelist
 let fontSizeWhiteList = [];
-for(let i = 1; i <= 200; i++) {
-	fontSizeWhiteList.push([i+"px"]);
+for(let i = 5; i <= 30; i++) {
+	fontSizeWhiteList.push([i/*+"px"*/]);
 }
 
-var Size = Quill.import('attributors/style/size');
-console.log(Size);
-Size.whitelist = fontSizeWhiteList;
-Quill.register(Size, true);
+/*var Size = Quill.import('attributors/style/size');
+console.log(Size);*/
+
+/*var fontSizeStyle = Quill.import('attributors/style/size');
+console.log(fontSizeStyle.whitelist);
+fontSizeStyle.whitelist = fontSizeWhiteList;
+Quill.register(fontSizeStyle, true);*/
+
+/*Size.whitelist = fontSizeWhiteList;
+Quill.register(Size, true);*/
+//import Parchment from 'parchment';
+var Parchment = Quill.import('parchment');
+/*let Test = new Parchment.Attributor.Style('test', 'test', {
+  whitelist: fontSizeWhiteList,
+});
+Parchment.register(Test);*/
+
+/*let Display = new Parchment.Attributor.Attribute('display', 'display');
+Parchment.register(Display);*/
+
+let SizeStyle = new Parchment.Attributor.Style('size', 'font-size', {
+  scope: Parchment.Scope.INLINE,
+  whitelist: fontSizeWhiteList
+});
+ Quill.register(SizeStyle);
 
 const defaultOptions = {
 	theme: "snow",
 	boundary: document.body,
 	modules: {
 		toolbar: [
-			["bold", "italic", "underline", "strike"],
-			["blockquote", "code-block"],
-			[{ "header": 1 }, { "header": 2 }],
-			[{ "list": "ordered" }, { "list": "bullet" }],
-			[{ "script": "sub" }, { "script": "super" }],
-			[{ "indent": "-1" }, { "indent": "+1" }],
-			[{ "direction": "rtl" }],
-			[{ "size": ["small", false, "large", "huge"] }],
-			[{ "header": [1, 2, 3, 4, 5, 6, false] }],
-			[{ "color": [] }, { "background": [] }],
-			[{ "font": [] }],
-			[{ "align": [] }],
-			["clean"],
-			["link", "image", "video"]
+			[{ 'size': fontSizeWhiteList }, false],
+			["link", "image", "video"],
+			["box"],
 		]
 	},
 	placeholder: "Insert text here ...",
