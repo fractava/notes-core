@@ -1,5 +1,3 @@
-import { mapState, mapGetters } from "vuex";
-
 export const addTextBox = {
 	data: function() {
 		return {
@@ -8,15 +6,15 @@ export const addTextBox = {
 		};
 	},
 	methods: {
-		addTextBoxPointerDown: function(event){
+		addTextBoxPointerDown: function(){
 			this.addTextBoxStartCoordinates.x = this.pointer.x;
 			this.addTextBoxStartCoordinates.y = this.pointer.y;
 		},
-		addTextBoxPointerMove: function(event) {
+		addTextBoxPointerMove: function() {
 			this.addTextBoxEndCoordinates.x = this.pointer.x;
 			this.addTextBoxEndCoordinates.y = this.pointer.y;
 		},
-		addTextBoxPointerUp: function(event) {
+		addTextBoxPointerUp: function() {
 			let startX = Math.min(this.addTextBoxEndCoordinates.x, this.addTextBoxStartCoordinates.x);
 			let endX = Math.max(this.addTextBoxEndCoordinates.x, this.addTextBoxStartCoordinates.x);
 			let startY = Math.min(this.addTextBoxEndCoordinates.y, this.addTextBoxStartCoordinates.y);

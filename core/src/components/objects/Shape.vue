@@ -33,8 +33,8 @@
 	</div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
-import draggableResizable from '../miscellaneous/draggable-resizable/draggable-resizable.vue';
+import { mapState } from "vuex";
+import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
 
 export default {
 	components: {

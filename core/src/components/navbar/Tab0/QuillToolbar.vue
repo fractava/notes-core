@@ -320,11 +320,11 @@
                     </svg>
                 </span>
                 <span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-font-picker">
-										<span role="button" class="ql-picker-item" v-for="font in fonts" v-on:click="setFormat('font', font)" :class="{'ql-selected': isFormat('font', font)}">{{ font }}</span>
+										<span role="button" class="ql-picker-item" v-for="font in fonts" v-on:click="setFormat('font', font)" :class="{'ql-selected': isFormat('font', font)}" :key="'font'+font">{{ font }}</span>
                 </span>
             </span>
             <select class="ql-font" style="display: none;">
-							<option v-for="font in fonts" :selected="isFormat(font, 'serif')">{{ font }}</option>
+							<option v-for="font in fonts" :selected="isFormat(font, 'serif')" :key="'font_option'+font">{{ font }}</option>
             </select>
         </span>
         <span class="ql-formats">
@@ -436,8 +436,7 @@
 </template>
 
 <script>
-import Toolbar from "quill/modules/toolbar.js";
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
 
 export default {
