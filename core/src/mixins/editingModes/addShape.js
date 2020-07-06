@@ -1,5 +1,3 @@
-import { mapState, mapGetters } from "vuex";
-
 export const addShape = {
 	data: function() {
 		return {
@@ -8,15 +6,15 @@ export const addShape = {
 		};
 	},
 	methods: {
-		addShapePointerDown: function(event){
+		addShapePointerDown: function(){
 			this.addShapeStartCoordinates.x = this.pointer.x;
 			this.addShapeStartCoordinates.y = this.pointer.y;
 		},
-		addShapePointerMove: function(event) {
+		addShapePointerMove: function() {
 			this.addShapeEndCoordinates.x = this.pointer.x;
 			this.addShapeEndCoordinates.y = this.pointer.y;
 		},
-		addShapePointerUp: function(event) {
+		addShapePointerUp: function() {
 			let startX = Math.min(this.addShapeEndCoordinates.x, this.addShapeStartCoordinates.x);
 			let endX = Math.max(this.addShapeEndCoordinates.x, this.addShapeStartCoordinates.x);
 			let startY = Math.min(this.addShapeEndCoordinates.y, this.addShapeStartCoordinates.y);

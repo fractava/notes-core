@@ -14,8 +14,8 @@
 						<span class="md-headline">Symbols:</span>
 						<div class="symbolsContainer">
 							<md-button v-for="(symbol, index) in symbols" v-on:click="add(symbol)" :key="'symbol'+index">
-				        <md-icon>{{ symbol }}</md-icon>
-				      </md-button>
+								<md-icon>{{ symbol }}</md-icon>
+							</md-button>
 						</div>
 					</span>
 				</md-menu-content>

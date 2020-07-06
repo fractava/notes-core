@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { Sketch } from "vue-color";
 
 export default {
@@ -23,7 +23,7 @@ export default {
 	},
 	methods: {
 		update: function(color) {
-			this.$emit('update', color);
+			this.$emit("update", color);
 		},
 	},
 	computed: {

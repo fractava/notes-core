@@ -51,7 +51,7 @@ export default {
 		focuseObjectId: false,
 		editingMode: "addTextBox",
 		editingModeAdditionalInformation: "",
-		presetColors:['#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'],
+		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
 	},
 	mutations: {
 		// System
@@ -98,7 +98,7 @@ export default {
 				state.loadedPage.scrollOffsetY = options.y;
 				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
 			}else {
-				console.log("no scroll y")
+				console.log("no scroll y");
 			}
 		},
 		setScale(state, options) {
@@ -222,7 +222,7 @@ export default {
 	},
 	getters: {
 		// Page
-		focusedObject: (state) => (options) => {
+		focusedObject: (state) => () => {
 			return state.objects[state.focusedObjectType][state.focuseObjectId];
 		},
 

@@ -22,8 +22,8 @@
 									:key="'backgroundType'+index"
 									:class="{'md-raised': loadedPage.background.type == type}"
 								>
-					        {{ type }}
-					      </md-button>
+									{{ type }}
+								</md-button>
 							</div>
 							<div>
 								<input
@@ -33,7 +33,7 @@
 									min="10"
 									max="90"
 								>
-								 {{ size }}
+								{{ size }}
 							</div>
 						</div>
 					</span>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
 	data: function() {

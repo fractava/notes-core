@@ -35,7 +35,7 @@
 <script>
 import { mapState } from "vuex";
 import quill from "./quill.vue";
-import draggableResizable from '../miscellaneous/draggable-resizable/draggable-resizable.vue';
+import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
 
 export default {
 	components: {
@@ -57,7 +57,6 @@ export default {
 	},
 	computed: {
 		textBox: function() {
-			console.log(this.loadedPage.objects.textBoxes[this.id]);
 			return this.loadedPage.objects.textBoxes[this.id];
 		},
 		content: {
@@ -69,8 +68,6 @@ export default {
 			}
 		},
 		disabled: function() {
-			console.log("disabled: " + (this.editingMode != "editing"));
-			console.log(this.editingMode);
 			return this.editingMode != "editing";
 		},
 		...mapState({
@@ -120,69 +117,5 @@ export default {
 	.textBox {
 		width: 100%;
 		height: 100%;
-	}
-
-	/* Resizeable */
-	.handle {
-	  box-sizing: border-box;
-	  position: absolute;
-	  width: 10px;
-	  height: 10px;
-	  background: #ffffff;
-	  border: 1px solid #ccc;
-	}
-	.handle-tl {
-	  top: -9px;
-	  left: -9px;
-	  cursor: nw-resize;
-	}
-	.handle-tm {
-	  top: -9px;
-	  left: 50%;
-	  margin-left: -5px;
-	  cursor: n-resize;
-	}
-	.handle-tr {
-	  top: -9px;
-	  right: -9px;
-	  cursor: ne-resize;
-	}
-	.handle-ml {
-	  top: 50%;
-	  margin-top: -5px;
-	  left: -9px;
-	  cursor: w-resize;
-	}
-	.handle-mr {
-	  top: 50%;
-	  margin-top: -5px;
-	  right: -9px;
-	  cursor: e-resize;
-	}
-	.handle-bl {
-	  bottom: -9px;
-	  left: -9px;
-	  cursor: sw-resize;
-	}
-	.handle-bm {
-	  bottom: -9px;
-	  left: 50%;
-	  margin-left: -5px;
-	  cursor: s-resize;
-	}
-	.handle-br {
-	  bottom: -9px;
-	  right: -9px;
-	  cursor: se-resize;
-	}
-	@media only screen and (max-width: 768px) {
-	  [class*="handle-"]:before {
-	    content: '';
-	    left: -9px;
-	    right: -9px;
-	    bottom: -9px;
-	    top: -9px;
-	    position: absolute;
-	  }
 	}
 </style>

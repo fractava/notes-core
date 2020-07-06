@@ -38,7 +38,7 @@
 	</div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
 
 export default {

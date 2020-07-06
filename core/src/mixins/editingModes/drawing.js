@@ -1,4 +1,4 @@
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export const drawing = {
 	methods: {
@@ -16,10 +16,10 @@ export const drawing = {
 				this.$store.commit("drawLine", {sketch: this.lastSketch, x: this.pointer.x, y: this.pointer.y, pressure: this.pointer.pressure}, {module: "core" });
 			}
 		},
-		drawingPointerUp: function(event) {
+		drawingPointerUp: function() {
 
 		},
-		drawingPointerLeave: function(event) {
+		drawingPointerLeave: function() {
 
 		},
 		shouldDrawLine: function(x, y, event) {

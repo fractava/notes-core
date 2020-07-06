@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// require sources
 import _Quill from "quill";
 
 const Quill = window.Quill || _Quill;
@@ -155,7 +154,7 @@ export default {
 	},
 	watch: {
 		// Watch content change
-		content(newVal, oldVal) {
+		content(newVal) {
 			if (this.quill) {
 				if (newVal && newVal !== this._content) {
 					this._content = newVal;
@@ -166,7 +165,7 @@ export default {
 			}
 		},
 		// Watch content change
-		value(newVal, oldVal) {
+		value(newVal) {
 			if (this.quill) {
 				if (newVal && newVal !== this._content) {
 					this._content = newVal;
@@ -177,13 +176,12 @@ export default {
 			}
 		},
 		// Watch disabled change
-		disabled(newVal, oldVal) {
+		disabled(newVal) {
 			if (this.quill) {
 				this.quill.enable(!newVal);
 			}
 		},
-		focused(newVal, oldVal) {
-			console.log(newVal);
+		focused(newVal) {
 			if(newVal == true) {
 				this.quill.focus();
 			} else {

@@ -49,16 +49,16 @@ export default {
 			this.setPointerPositionFromEvent(event);
 
 			switch(this.editingMode) {
-				case "drawing":
-					this.drawingPointerDown(event);
-					break;
-				case "addTextBox":
-					this.addTextBoxPointerDown(event);
-					break;
-				case "addShape":
-					this.addShapePointerDown(event);
-					break;
-			};
+			case "drawing":
+				this.drawingPointerDown(event);
+				break;
+			case "addTextBox":
+				this.addTextBoxPointerDown(event);
+				break;
+			case "addShape":
+				this.addShapePointerDown(event);
+				break;
+			}
 		},
 		pointermove: function(event) {
 			if(this.pointer.down) {
@@ -70,16 +70,16 @@ export default {
 				this.setPointerPositionFromEvent(event);
 
 				switch(this.editingMode) {
-					case "drawing":
-						this.drawingPointerMove(event);
-						break;
-					case "addTextBox":
-						this.addTextBoxPointerMove(event);
-						break;
-					case "addShape":
-						this.addShapePointerMove(event);
-						break;
-				};
+				case "drawing":
+					this.drawingPointerMove(event);
+					break;
+				case "addTextBox":
+					this.addTextBoxPointerMove(event);
+					break;
+				case "addShape":
+					this.addShapePointerMove(event);
+					break;
+				}
 			}
 		},
 		pointerup: function(event) {
@@ -89,15 +89,15 @@ export default {
 			}
 
 			switch(this.editingMode) {
-				case "drawing":
-					this.drawingPointerUp(event);
-					break;
-				case "addTextBox":
-					this.addTextBoxPointerUp(event);
-					break;
-				case "addShape":
-					this.addShapePointerUp(event);
-					break;
+			case "drawing":
+				this.drawingPointerUp(event);
+				break;
+			case "addTextBox":
+				this.addTextBoxPointerUp(event);
+				break;
+			case "addShape":
+				this.addShapePointerUp(event);
+				break;
 			}
 
 			this.$store.dispatch("pointerUp");
@@ -109,15 +109,15 @@ export default {
 			}
 
 			switch(this.editingMode) {
-				case "drawing":
-					this.drawingPointerLeave(event);
-					break;
-					case "addTextBox":
-						this.addTextBoxPointerLeave(event);
-						break;
-					case "addShape":
-						this.addShapePointerLeave(event);
-						break;
+			case "drawing":
+				this.drawingPointerLeave(event);
+				break;
+			case "addTextBox":
+				this.addTextBoxPointerLeave(event);
+				break;
+			case "addShape":
+				this.addShapePointerLeave(event);
+				break;
 			}
 
 			this.$store.dispatch("pointerUp");

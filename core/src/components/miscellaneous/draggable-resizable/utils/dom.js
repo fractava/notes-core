@@ -1,58 +1,59 @@
-import { isFunction } from './fns'
+// Forked from https://github.com/mauricius/vue-draggable-resizable (MIT License)
+import { isFunction } from "./fns";
 
 export function matchesSelectorToParentElements (el, selector, baseNode) {
-  let node = el
+	let node = el;
 
-  const matchesSelectorFunc = [
-    'matches',
-    'webkitMatchesSelector',
-    'mozMatchesSelector',
-    'msMatchesSelector',
-    'oMatchesSelector'
-  ].find(func => isFunction(node[func]))
+	const matchesSelectorFunc = [
+		"matches",
+		"webkitMatchesSelector",
+		"mozMatchesSelector",
+		"msMatchesSelector",
+		"oMatchesSelector"
+	].find(func => isFunction(node[func]));
 
-  if (!isFunction(node[matchesSelectorFunc])) return false
+	if (!isFunction(node[matchesSelectorFunc])) return false;
 
-  do {
-    if (node[matchesSelectorFunc](selector)) return true
-    if (node === baseNode) return false
-    node = node.parentNode
-  } while (node)
+	do {
+		if (node[matchesSelectorFunc](selector)) return true;
+		if (node === baseNode) return false;
+		node = node.parentNode;
+	} while (node);
 
-  return false
+	return false;
 }
 
 export function getComputedSize ($el) {
-  const style = window.getComputedStyle($el)
+	const style = window.getComputedStyle($el);
 
-  return [
-    parseFloat(style.getPropertyValue('width'), 10),
-    parseFloat(style.getPropertyValue('height'), 10)
-  ]
+	return [
+		parseFloat(style.getPropertyValue("width"), 10),
+		parseFloat(style.getPropertyValue("height"), 10)
+	];
 }
 
 export function addEvent (el, event, handler) {
-  if (!el) {
-    return
-  }
-  if (el.attachEvent) {
-    el.attachEvent('on' + event, handler)
-  } else if (el.addEventListener) {
-    el.addEventListener(event, handler, true)
-  } else {
-    el['on' + event] = handler
-  }
+	if (!el) {
+		return;
+	}
+	if (el.attachEvent) {
+		el.attachEvent("on" + event, handler);
+	} else if (el.addEventListener) {
+		el.addEventListener(event, handler, true);
+	} else {
+		el["on" + event] = handler;
+	}
 }
 
 export function removeEvent (el, event, handler) {
-  if (!el) {
-    return
-  }
-  if (el.detachEvent) {
-    el.detachEvent('on' + event, handler)
-  } else if (el.removeEventListener) {
-    el.removeEventListener(event, handler, true)
-  } else {
-    el['on' + event] = null
-  }
+	if (!el) {
+		return;
+	}
+	if (el.detachEvent) {
+		el.detachEvent("on" + event, handler);
+	} else if (el.removeEventListener) {
+		el.removeEventListener(event, handler, true);
+	} else {
+		el["on" + event] = null;
+	}
 }
