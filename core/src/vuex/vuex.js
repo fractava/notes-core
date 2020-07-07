@@ -163,7 +163,7 @@ export default {
 		formatText(state, options) {
 			if(state.focusedObjectType == "textBoxes") {
 				if(options.id) {
-					var quill = state.loadedPage.objects.textBoxes[id].quill;
+					var quill = state.loadedPage.objects.textBoxes[options.id].quill;
 				}else {
 					var quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 				}

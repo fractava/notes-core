@@ -113,6 +113,12 @@ export default {
 		},
 		focused: {
 			type: Boolean,
+		},
+		defaultFont: {
+			type: String,
+		},
+		defaultFontSize: {
+			type: String,
 		}
 	},
 	mounted() {
@@ -148,19 +154,25 @@ export default {
 
 				// Mark model as touched if editor lost focus
 				this.quill.on("selection-change", range => {
-					if (!range) {
-						if(this.focused) {
-							this.quill.focus();
-						}
+					if(this.focused) {
+						this.quill.focus();
 					}
 				});
 
 				// Update model if text changes
 				this.quill.on("text-change", (delta, oldDelta, source) => {
-					let html = this.$refs.editor.children[0].innerHTML;
 					const quill = this.quill;
-					const text = this.quill.getText();
+					let html = this.$refs.editor.children[0].innerHTML;
+					let text = this.quill.getText();
+
 					if (html === "<p><br></p>") html = "";
+
+					if(html == "") {
+						this.applyDefaultStyle();
+						html = this.$refs.editor.children[0].innerHTML;
+						text = this.quill.getText();
+					}
+
 					this._content = html;
 					this.$emit("input", this._content);
 					this.$emit("change", { html, text, quill });
@@ -168,8 +180,14 @@ export default {
 
 				// Emit ready event
 				this.$emit("ready", this.quill);
+
+				this.applyDefaultStyle();
 			}
-		}
+		},
+		applyDefaultStyle() {
+			this.quill.format("font", this.defaultFont, "api");
+			this.quill.format("font-size", this.defaultFontSize, "api");
+		},
 	},
 	watch: {
 		// Watch content change

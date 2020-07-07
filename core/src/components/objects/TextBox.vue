@@ -17,7 +17,7 @@
 			:enabled="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
-			v-on:pointerup="activate"
+			v-on:click="activate"
 		>
 			<quill
 				class="textBox"
@@ -26,6 +26,8 @@
 				v-on:activate="activate"
 				:focused="active"
 				:disabled="disabled"
+				:defaultFont="defaultFont"
+				:defaultFontSize="defaultFontSize"
 			/>
 		</draggable-resizable>
 	</div>
@@ -45,6 +47,12 @@ export default {
 		id: {
 			type: Number,
 		},
+	},
+	data: function() {
+		return {
+			defaultFont: "Calibri",
+			defaultFontSize: "20px",
+		}
 	},
 	computed: {
 		textBox: function() {
