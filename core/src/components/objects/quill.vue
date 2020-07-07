@@ -21,27 +21,27 @@ for(let i = 5; i <= 100; i++) {
 	fontSizeWhiteList.push(i+"px");
 }
 
-var Size = Quill.import('attributors/style/size');
+var Size = Quill.import("attributors/style/size");
 Size.whitelist = fontSizeWhiteList;
 Quill.register(Size, true);
 
-let Inline = Quill.import('blots/inline');
+let Inline = Quill.import("blots/inline");
 
 class LinkBlot extends Inline {
-  static create(value) {
-    let node = super.create();
-    // Sanitize url value if desired
-    node.setAttribute('href', value);
-    node.setAttribute('target', '_blank');
-    return node;
-  }
+	static create(value) {
+		let node = super.create();
+		// Sanitize url value if desired
+		node.setAttribute("href", value);
+		node.setAttribute("target", "_blank");
+		return node;
+	}
 
-  static formats(node) {
-    return node.getAttribute('href');
-  }
+	static formats(node) {
+		return node.getAttribute("href");
+	}
 }
-LinkBlot.blotName = 'link';
-LinkBlot.tagName = 'a';
+LinkBlot.blotName = "link";
+LinkBlot.tagName = "a";
 
 Quill.register(LinkBlot);
 
@@ -50,7 +50,7 @@ const defaultOptions = {
 	boundary: document.body,
 	modules: {
 		toolbar: [
-			[{ 'size': fontSizeWhiteList }],
+			[{ "size": fontSizeWhiteList }],
 			["link", "image", "video"],
 		]
 	},

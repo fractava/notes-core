@@ -164,7 +164,7 @@
 <script>
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
-import Parchment from 'parchment';
+import Parchment from "parchment";
 
 export default {
 	components: {
@@ -232,15 +232,15 @@ export default {
 			this.$store.commit("removeFormat", {}, {module: "core" });
 		},
 		updateTextColor: function(color) {
-			this.setFormat('color', color.hex8);
+			this.setFormat("color", color.hex8);
 		},
 		updateBackgroundColor: function(color) {
-			this.setFormat('background', color.hex8);
+			this.setFormat("background", color.hex8);
 		},
 
 		onLinkConfirm (value) {
 			console.log(value);
-			this.setFormat('link', value);
+			this.setFormat("link", value);
 		},
 		onLinkCancel () {
 		}

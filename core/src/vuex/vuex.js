@@ -179,12 +179,6 @@ export default {
 				quill.removeFormat(selection.index, selection.length, "api");
 			}
 		},
-		quillPrompt(state, options) {
-			if(state.focusedObjectType == "textBoxes") {
-				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
-				quill.prompt('Enter link URL');
-			}
-		},
 		insertText(state, options) {
 			if(state.focusedObjectType == "textBoxes") {
 				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
