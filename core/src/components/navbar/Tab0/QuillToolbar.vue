@@ -152,7 +152,9 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
 			<md-icon>arrow_drop_down</md-icon>
 		</md-button>
-		{{ getFormat("size") }}
+		<md-button class="navbarButton smallNavbarButton">
+			{{ getFormat("size") }}
+		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
 			<md-icon>arrow_drop_up</md-icon>
 		</md-button>
@@ -247,7 +249,7 @@ export default {
 			this.setFormat("link", undefined);
 		},
 		activateLinkPromt() {
-			this.currentLink = this.getFormat("link") || "";
+			this.currentLink = this.getFormat("link") || "https://";
 			this.linkDialogActive = true;
 		}
 	},
