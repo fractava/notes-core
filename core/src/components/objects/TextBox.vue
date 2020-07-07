@@ -12,7 +12,6 @@
 			:minWidth="50"
 			@dragging="onDrag"
 			@resizing="onResize"
-			@deactivated="deactivate"
 			:parent="false"
 			:enabled="active"
 			:maxX="loadedPage.size.x"
@@ -83,9 +82,6 @@ export default {
 	methods: {
 		activate: function() {
 			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
-		},
-		deactivate: function() {
-			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
 		onResize: function (x, y, width, height) {
 			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
