@@ -23,6 +23,10 @@
 			<md-dialog-content>
 				<mathquill />
 			</md-dialog-content>
+			<md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+        <md-button class="md-primary" @click="showDialog = false">Save</md-button>
+      </md-dialog-actions>
 		</md-dialog>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
 			<md-icon>functions</md-icon>
