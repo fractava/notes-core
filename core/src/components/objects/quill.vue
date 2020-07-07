@@ -61,7 +61,7 @@ const defaultOptions = {
 // pollfill
 if (typeof Object.assign != "function") {
 	Object.defineProperty(Object, "assign", {
-		value(target, varArgs) {
+		value(target) {
 			if (target == null) {
 				throw new TypeError("Cannot convert undefined or null to object");
 			}
@@ -160,7 +160,7 @@ export default {
 				});
 
 				// Update model if text changes
-				this.quill.on("text-change", (delta, oldDelta, source) => {
+				this.quill.on("text-change", () => {
 					const quill = this.quill;
 					let html = this.$refs.editor.children[0].innerHTML;
 					let text = this.quill.getText();
@@ -195,8 +195,8 @@ export default {
 			if (this.quill) {
 				if (newVal && newVal !== this._content) {
 					this._content = newVal;
-					const delta = quill.clipboard.convert(newVal);
-					quill.setContents(delta);
+					const delta = this.quill.clipboard.convert(newVal);
+					this.quill.setContents(delta);
 				} else if(!newVal) {
 					this.quill.setText("");
 				}

@@ -94,12 +94,10 @@ export default {
 			if(options.x != undefined) {
 				state.loadedPage.scrollOffsetX = options.x;
 				document.getElementsByClassName("PageContainer")[0].scrollLeft = options.x * state.loadedPage.scale;
-			}else {
 			}
 			if(options.y != undefined) {
 				state.loadedPage.scrollOffsetY = options.y;
 				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
-			}else {
 			}
 		},
 		setScale(state, options) {
@@ -162,10 +160,11 @@ export default {
 		},
 		formatText(state, options) {
 			if(state.focusedObjectType == "textBoxes") {
+				let quill;
 				if(options.id) {
-					var quill = state.loadedPage.objects.textBoxes[options.id].quill;
+					quill = state.loadedPage.objects.textBoxes[options.id].quill;
 				}else {
-					var quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+					quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 				}
 
 				quill.format(options.format, options.value, "api");

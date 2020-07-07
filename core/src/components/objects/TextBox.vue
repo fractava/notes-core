@@ -51,7 +51,7 @@ export default {
 		return {
 			defaultFont: "Calibri",
 			defaultFontSize: "20px",
-		}
+		};
 	},
 	computed: {
 		textBox: function() {
