@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="textBoxContainer"
-		:class="{disabled: disabled}"
+		:class="{active: active, disabled: disabled}"
 	>
 		<draggable-resizable
 			:w="textBox.position.width"
@@ -12,21 +12,21 @@
 			:minWidth="50"
 			@dragging="onDrag"
 			@resizing="onResize"
-			@deactivated="deactivate"
 			:parent="false"
 			:enabled="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
+			v-on:click="activate"
 		>
 			<quill
 				class="textBox"
 				v-model="content"
-				@blur="onEditorBlur($event)"
-				@focus="onEditorFocus($event)"
-				@ready="onEditorReady($event)"
 				v-on:assign:quill="assignQuill"
-				:focused="focused"
+				v-on:activate="activate"
+				:focused="active"
 				:disabled="disabled"
+				:defaultFont="defaultFont"
+				:defaultFontSize="defaultFontSize"
 			/>
 		</draggable-resizable>
 	</div>
@@ -46,13 +46,11 @@ export default {
 		id: {
 			type: Number,
 		},
-		focused: {
-			type: Boolean,
-		},
 	},
 	data: function() {
 		return {
-			active: false,
+			defaultFont: "Calibri",
+			defaultFontSize: "20px",
 		};
 	},
 	computed: {
@@ -70,34 +68,27 @@ export default {
 		disabled: function() {
 			return this.editingMode != "editing";
 		},
+		active: function() {
+			return this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;
+		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
 			editingMode: state => state.core.editingMode,
+			focusedObjectType: state => state.core.focusedObjectType,
+			focuseObjectId: state => state.core.focuseObjectId,
+			openedDialog: state => state.core.openedDialog,
 		}),
 	},
 	methods: {
+		activate: function() {
+			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
+		},
 		onResize: function (x, y, width, height) {
 			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
 			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
 		},
 		onDrag: function (x, y) {
 			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
-		},
-		onEditorFocus: function() {
-			this.active = true;
-			if(this.editingMode == "editing"){
-				this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
-			}
-		},
-		onEditorReady: function() {
-
-		},
-		onEditorBlur: function() {
-			this.active = false;
-			this.deactivate();
-		},
-		deactivate: function() {
-			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
 		assignQuill: function(quill) {
 			console.log(quill);

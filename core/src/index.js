@@ -5,7 +5,6 @@ import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 
 import VueQuillEditor from "vue-quill-editor";
-console.log(VueQuillEditor);
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.bubble.css"; // for bubble theme
@@ -19,7 +18,6 @@ export default {
 		Vue.use(VueMaterial);
 
 		// enable or disable debug output
-		console.log(options.debug);
 		options.store.commit("setDebug", options.debug, {module: "core" });
 
 		// global Functions

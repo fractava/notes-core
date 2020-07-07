@@ -8,7 +8,6 @@
 			v-on:pointermove="stopPropagation"
 			v-on:pointerup="stopPropagation"
 			v-on:pointerleave="stopPropagation"
-			:focused="focused(index)"
 		/>
 	</div>
 </template>
@@ -24,9 +23,6 @@ export default {
 			event.stopPropagation();
 			this.$store.dispatch("pointerUp");
 		},
-		focused: function(index) {
-			return this.focusedObjectType == "textBox" && this.focuseObjectId == index;
-		},
 	},
 	components: {
 		textBox,
@@ -34,9 +30,6 @@ export default {
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
-			focusedObjectType: state => state.core.focusedObjectType,
-			focuseObjectId: state => state.core.focuseObjectId,
-
 		}),
 	},
 };

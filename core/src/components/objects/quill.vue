@@ -1,5 +1,5 @@
 <template>
-  <div class="quill-editor">
+  <div v-on:click="$emit('activate')" class="quill-editor">
     <slot name="toolbar"></slot>
     <div ref="editor"></div>
   </div>
@@ -14,25 +14,44 @@ var FontAttributor = Quill.import("attributors/class/font");
 FontAttributor.whitelist = ["", "Arial", "Calibri", "Roboto", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"];
 Quill.register(FontAttributor, true);
 
+
+// generate font size whitelist
+let fontSizeWhiteList = [];
+for(let i = 5; i <= 100; i++) {
+	fontSizeWhiteList.push(i+"px");
+}
+
+var Size = Quill.import("attributors/style/size");
+Size.whitelist = fontSizeWhiteList;
+Quill.register(Size, true);
+
+let Inline = Quill.import("blots/inline");
+
+class LinkBlot extends Inline {
+	static create(value) {
+		let node = super.create();
+		// Sanitize url value if desired
+		node.setAttribute("href", value);
+		node.setAttribute("target", "_blank");
+		return node;
+	}
+
+	static formats(node) {
+		return node.getAttribute("href");
+	}
+}
+LinkBlot.blotName = "link";
+LinkBlot.tagName = "a";
+
+Quill.register(LinkBlot);
+
 const defaultOptions = {
 	theme: "snow",
 	boundary: document.body,
 	modules: {
 		toolbar: [
-			["bold", "italic", "underline", "strike"],
-			["blockquote", "code-block"],
-			[{ "header": 1 }, { "header": 2 }],
-			[{ "list": "ordered" }, { "list": "bullet" }],
-			[{ "script": "sub" }, { "script": "super" }],
-			[{ "indent": "-1" }, { "indent": "+1" }],
-			[{ "direction": "rtl" }],
-			[{ "size": ["small", false, "large", "huge"] }],
-			[{ "header": [1, 2, 3, 4, 5, 6, false] }],
-			[{ "color": [] }, { "background": [] }],
-			[{ "font": [] }],
-			[{ "align": [] }],
-			["clean"],
-			["link", "image", "video"]
+			[{ "size": fontSizeWhiteList }],
+			["link", "image", "video"],
 		]
 	},
 	placeholder: "Insert text here ...",
@@ -42,7 +61,7 @@ const defaultOptions = {
 // pollfill
 if (typeof Object.assign != "function") {
 	Object.defineProperty(Object, "assign", {
-		value(target, varArgs) {
+		value(target) {
 			if (target == null) {
 				throw new TypeError("Cannot convert undefined or null to object");
 			}
@@ -94,6 +113,12 @@ export default {
 		},
 		focused: {
 			type: Boolean,
+		},
+		defaultFont: {
+			type: String,
+		},
+		defaultFontSize: {
+			type: String,
 		}
 	},
 	mounted() {
@@ -129,19 +154,25 @@ export default {
 
 				// Mark model as touched if editor lost focus
 				this.quill.on("selection-change", range => {
-					if (!range) {
-						this.$emit("blur", this.quill);
-					} else {
-						this.$emit("focus", this.quill);
+					if(this.focused) {
+						this.quill.focus();
 					}
 				});
 
 				// Update model if text changes
-				this.quill.on("text-change", (delta, oldDelta, source) => {
-					let html = this.$refs.editor.children[0].innerHTML;
+				this.quill.on("text-change", () => {
 					const quill = this.quill;
-					const text = this.quill.getText();
+					let html = this.$refs.editor.children[0].innerHTML;
+					let text = this.quill.getText();
+
 					if (html === "<p><br></p>") html = "";
+
+					if(html == "") {
+						this.applyDefaultStyle();
+						html = this.$refs.editor.children[0].innerHTML;
+						text = this.quill.getText();
+					}
+
 					this._content = html;
 					this.$emit("input", this._content);
 					this.$emit("change", { html, text, quill });
@@ -149,8 +180,14 @@ export default {
 
 				// Emit ready event
 				this.$emit("ready", this.quill);
+
+				this.applyDefaultStyle();
 			}
-		}
+		},
+		applyDefaultStyle() {
+			this.quill.format("font", this.defaultFont, "api");
+			this.quill.format("font-size", this.defaultFontSize, "api");
+		},
 	},
 	watch: {
 		// Watch content change
@@ -158,7 +195,8 @@ export default {
 			if (this.quill) {
 				if (newVal && newVal !== this._content) {
 					this._content = newVal;
-					this.quill.pasteHTML(newVal);
+					const delta = this.quill.clipboard.convert(newVal);
+					this.quill.setContents(delta);
 				} else if(!newVal) {
 					this.quill.setText("");
 				}
