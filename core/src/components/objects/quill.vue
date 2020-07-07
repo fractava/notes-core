@@ -1,5 +1,5 @@
 <template>
-  <div class="quill-editor">
+  <div v-on:click="$emit('activate')" class="quill-editor">
     <slot name="toolbar"></slot>
     <div ref="editor"></div>
   </div>
@@ -25,6 +25,26 @@ var Size = Quill.import('attributors/style/size');
 Size.whitelist = fontSizeWhiteList;
 Quill.register(Size, true);
 
+let Inline = Quill.import('blots/inline');
+
+class LinkBlot extends Inline {
+  static create(value) {
+    let node = super.create();
+    // Sanitize url value if desired
+    node.setAttribute('href', value);
+    node.setAttribute('target', '_blank');
+    return node;
+  }
+
+  static formats(node) {
+    return node.getAttribute('href');
+  }
+}
+LinkBlot.blotName = 'link';
+LinkBlot.tagName = 'a';
+
+Quill.register(LinkBlot);
+
 const defaultOptions = {
 	theme: "snow",
 	boundary: document.body,
@@ -32,7 +52,6 @@ const defaultOptions = {
 		toolbar: [
 			[{ 'size': fontSizeWhiteList }],
 			["link", "image", "video"],
-			["box"],
 		]
 	},
 	placeholder: "Insert text here ...",
@@ -133,8 +152,6 @@ export default {
 						if(this.focused) {
 							this.quill.focus();
 						}
-					} else {
-						this.$emit("focus", this.quill);
 					}
 				});
 
@@ -160,7 +177,8 @@ export default {
 			if (this.quill) {
 				if (newVal && newVal !== this._content) {
 					this._content = newVal;
-					this.quill.pasteHTML(newVal);
+					const delta = quill.clipboard.convert(newVal);
+					quill.setContents(delta);
 				} else if(!newVal) {
 					this.quill.setText("");
 				}

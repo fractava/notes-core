@@ -23,7 +23,7 @@
 				class="textBox"
 				v-model="content"
 				v-on:assign:quill="assignQuill"
-				v-on:focus="activate"
+				v-on:activate="activate"
 				:focused="active"
 				:disabled="disabled"
 			/>
@@ -59,7 +59,7 @@ export default {
 			}
 		},
 		disabled: function() {
-			return this.editingMode != "editing" || this.openedDialog;
+			return this.editingMode != "editing";
 		},
 		active: function() {
 			return this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;

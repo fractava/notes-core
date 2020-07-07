@@ -142,9 +142,11 @@
       md-confirm-text="Add Link"
 			md-cancel-text="Cancel"
 			@md-cancel="onLinkCancel"
-      @md-confirm="onLinkConfirm" />
+      @md-confirm="onLinkConfirm"
+			md-content=""
+		/>
 
-		<md-button class="navbarButton smallNavbarButton" v-on:click="linkDialogActive = true">
+		<md-button class="navbarButton smallNavbarButton" v-on:click="linkDialogActive = true" :class="{'md-raised': !isFormat('link', undefined)}">
 			<md-icon>link</md-icon>
 		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
@@ -237,6 +239,7 @@ export default {
 		},
 
 		onLinkConfirm (value) {
+			console.log(value);
 			this.setFormat('link', value);
 		},
 		onLinkCancel () {

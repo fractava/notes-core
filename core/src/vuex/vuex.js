@@ -162,7 +162,13 @@ export default {
 		},
 		formatText(state, options) {
 			if(state.focusedObjectType == "textBoxes") {
-				state.loadedPage.objects.textBoxes[state.focuseObjectId].quill.format(options.format, options.value, "user");
+				if(options.id) {
+					var quill = state.loadedPage.objects.textBoxes[id].quill;
+				}else {
+					var quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				}
+
+				quill.format(options.format, options.value, "api");
 			}
 		},
 		removeFormat(state) {
@@ -170,7 +176,7 @@ export default {
 				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 				let selection = quill.getSelection();
 
-				quill.removeFormat(selection.index, selection.length, "user");
+				quill.removeFormat(selection.index, selection.length, "api");
 			}
 		},
 		quillPrompt(state, options) {
@@ -258,7 +264,9 @@ export default {
 			if(state.focusedObjectType == "textBoxes") {
 				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 				if(quill) {
-					return quill.getSelection();
+					if(state.openedDialog == false) {
+						return quill.getSelection();
+					}
 				}
 			}
 
