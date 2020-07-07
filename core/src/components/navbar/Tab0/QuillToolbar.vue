@@ -18,6 +18,15 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
 			<md-icon>code</md-icon>
 		</md-button>
+		<md-dialog :md-active.sync="formulaDialogActive">
+			<md-dialog-title>Preferences</md-dialog-title>
+			<md-dialog-content>
+				<mathquill />
+			</md-dialog-content>
+		</md-dialog>
+		<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
+			<md-icon>functions</md-icon>
+		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
 			<md-icon>looks_one</md-icon>
 		</md-button>
@@ -93,8 +102,7 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="removeFormat">
 			<md-icon>format_clear</md-icon>
 		</md-button>
-		<div>
-			<md-dialog-prompt
+		<md-dialog-prompt
       :md-active.sync="linkDialogActive"
       md-title="Add Link"
       md-input-maxlength="300"
@@ -105,7 +113,6 @@
       @md-confirm="onLinkConfirm"
 			v-model="currentLink"
 		/>
-
 		<md-button class="navbarButton smallNavbarButton" v-on:click="activateLinkPromt" :class="{'md-raised': !isFormat('link', undefined)}">
 			<md-icon>link</md-icon>
 		</md-button>
@@ -126,16 +133,19 @@
 <script>
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
+import mathquill from "../../miscellaneous/mathquill.vue";
 import Parchment from "parchment";
 
 export default {
 	components: {
 		colorPicker,
+		mathquill,
 	},
 	data: function(){
 		return {
 			linkDialogActive: false,
 			currentLink: "",
+			formulaDialogActive: false,
 			fonts: ["Roboto", "Calibri", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		};
 	},
@@ -181,11 +191,8 @@ export default {
 
 			currentFormat = currentFormat || defaultValue || 0;
 
-			let newVal = currentFormat + value;function test() {
+			let newVal = currentFormat + value;
 
-
-
-}
 			if(unit) {
 				newVal += unit;
 			}
@@ -215,7 +222,10 @@ export default {
 		activateLinkPromt() {
 			this.currentLink = this.getFormat("link") || "https://";
 			this.linkDialogActive = true;
-		}
+		},
+		activateFormulaPromt() {
+			this.formulaDialogActive = true;
+		},
 	},
 	computed: {
 		...mapState({
@@ -238,8 +248,15 @@ export default {
 				this.$store.commit("closedDialog", {}, {module: "core" });
 				this.currentLink = "";
 			}
-		}
-	}
+		},
+		formulaDialogActive: function(newVal) {
+			if(newVal) {
+				this.$store.commit("openedDialog", {}, {module: "core" });
+			} else {
+				this.$store.commit("closedDialog", {}, {module: "core" });
+			}
+		},
+	},
 };
 </script>
 <style>
