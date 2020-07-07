@@ -140,13 +140,13 @@
       md-input-maxlength="300"
       md-input-placeholder="URL"
       md-confirm-text="Add Link"
-			md-cancel-text="Cancel"
+			md-cancel-text="remove Link"
 			@md-cancel="onLinkCancel"
       @md-confirm="onLinkConfirm"
-			md-content=""
+			v-model="currentLink"
 		/>
 
-		<md-button class="navbarButton smallNavbarButton" v-on:click="linkDialogActive = true" :class="{'md-raised': !isFormat('link', undefined)}">
+		<md-button class="navbarButton smallNavbarButton" v-on:click="activateLinkPromt" :class="{'md-raised': !isFormat('link', undefined)}">
 			<md-icon>link</md-icon>
 		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
@@ -173,6 +173,7 @@ export default {
 	data: function(){
 		return {
 			linkDialogActive: false,
+			currentLink: "",
 			fonts: ["Roboto", "Calibri", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		};
 	},
@@ -243,6 +244,11 @@ export default {
 			this.setFormat("link", value);
 		},
 		onLinkCancel () {
+			this.setFormat("link", undefined);
+		},
+		activateLinkPromt() {
+			this.currentLink = this.getFormat("link") || "";
+			this.linkDialogActive = true;
 		}
 	},
 	computed: {
@@ -264,6 +270,7 @@ export default {
 				this.$store.commit("openedDialog", {}, {module: "core" });
 			} else {
 				this.$store.commit("closedDialog", {}, {module: "core" });
+				this.currentLink = "";
 			}
 		}
 	}
