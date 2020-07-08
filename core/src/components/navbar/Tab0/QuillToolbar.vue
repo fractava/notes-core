@@ -18,19 +18,6 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
 			<md-icon>code</md-icon>
 		</md-button>
-		<!--<md-dialog :md-active.sync="formulaDialogActive">
-			<md-dialog-title>Preferences</md-dialog-title>
-			<md-dialog-content>
-				<mathquill v-model="currentFormula"/>
-			</md-dialog-content>
-			<md-dialog-actions>
-        <md-button class="md-primary" v-on:click="onFormulaCancel">Close</md-button>
-        <md-button class="md-primary" v-on:click="onFormulaConfirm">Save</md-button>
-      </md-dialog-actions>
-		</md-dialog>-->
-		<!--<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
-			<md-icon>functions</md-icon>
-		</md-button>-->
 		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', '')">
 			<md-icon>functions</md-icon>
 		</md-button>
@@ -143,20 +130,16 @@
 <script>
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
-import mathquill from "../../miscellaneous/mathquill.vue";
 import Parchment from "parchment";
 
 export default {
 	components: {
 		colorPicker,
-		mathquill,
 	},
 	data: function(){
 		return {
 			linkDialogActive: false,
 			currentLink: "",
-			formulaDialogActive: false,
-			currentFormula: "",
 			fonts: ["Roboto", "Calibri", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		};
 	},
@@ -237,17 +220,6 @@ export default {
 			this.currentLink = this.getFormat("link") || "https://";
 			this.linkDialogActive = true;
 		},
-		activateFormulaPromt() {
-			this.formulaDialogActive = true;
-		},
-		onFormulaConfirm() {
-			this.formulaInserted = true;
-			this.formulaDialogActive = false;
-		},
-		onFormulaCancel() {
-			this.formulaInserted = false;
-			this.formulaDialogActive = false;
-		},
 		insertEmbed: function(type, content) {
 			this.$store.commit("insertEmbed", {type, content,}, {module: "core" });
 		},
@@ -273,21 +245,6 @@ export default {
 			} else {
 				this.$store.commit("closedDialog", {}, {module: "core" });
 				this.currentLink = "";
-			}
-		},
-		formulaDialogActive: function(newVal) {
-			if(newVal) {
-				this.formulaInserted = false;
-				this.$store.commit("openedDialog", {}, {module: "core" });
-			} else {
-				this.$store.commit("closedDialog", {}, {module: "core" });
-
-				let self = this;
-				setTimeout(function() {
-					if(self.formulaInserted) {
-						self.$store.commit("insertEmbed", {type: "formula", content: self.currentFormula,}, {module: "core" });
-					}
-				},1000);
 			}
 		},
 	},
