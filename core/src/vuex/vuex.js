@@ -200,7 +200,8 @@ export default {
 		insertEmbed(state, options) {
 			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 			let selection = quill.getSelection();
-			quill.insertEmbed(selection.index, "formula", "c = \\pm\\sqrt{a^2 + b^2}");
+			console.log(selection);
+			quill.insertEmbed(selection.index, options.type, options.content);
 		},
 
 		// Shapes

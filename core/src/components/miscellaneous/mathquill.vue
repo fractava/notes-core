@@ -7,11 +7,13 @@
 
 export default {
 	mounted: function() {
+		let self = this;
 		var config = {
 		  spaceBehavesLikeTab: true, // configurable
 		  handlers: {
 		    edit: function() { // useful event handlers
-		      //latexSpan.textContent = mathField.latex(); // simple API
+		      //latexSpan.textContent = ; // simple API
+					self.$emit("input", mathField.latex());
 		    }
 		  }
 		};

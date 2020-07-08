@@ -21,7 +21,7 @@
 		<md-dialog :md-active.sync="formulaDialogActive">
 			<md-dialog-title>Preferences</md-dialog-title>
 			<md-dialog-content>
-				<mathquill />
+				<mathquill v-model="currentFormula"/>
 			</md-dialog-content>
 			<md-dialog-actions>
         <md-button class="md-primary" v-on:click="onFormulaCancel">Close</md-button>
@@ -150,6 +150,7 @@ export default {
 			linkDialogActive: false,
 			currentLink: "",
 			formulaDialogActive: false,
+			currentFormula: "",
 			fonts: ["Roboto", "Calibri", "Arial", "Courier-New", "Georgia", "Trebuchet-MS", "Lucida-Sans-Unicode", "Times-New-Roman", "Verdana", "Futura", "Charter", "Terminal", "Clean", "Helvetica"],
 		};
 	},
@@ -231,10 +232,12 @@ export default {
 			this.formulaDialogActive = true;
 		},
 		onFormulaConfirm() {
-			this.$store.commit("insertEmbed", {}, {module: "core" });
+			this.formulaInserted = true;
+			this.formulaDialogActive = false;
 		},
 		onFormulaCancel() {
-
+			this.formulaInserted = false;
+			this.formulaDialogActive = false;
 		},
 	},
 	computed: {
@@ -261,9 +264,17 @@ export default {
 		},
 		formulaDialogActive: function(newVal) {
 			if(newVal) {
+				this.formulaInserted = false;
 				this.$store.commit("openedDialog", {}, {module: "core" });
 			} else {
 				this.$store.commit("closedDialog", {}, {module: "core" });
+
+				let self = this;
+				setTimeout(function() {
+					if(self.formulaInserted) {
+						self.$store.commit("insertEmbed", {type: "formula", content: self.currentFormula,}, {module: "core" });
+					}
+				},1000);
 			}
 		},
 	},
