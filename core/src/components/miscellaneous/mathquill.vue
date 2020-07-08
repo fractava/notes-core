@@ -3,7 +3,7 @@
 		<span style="width: 80%;" ref="mathquill"></span>
 		<div>
 			<md-button v-on:click="cmd('\\sqrt')">
-				Wurzel
+				sqaure root
 			</md-button>
 			<md-button v-on:click="cmd('\\frac')">
 				fracture

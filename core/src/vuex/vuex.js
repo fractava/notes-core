@@ -148,7 +148,7 @@ export default {
 					width: options.width,
 					height: options.height,
 				},
-				content: "",
+				content: {},
 				quill: undefined,
 			});
 		},

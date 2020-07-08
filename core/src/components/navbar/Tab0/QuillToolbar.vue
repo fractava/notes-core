@@ -18,7 +18,7 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
 			<md-icon>code</md-icon>
 		</md-button>
-		<md-dialog :md-active.sync="formulaDialogActive">
+		<!--<md-dialog :md-active.sync="formulaDialogActive">
 			<md-dialog-title>Preferences</md-dialog-title>
 			<md-dialog-content>
 				<mathquill v-model="currentFormula"/>
@@ -27,8 +27,11 @@
         <md-button class="md-primary" v-on:click="onFormulaCancel">Close</md-button>
         <md-button class="md-primary" v-on:click="onFormulaConfirm">Save</md-button>
       </md-dialog-actions>
-		</md-dialog>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
+		</md-dialog>-->
+		<!--<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
+			<md-icon>functions</md-icon>
+		</md-button>-->
+		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', '')">
 			<md-icon>functions</md-icon>
 		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
@@ -129,6 +132,9 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
 			<md-icon>arrow_drop_up</md-icon>
 		</md-button>
+		<md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
+			debug
+		</md-button>
   </div>
 </div>
 
@@ -155,6 +161,9 @@ export default {
 		};
 	},
 	methods: {
+		debugOutput: function() {
+			console.log(this.loadedPage);
+		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
 		},
@@ -239,10 +248,14 @@ export default {
 			this.formulaInserted = false;
 			this.formulaDialogActive = false;
 		},
+		insertEmbed: function(type, content) {
+			this.$store.commit("insertEmbed", {type, content,}, {module: "core" });
+		},
 	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
+			debug: state => state.core.debug,
 		}),
 		font: {
 			set(font) {
