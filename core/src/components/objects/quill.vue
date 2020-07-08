@@ -37,7 +37,7 @@ const defaultOptions = {
 	modules: {
 		toolbar: [
 			[{ "size": fontSizeWhiteList }],
-			["formula", "link", "image", "video"],
+			["link", "image", "video"],
 		]
 	},
 	placeholder: "Insert text here ...",
