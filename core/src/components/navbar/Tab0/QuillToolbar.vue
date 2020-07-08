@@ -24,8 +24,8 @@
 				<mathquill />
 			</md-dialog-content>
 			<md-dialog-actions>
-        <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-        <md-button class="md-primary" @click="showDialog = false">Save</md-button>
+        <md-button class="md-primary" v-on:click="onFormulaCancel">Close</md-button>
+        <md-button class="md-primary" v-on:click="onFormulaConfirm">Save</md-button>
       </md-dialog-actions>
 		</md-dialog>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="activateFormulaPromt">
@@ -229,6 +229,12 @@ export default {
 		},
 		activateFormulaPromt() {
 			this.formulaDialogActive = true;
+		},
+		onFormulaConfirm() {
+			this.$store.commit("insertEmbed", {}, {module: "core" });
+		},
+		onFormulaCancel() {
+
 		},
 	},
 	computed: {

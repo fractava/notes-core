@@ -197,6 +197,11 @@ export default {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
 		},
+		insertEmbed(state, options) {
+			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+			let selection = quill.getSelection();
+			quill.insertEmbed(selection.index, "formula", "c = \\pm\\sqrt{a^2 + b^2}");
+		},
 
 		// Shapes
 		newShape(state, options) {
