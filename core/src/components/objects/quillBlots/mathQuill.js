@@ -1,12 +1,12 @@
 export default {
 	register: function(Quill) {
-		let BlockEmbed = Quill.import('blots/block/embed');
+		let BlockEmbed = Quill.import("blots/block/embed");
 
 		class MathQuillBlot extends BlockEmbed {
 		  static create(content) {
 		    let node = super.create();
 
-				node.setAttribute('contenteditable', false);
+				node.setAttribute("contenteditable", false);
 
 				var config = {
 				  spaceBehavesLikeTab: true, // configurable
@@ -30,10 +30,10 @@ export default {
 			}
 		}
 
-		MathQuillBlot.blotName = 'mathQuill';
-		MathQuillBlot.tagName = 'div';
-		MathQuillBlot.className = 'mathQuillBlot';
+		MathQuillBlot.blotName = "mathQuill";
+		MathQuillBlot.tagName = "div";
+		MathQuillBlot.className = "mathQuillBlot";
 
 		Quill.register(MathQuillBlot);
 	}
-}
+};
