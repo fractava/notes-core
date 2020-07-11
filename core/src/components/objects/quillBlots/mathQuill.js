@@ -22,6 +22,11 @@ export default {
 				this.MQ = MathQuill.getInterface(2);
 				this.mathField = this.MQ.MathField(span, config);
 
+				let self = this;
+				node.addEventListener("click", function() {
+					self.mathField.focus();
+				});
+
 		    return node;
 		  }
 
