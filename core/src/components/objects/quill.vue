@@ -234,4 +234,20 @@ export default {
 		border: 1px solid black;
 		box-shadow: none !important;
 	}
+
+	/* MathLive Blot*/
+	.mathLiveBlot {
+		background-color: lightgray;
+		word-wrap: normal !important;
+		white-space: normal !important;
+	}
+	.ML__keystroke-caption {
+		display: none !important;
+	}
+	.ML__virtual-keyboard-toggle:after {
+		display: none !important;
+	}
+	[data-tooltip]:hover:after {
+		visibility: hidden !important;
+	}
 </style>

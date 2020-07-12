@@ -25,10 +25,25 @@ export default {
 					onContentDidChange: (mf) => {
 						const latex = mf.$text();
 						console.log(latex);
-					}
+					},
+					inlineShortcuts: {
+						"minus": "-",
+						"-": "-",
+						"plus": "+",
+						"/": "\\frac",
+						"super 1": "^1",
+						"super 2": "^2",
+						"super 3": "^3",
+						"super 4": "^4",
+						"super 5": "^5",
+						"super 6": "^6",
+						"super 7": "^7",
+						"super 8": "^8",
+						"super 9": "^8",
+					},
 				});
 
-				this.MathLiveField.$latex("4x");
+				this.MathLiveField.$latex(content);
 
 				let self = this;
 				node.addEventListener("click", function() {
