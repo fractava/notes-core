@@ -3,7 +3,7 @@
 
 <img src="https://github.com/fractava/notes-resources/blob/master/Notes.png" width="240">
 
-__Currently Work in Progress__
+[__Currently Work in Progress__](https://fractava.github.io/notes-docs/ideas)
 
 The Core Libary of our Notes Apps.
 It contains the Editor, but cannot run by itself.
