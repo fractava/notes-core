@@ -9,7 +9,7 @@
 import _Quill from "quill";
 import linkBlot from "./quillBlots/link.js";
 import mathQuillBlot from "./quillBlots/mathQuill.js";
-import mathLiveBlot from "./quillBlots/mathLive.js";
+//import mathLiveBlot from "./quillBlots/mathLive.js";
 
 const Quill = window.Quill || _Quill;
 
@@ -29,8 +29,8 @@ Size.whitelist = fontSizeWhiteList;
 Quill.register(Size, true);
 
 linkBlot.register(Quill);
-//mathQuillBlot.register(Quill);
-mathLiveBlot.register(Quill);
+mathQuillBlot.register(Quill);
+//mathLiveBlot.register(Quill);
 
 const defaultOptions = {
 	theme: "snow",
@@ -227,6 +227,16 @@ export default {
 	}
 
 	/*Mathquill Blot*/
+	.mathQuillBlot {
+		background-color: lightgray;
+    	word-wrap: normal !important;
+    	white-space: normal !important;
+		margin-bottom: 1px;
+	}
+	.mathQuillBlot .mq-math-mode {
+		width: 100%;
+		border: none !important;
+	}
 	.mq-editable-field {
 		min-width: 20%;
 	}
@@ -236,7 +246,7 @@ export default {
 	}
 
 	/* MathLive Blot*/
-	.mathLiveBlot {
+	/*.mathLiveBlot {
 		background-color: lightgray;
 		word-wrap: normal !important;
 		white-space: normal !important;
@@ -249,5 +259,5 @@ export default {
 	}
 	[data-tooltip]:hover:after {
 		visibility: hidden !important;
-	}
+	}*/
 </style>
