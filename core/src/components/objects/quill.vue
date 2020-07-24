@@ -8,7 +8,7 @@
 <script>
 import _Quill from "quill";
 import linkBlot from "./quillBlots/link.js";
-import mathQuillBlot from "./quillBlots/mathQuill.js";
+import mathQuillBlot from "quill-mathquill-blot";
 //import mathLiveBlot from "./quillBlots/mathLive.js";
 
 const Quill = window.Quill || _Quill;
