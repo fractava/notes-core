@@ -24,6 +24,7 @@
   "dependencies": {
     "font-detective": "^2.0.0",
     "mathlive": "^0.54.1",
+    "quill-mathlive-blot": "^1.0.0",
     "quill-mathquill-blot": "^1.0.0",
     "vue-color": "^2.7.1",
     "vue-material": "^1.0.0-beta-14",

@@ -9,7 +9,7 @@
 import _Quill from "quill";
 import linkBlot from "./quillBlots/link.js";
 import mathQuillBlot from "quill-mathquill-blot";
-//import mathLiveBlot from "./quillBlots/mathLive.js";
+//import mathLiveBlot from "quill-mathlive-blot";
 
 const Quill = window.Quill || _Quill;
 
