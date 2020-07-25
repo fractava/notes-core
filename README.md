@@ -8,6 +8,10 @@
 The Core Libary of our Notes Apps.
 It contains the Editor, but cannot run by itself.
 
+## Screenshot
+
+![](https://raw.githubusercontent.com/fractava/notes-core/master/img/1.png)
+
 ## Dev Server
 The Dev Server is used to get a development server that watches the libary files and lets you test the libary without pushing in to npm.
 Its not a part of the package fractava/fractava-notes-core on npm.
