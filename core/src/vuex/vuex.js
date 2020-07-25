@@ -148,7 +148,7 @@ export default {
 					width: options.width,
 					height: options.height,
 				},
-				content: "",
+				content: {},
 				quill: undefined,
 			});
 		},
@@ -196,6 +196,12 @@ export default {
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
+		},
+		insertEmbed(state, options) {
+			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+			let selection = quill.getSelection();
+			console.log(selection);
+			quill.insertEmbed(selection.index, options.type, options.content);
 		},
 
 		// Shapes

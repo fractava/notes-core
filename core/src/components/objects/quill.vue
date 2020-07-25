@@ -7,6 +7,8 @@
 
 <script>
 import _Quill from "quill";
+import linkBlot from "./quillBlots/link.js";
+import mathQuillBlot from "./quillBlots/mathQuill.js";
 
 const Quill = window.Quill || _Quill;
 
@@ -25,25 +27,9 @@ var Size = Quill.import("attributors/style/size");
 Size.whitelist = fontSizeWhiteList;
 Quill.register(Size, true);
 
-let Inline = Quill.import("blots/inline");
+linkBlot.register(Quill);
+mathQuillBlot.register(Quill);
 
-class LinkBlot extends Inline {
-	static create(value) {
-		let node = super.create();
-		// Sanitize url value if desired
-		node.setAttribute("href", value);
-		node.setAttribute("target", "_blank");
-		return node;
-	}
-
-	static formats(node) {
-		return node.getAttribute("href");
-	}
-}
-LinkBlot.blotName = "link";
-LinkBlot.tagName = "a";
-
-Quill.register(LinkBlot);
 
 const defaultOptions = {
 	theme: "snow",
@@ -95,8 +81,8 @@ export default {
 		};
 	},
 	props: {
-		content: String,
-		value: String,
+		content: Object,
+		value: Object,
 		disabled: {
 			type: Boolean,
 			default: false
@@ -144,7 +130,7 @@ export default {
 
 				// Set editor content
 				if (this.value || this.content) {
-					this.quill.pasteHTML(this.value || this.content);
+					this.quill.setContents(this.value || this.content);
 				}
 
 				// Disabled editor
@@ -163,19 +149,18 @@ export default {
 				this.quill.on("text-change", () => {
 					const quill = this.quill;
 					let html = this.$refs.editor.children[0].innerHTML;
-					let text = this.quill.getText();
 
 					if (html === "<p><br></p>") html = "";
 
 					if(html == "") {
 						this.applyDefaultStyle();
-						html = this.$refs.editor.children[0].innerHTML;
-						text = this.quill.getText();
 					}
 
-					this._content = html;
+					let contents = quill.getContents();
+
+					this._content = contents;
 					this.$emit("input", this._content);
-					this.$emit("change", { html, text, quill });
+					this.$emit("change", { contents, quill });
 				});
 
 				// Emit ready event

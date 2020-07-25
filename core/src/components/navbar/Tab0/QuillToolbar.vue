@@ -18,6 +18,9 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
 			<md-icon>code</md-icon>
 		</md-button>
+		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', '')">
+			<md-icon>functions</md-icon>
+		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
 			<md-icon>looks_one</md-icon>
 		</md-button>
@@ -93,8 +96,7 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="removeFormat">
 			<md-icon>format_clear</md-icon>
 		</md-button>
-		<div>
-			<md-dialog-prompt
+		<md-dialog-prompt
       :md-active.sync="linkDialogActive"
       md-title="Add Link"
       md-input-maxlength="300"
@@ -105,7 +107,6 @@
       @md-confirm="onLinkConfirm"
 			v-model="currentLink"
 		/>
-
 		<md-button class="navbarButton smallNavbarButton" v-on:click="activateLinkPromt" :class="{'md-raised': !isFormat('link', undefined)}">
 			<md-icon>link</md-icon>
 		</md-button>
@@ -117,6 +118,9 @@
 		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
 			<md-icon>arrow_drop_up</md-icon>
+		</md-button>
+		<md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
+			debug
 		</md-button>
   </div>
 </div>
@@ -140,6 +144,9 @@ export default {
 		};
 	},
 	methods: {
+		debugOutput: function() {
+			console.log(this.loadedPage);
+		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
 		},
@@ -181,11 +188,8 @@ export default {
 
 			currentFormat = currentFormat || defaultValue || 0;
 
-			let newVal = currentFormat + value;function test() {
+			let newVal = currentFormat + value;
 
-
-
-}
 			if(unit) {
 				newVal += unit;
 			}
@@ -215,11 +219,15 @@ export default {
 		activateLinkPromt() {
 			this.currentLink = this.getFormat("link") || "https://";
 			this.linkDialogActive = true;
-		}
+		},
+		insertEmbed: function(type, content) {
+			this.$store.commit("insertEmbed", {type, content,}, {module: "core" });
+		},
 	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
+			debug: state => state.core.debug,
 		}),
 		font: {
 			set(font) {
@@ -238,8 +246,8 @@ export default {
 				this.$store.commit("closedDialog", {}, {module: "core" });
 				this.currentLink = "";
 			}
-		}
-	}
+		},
+	},
 };
 </script>
 <style>
