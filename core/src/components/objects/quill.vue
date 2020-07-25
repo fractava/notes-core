@@ -8,7 +8,8 @@
 <script>
 import _Quill from "quill";
 import linkBlot from "./quillBlots/link.js";
-import mathQuillBlot from "./quillBlots/mathQuill.js";
+import mathQuillBlot from "quill-mathquill-blot";
+//import mathLiveBlot from "quill-mathlive-blot";
 
 const Quill = window.Quill || _Quill;
 
@@ -29,7 +30,7 @@ Quill.register(Size, true);
 
 linkBlot.register(Quill);
 mathQuillBlot.register(Quill);
-
+//mathLiveBlot.register(Quill);
 
 const defaultOptions = {
 	theme: "snow",
@@ -224,4 +225,39 @@ export default {
 	.ql-toolbar.ql-snow {
 		border: none !important;
 	}
+
+	/*Mathquill Blot*/
+	.mathQuillBlot {
+		background-color: lightgray;
+    	word-wrap: normal !important;
+    	white-space: normal !important;
+		margin-bottom: 1px;
+	}
+	.mathQuillBlot .mq-math-mode {
+		width: 100%;
+		border: none !important;
+	}
+	.mq-editable-field {
+		min-width: 20%;
+	}
+	.mq-editable-field.mq-focused {
+		border: 1px solid black;
+		box-shadow: none !important;
+	}
+
+	/* MathLive Blot*/
+	/*.mathLiveBlot {
+		background-color: lightgray;
+		word-wrap: normal !important;
+		white-space: normal !important;
+	}
+	.ML__keystroke-caption {
+		display: none !important;
+	}
+	.ML__virtual-keyboard-toggle:after {
+		display: none !important;
+	}
+	[data-tooltip]:hover:after {
+		visibility: hidden !important;
+	}*/
 </style>

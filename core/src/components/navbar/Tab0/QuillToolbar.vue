@@ -18,7 +18,7 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
 			<md-icon>code</md-icon>
 		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', '')">
+		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', ''); /*insertEmbed('mathLive', '')*/">
 			<md-icon>functions</md-icon>
 		</md-button>
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
