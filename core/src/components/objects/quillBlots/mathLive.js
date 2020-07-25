@@ -15,7 +15,6 @@ export default {
 				$(node).append(div);
 				console.log(node);
 
-				//this.MathLiveField = MathLive.makeMathField(div);
 				this.MathLiveField = MathLive.makeMathField(div, {
 					smartMode: true,
 					virtualKeyboardMode: "manual",
@@ -43,18 +42,17 @@ export default {
 					},
 				});
 
-				this.MathLiveField.$latex(content);
+				node.MathLiveField.$latex(content);
 
-				let self = this;
 				node.addEventListener("click", function() {
-					self.MathLiveField.$focus();
+					node.MathLiveField.$focus();
 				});
 
 		    return node;
 		  }
 
-			static value(domNode) {
-				return this.MathLiveField.$latex();
+			static value(node) {
+				return node.MathLiveField.$latex();
 			}
 		}
 
