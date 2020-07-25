@@ -5,7 +5,6 @@ export default {
 		class LinkBlot extends Inline {
 			static create(value) {
 				let node = super.create();
-				// Sanitize url value if desired
 				node.setAttribute("href", value);
 				node.setAttribute("target", "_blank");
 				return node;
