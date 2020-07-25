@@ -1,0 +1,35 @@
+name: Lint
+
+on: [push]
+
+jobs:
+  lint_core:
+    name: Lint Core
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Install dependencies
+      working-directory: core
+      run: npm ci
+    - name: Lint
+      working-directory: core
+      run: npm run lint
+#  lint_dev_server:
+#    name: Lint Dev Server
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v1
+#    - name: Setup Node.js
+#      uses: actions/setup-node@v1
+#      with:
+#        node-version: 12
+#    - name: Install dependencies
+#      working-directory: dev-server
+#      run: npm ci
+#    - name: Lint
+#      working-directory: dev-server
+#      run: npm run lint
