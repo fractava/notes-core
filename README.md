@@ -1,5 +1,6 @@
 # FRACTAVA Notes Core
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/fractava/notes-core)
+![Lint](https://github.com/fractava/notes-core/workflows/Lint/badge.svg?branch=master)
 
 <img src="https://github.com/fractava/notes-resources/blob/master/Notes.png" width="240">
 
