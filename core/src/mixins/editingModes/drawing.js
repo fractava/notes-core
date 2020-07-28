@@ -25,9 +25,9 @@ export const drawing = {
 		shouldDrawLine: function(x, y, event) {
 			let drawLine = false;
 
-			if(this.preventingElementInPath(event)) {
+			/*if(this.preventingElementInPath(event)) {
 				return false;
-			}
+			}*/
 
 			if(this.lastSketch.coordinates.length == 0) {
 				// First Line of Sketch -> draw line
