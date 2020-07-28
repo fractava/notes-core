@@ -5,7 +5,7 @@
 				md-align-trigger
 				class="navbarButton"
 			>
-				<md-button md-menu-trigger>
+				<md-button md-menu-trigger class="smallNavbarButton">
 					<md-icon>emoji_symbols</md-icon>
 				</md-button>
 

@@ -21,6 +21,7 @@
 		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', ''); /*insertEmbed('mathLive', '')*/">
 			<md-icon>functions</md-icon>
 		</md-button>
+		<add-symbol />
 		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
 			<md-icon>looks_one</md-icon>
 		</md-button>
@@ -131,10 +132,12 @@
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
 import Parchment from "parchment";
+import addSymbol from "./AddSymbol.vue";
 
 export default {
 	components: {
 		colorPicker,
+		addSymbol,
 	},
 	data: function(){
 		return {

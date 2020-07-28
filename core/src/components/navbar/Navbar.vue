@@ -18,7 +18,6 @@
 						<tab id="2" style="display: flex; flex-direction: row;">
 							<add-text-box />
 							<add-shapes />
-							<add-symbol />
 						</tab>
 						<tab id="3" style="display: flex; flex-direction: row;">
 							<zoom-control/>
@@ -43,7 +42,6 @@ import pencilSelector from "./Tab1/PencilSelector.vue";
 
 // Tab 2
 import addTextBox from "./Tab2/AddTextBox.vue";
-import addSymbol from "./Tab2/AddSymbol.vue";
 import addShapes from "./Tab2/AddShapes.vue";
 
 // Tab 3
@@ -63,7 +61,6 @@ export default {
 		quillToolbar,
 		shapeToolbar,
 		addTextBox,
-		addSymbol,
 		addShapes,
 	},
 	data: function() {
