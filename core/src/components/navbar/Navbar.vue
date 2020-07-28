@@ -72,7 +72,7 @@ export default {
 		activeNavbarTab: state => state.core.activeNavbarTab,
 		pencils: state => state.core.pencils,
 		focusedObjectType: state => state.core.focusedObjectType,
-    editingMode: state => state.core.editingMode,
+		editingMode: state => state.core.editingMode,
 	}),
 };
 </script>

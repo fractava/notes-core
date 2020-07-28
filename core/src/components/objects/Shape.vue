@@ -56,7 +56,7 @@ export default {
 			return this.loadedPage.objects.shapes[this.id];
 		},
 		active: function() {
-			return this.editingMode == 'editing' && this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
+			return this.editingMode == "editing" && this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
 		},
 	},
 	methods: {
