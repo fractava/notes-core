@@ -1,30 +1,30 @@
- <template>
-    <div class="navbar">
-        <md-tabs>
-            <tab-selector content="Start" id="0" />
-            <tab-selector content="Drawing" id="1" />
-            <tab-selector content="Insert" id="2" />
-			<tab-selector content="View" id="3" />
-        </md-tabs>
-        <div class="navbarContent">
-            <tab id="0">
-								<quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
-								<shape-toolbar v-if="focusedObjectType == 'shapes'" />
-            </tab>
-            <tab id="1" style="display: flex; flex-direction: row;">
-                <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
-                <add-pencil/>
-            </tab>
-						<tab id="2" style="display: flex; flex-direction: row;">
-							<add-text-box />
-							<add-shapes />
-						</tab>
-						<tab id="3" style="display: flex; flex-direction: row;">
-							<zoom-control/>
-							<background-selector />
-						</tab>
-        </div>
+<template>
+  <div class="navbar">
+    <md-tabs>
+      <tab-selector content="Start" id="0" />
+      <tab-selector content="Drawing" id="1" />
+      <tab-selector content="Insert" id="2" />
+      <tab-selector content="View" id="3" />
+    </md-tabs>
+    <div class="navbarContent">
+      <tab id="0">
+        <quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
+        <shape-toolbar v-if="focusedObjectType == 'shapes'" />
+      </tab>
+      <tab id="1" style="display: flex; flex-direction: row;">
+        <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
+        <add-pencil/>
+      </tab>
+      <tab id="2" style="display: flex; flex-direction: row;">
+        <add-text-box />
+        <add-shapes />
+      </tab>
+      <tab id="3" style="display: flex; flex-direction: row;">
+        <zoom-control/>
+        <background-selector />
+      </tab>
     </div>
+  </div>
 </template>
 
 <script>
