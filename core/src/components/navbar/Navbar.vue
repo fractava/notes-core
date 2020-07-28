@@ -8,8 +8,8 @@
     </md-tabs>
     <div class="navbarContent">
       <tab id="0">
-        <quill-toolbar v-if="focusedObjectType == 'textBoxes'" />
-        <shape-toolbar v-if="focusedObjectType == 'shapes'" />
+        <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
+        <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
       <tab id="1" style="display: flex; flex-direction: row;">
         <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -72,6 +72,7 @@ export default {
 		activeNavbarTab: state => state.core.activeNavbarTab,
 		pencils: state => state.core.pencils,
 		focusedObjectType: state => state.core.focusedObjectType,
+    editingMode: state => state.core.editingMode,
 	}),
 };
 </script>

@@ -69,7 +69,7 @@ export default {
 			return this.editingMode != "editing";
 		},
 		active: function() {
-			return this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;
+			return this.editingMode == 'editing' && this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;
 		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
