@@ -37,9 +37,9 @@ export default {
 		},
 		containerStyle: function() {
 			return {
-				top: this.loadedPage.background.size + 1  + "px",
-				left: this.loadedPage.background.size + 1 + "px",
-				height: this.inputSize   + "px",
+				"top": this.loadedPage.background.size + 1  + "px",
+				"left": this.loadedPage.background.size + 1 + "px",
+				"height": this.inputSize   + "px",
 				"min-width": this.loadedPage.background.size * 5 - 1 + "px",
 			};
 		},
