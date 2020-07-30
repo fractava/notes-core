@@ -75,8 +75,8 @@ export default {
 	name: "quill",
 	data() {
 		return {
-			_options: {},
-			_content: "",
+			_options: {}, // eslint-disable-line vue/no-reserved-keys
+			_content: "", // eslint-disable-line vue/no-reserved-keys
 			defaultOptions,
 			quill: _Quill,
 		};
@@ -140,7 +140,7 @@ export default {
 				}
 
 				// Mark model as touched if editor lost focus
-				this.quill.on("selection-change", range => {
+				this.quill.on("selection-change", () => {
 					if(this.focused) {
 						this.quill.focus();
 					}
@@ -229,8 +229,8 @@ export default {
 	/*Mathquill Blot*/
 	.mathQuillBlot {
 		background-color: lightgray;
-    	word-wrap: normal !important;
-    	white-space: normal !important;
+      word-wrap: normal !important;
+      white-space: normal !important;
 		margin-bottom: 1px;
 	}
 	.mathQuillBlot .mq-math-mode {

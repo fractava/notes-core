@@ -22,7 +22,7 @@ export const drawing = {
 		drawingPointerLeave: function() {
 
 		},
-		shouldDrawLine: function(x, y, event) {
+		shouldDrawLine: function(x, y, /*event*/) {
 			let drawLine = false;
 
 			/*if(this.preventingElementInPath(event)) {
