@@ -2,7 +2,7 @@
 	<sketch-picker
 	class="sketchPicker"
 	@input="update"
-	:value="color"
+	:value="color || colorRGBA"
 	:presetColors="presetColors"
 	></sketch-picker>
 </template>
@@ -16,10 +16,14 @@ export default {
 		sketchPicker: Sketch,
 	},
 	props: {
+		colorRGBA: {
+			type: Object,
+			default: {r: 0, g: 0, b: 0, a: 0},
+		},
 		color: {
 			type: String,
-			default: "#000000",
-		}
+			default: "",
+		},
 	},
 	methods: {
 		update: function(color) {

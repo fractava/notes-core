@@ -1,6 +1,6 @@
 <template>
     <svg class="sketch" :style="{width: loadedPage.size.x + 'px', height: loadedPage.size.y + 'px'}">
-        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index">
+        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index" :opacity="sketch.opacity">
             <line
                 v-for="(line, index) in sketch.coordinates"
                 :key="'sketch-' + index"
@@ -11,9 +11,9 @@
                 v-if="index != sketch.coordinates.length-1"
                 :style="{'stroke-width': line.width, stroke: sketch.color,}"
             />
-            <circle 
+            <circle
                 v-for="(line, index) in sketch.coordinates"
-				:key="'line-' + index"
+                :key="'line-' + index"
                 :cx="line.x"
                 :cy="line.y"
                 :r="line.width/2"
