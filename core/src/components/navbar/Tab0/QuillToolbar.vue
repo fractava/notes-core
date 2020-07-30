@@ -112,7 +112,6 @@
 <script>
 import { mapState } from "vuex";
 import colorPicker from "../ColorPicker.vue";
-import Parchment from "parchment";
 import addSymbol from "./AddSymbol.vue";
 
 export default {
