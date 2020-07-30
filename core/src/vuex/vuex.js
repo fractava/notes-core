@@ -130,6 +130,9 @@ export default {
 		changePencilColor(state, options) {
 			state.pencils[options.id].color = options.color;
 		},
+		changePencilWidth(state, options) {
+			state.pencils[options.id].width = options.width;
+		},
 		selectPencil(state, options) {
 			if(options.id < state.pencils.length) {
 				state.selectedPencilId = options.id;

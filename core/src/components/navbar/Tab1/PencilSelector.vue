@@ -17,7 +17,15 @@
 					<span>
 						Pencil Settings:
             <color-picker :colorRGBA="pencils[id].color" v-on:update="updateColor"/>
-						Width: {{ pencils[id].width }}
+            <div class="widthSliderContainer">
+              <input
+                class="widthSlider"
+                type="range"
+                v-model.number="width"
+                min="1"
+                max="50"
+              >
+            </div>
 					</span>
 				</md-menu-content>
 			</md-menu>
@@ -50,6 +58,14 @@ export default {
 			var color = tinycolor(this.pencils[this.id].color);
 			return color.toRgbString();
 		},
+    width: {
+      set(width) {
+        this.$store.commit("changePencilWidth", {id: this.id, width,}, {module: "core" });
+      },
+      get() {
+        return this.pencils[this.id].width;
+      }
+    },
 	},
 	methods: {
 		select: function() {
@@ -72,5 +88,12 @@ export default {
 <style scoped>
 .selectPencilButton, .selectPencilButton button {
 	height: 100%;
+}
+.widthSlider {
+  width: 100%;
+}
+.widthSliderContainer {
+  width: 100%;
+  padding: 10px 10px 0;
 }
 </style>

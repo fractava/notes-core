@@ -103,5 +103,6 @@ export default {
 	max-width: fit-content !important;
   height: fit-content;
 	max-width: 60vh;
+  max-height: unset !important;
 }
 </style>
