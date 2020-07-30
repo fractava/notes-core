@@ -25,10 +25,6 @@ export const drawing = {
 		shouldDrawLine: function(x, y, /*event*/) {
 			let drawLine = false;
 
-			/*if(this.preventingElementInPath(event)) {
-				return false;
-			}*/
-
 			if(this.lastSketch.coordinates.length == 0) {
 				// First Line of Sketch -> draw line
 				if(this.debug) {
@@ -48,18 +44,6 @@ export const drawing = {
 			}
 
 			return drawLine;
-		},
-		preventingElementInPath: function(event) {
-			for(let index in event.path) {
-				let path = event.path[index];
-				let classList = path.classList;
-				if(classList) {
-					if(classList.contains("pageTitleContainer") || classList.contains("textBoxContainer")){
-						return true;
-					}
-				}
-			}
-			return false;
 		},
 	},
 	computed: {
