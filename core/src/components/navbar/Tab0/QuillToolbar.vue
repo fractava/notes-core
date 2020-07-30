@@ -1,131 +1,112 @@
 <template>
 <div style="height: 100%; display: flex;">
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
-			<md-icon>format_bold</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('italic')" :class="{'md-raised': isFormat('italic', true)}">
-			<md-icon>format_italic</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('underline')" :class="{'md-raised': isFormat('underline', true)}">
-			<md-icon>format_underlined</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('strike')" :class="{'md-raised': isFormat('strike', true)}">
-			<md-icon>strikethrough_s</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('blockquote')" :class="{'md-raised': isFormat('blockquote', true)}">
-			<md-icon>format_quote</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
-			<md-icon>code</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', ''); /*insertEmbed('mathLive', '')*/">
-			<md-icon>functions</md-icon>
-		</md-button>
-		<add-symbol />
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
-			<md-icon>looks_one</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 2, 0)" :class="{'md-raised': isFormat('header', 2)}">
-			<md-icon>looks_two</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('list', 'ordered', false)" :class="{'md-raised': isFormat('list', 'ordered')}">
-			<md-icon>format_list_numbered</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('list', 'bullet', false)" :class="{'md-raised': isFormat('list', 'bullet')}">
-			<md-icon>format_list_bulleted</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('script', 'sub', false)" :class="{'md-raised': isFormat('script', 'sub')}">
-			<md-icon>subscript</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('script', 'super', false)" :class="{'md-raised': isFormat('script', 'super')}">
-			<md-icon>superscript</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', -1)">
-			<md-icon>format_indent_decrease</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', 1)">
-			<md-icon>format_indent_increase</md-icon>
-		</md-button>
-		<md-menu
-			md-direction="bottom-start"
-			md-align-trigger
-			class="navbarButton"
-		>
-			<md-button md-menu-trigger class="navbarButton smallNavbarButton">
-				<md-icon>title</md-icon>
-			</md-button>
-			<md-menu-content class="symbolsMenu">
-				<span>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
+        <md-icon>format_bold</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('italic')" :class="{'md-raised': isFormat('italic', true)}">
+        <md-icon>format_italic</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('underline')" :class="{'md-raised': isFormat('underline', true)}">
+        <md-icon>format_underlined</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('strike')" :class="{'md-raised': isFormat('strike', true)}">
+        <md-icon>strikethrough_s</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('blockquote')" :class="{'md-raised': isFormat('blockquote', true)}">
+        <md-icon>format_quote</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('code')" :class="{'md-raised': isFormat('code', true)}">
+        <md-icon>code</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="insertEmbed('mathQuill', ''); /*insertEmbed('mathLive', '')*/">
+        <md-icon>functions</md-icon>
+    </md-button>
+    <add-symbol />
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 1, 0)" :class="{'md-raised': isFormat('header', 1)}">
+        <md-icon>looks_one</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('header', 2, 0)" :class="{'md-raised': isFormat('header', 2)}">
+        <md-icon>looks_two</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('list', 'ordered', false)" :class="{'md-raised': isFormat('list', 'ordered')}">
+        <md-icon>format_list_numbered</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('list', 'bullet', false)" :class="{'md-raised': isFormat('list', 'bullet')}">
+        <md-icon>format_list_bulleted</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('script', 'sub', false)" :class="{'md-raised': isFormat('script', 'sub')}">
+        <md-icon>subscript</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormatWithValue('script', 'super', false)" :class="{'md-raised': isFormat('script', 'super')}">
+        <md-icon>superscript</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', -1)">
+        <md-icon>format_indent_decrease</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelative('indent', 1)">
+        <md-icon>format_indent_increase</md-icon>
+    </md-button>
+    <md-menu md-direction="bottom-start" md-align-trigger class="navbarButton">
+        <md-button md-menu-trigger class="navbarButton smallNavbarButton">
+            <md-icon>title</md-icon>
+        </md-button>
+        <md-menu-content class="symbolsMenu">
+            <span>
 					<span class="md-headline">Text Color:</span>
-					<div>
-						<color-picker :color="getFormat('color')" v-on:update="updateTextColor"/>
-					</div>
-				</span>
-			</md-menu-content>
-		</md-menu>
-		<md-menu
-			md-direction="bottom-start"
-			md-align-trigger
-			class="navbarButton"
-		>
-			<md-button md-menu-trigger class="navbarButton smallNavbarButton">
-				<md-icon>format_paint</md-icon>
-			</md-button>
-			<md-menu-content class="symbolsMenu">
-				<span>
+            <div>
+                <color-picker :color="getFormat('color')" v-on:update="updateTextColor" />
+            </div>
+            </span>
+        </md-menu-content>
+    </md-menu>
+    <md-menu md-direction="bottom-start" md-align-trigger class="navbarButton">
+        <md-button md-menu-trigger class="navbarButton smallNavbarButton">
+            <md-icon>format_paint</md-icon>
+        </md-button>
+        <md-menu-content class="symbolsMenu">
+            <span>
 					<span class="md-headline">Background Color:</span>
-					<div>
-						<color-picker :color="getFormat('background')" v-on:update="updateBackgroundColor"/>
-					</div>
-				</span>
-			</md-menu-content>
-		</md-menu>
-		<md-field>
-			<md-select v-model="font" name="font" id="font">
-				<md-option v-for="font in fonts" :key="'font_option'+font" :value="font">{{ font }}</md-option>
-			</md-select>
-		</md-field>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', '')" :class="{'md-raised': isFormat('align', undefined)}">
-			<md-icon>format_align_left</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', 'center')" :class="{'md-raised': isFormat('align', 'center')}">
-			<md-icon>format_align_center</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', 'right')" :class="{'md-raised': isFormat('align', 'right')}">
-			<md-icon>format_align_right</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="removeFormat">
-			<md-icon>format_clear</md-icon>
-		</md-button>
-		<md-dialog-prompt
-      :md-active.sync="linkDialogActive"
-      md-title="Add Link"
-      md-input-maxlength="300"
-      md-input-placeholder="URL"
-      md-confirm-text="Add Link"
-			md-cancel-text="remove Link"
-			@md-cancel="onLinkCancel"
-      @md-confirm="onLinkConfirm"
-			v-model="currentLink"
-		/>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="activateLinkPromt" :class="{'md-raised': !isFormat('link', undefined)}">
-			<md-icon>link</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
-			<md-icon>arrow_drop_down</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton">
-			{{ getFormat("size") }}
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
-			<md-icon>arrow_drop_up</md-icon>
-		</md-button>
-		<md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
-			debug
-		</md-button>
-  </div>
+            <div>
+                <color-picker :color="getFormat('background')" v-on:update="updateBackgroundColor" />
+            </div>
+            </span>
+        </md-menu-content>
+    </md-menu>
+    <md-field>
+        <md-select v-model="font" name="font" id="font">
+            <md-option v-for="font in fonts" :key="'font_option'+font" :value="font">{{ font }}</md-option>
+        </md-select>
+    </md-field>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', '')" :class="{'md-raised': isFormat('align', undefined)}">
+        <md-icon>format_align_left</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', 'center')" :class="{'md-raised': isFormat('align', 'center')}">
+        <md-icon>format_align_center</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormat('align', 'right')" :class="{'md-raised': isFormat('align', 'right')}">
+        <md-icon>format_align_right</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="removeFormat">
+        <md-icon>format_clear</md-icon>
+    </md-button>
+    <md-dialog-prompt :md-active.sync="linkDialogActive" md-title="Add Link" md-input-maxlength="300" md-input-placeholder="URL" md-confirm-text="Add Link" md-cancel-text="remove Link" @md-cancel="onLinkCancel" @md-confirm="onLinkConfirm" v-model="currentLink"
+    />
+    <md-button class="navbarButton smallNavbarButton" v-on:click="activateLinkPromt" :class="{'md-raised': !isFormat('link', undefined)}">
+        <md-icon>link</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', -1, 20, 'px')">
+        <md-icon>arrow_drop_down</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton">
+        {{ getFormat("size") }}
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
+        <md-icon>arrow_drop_up</md-icon>
+    </md-button>
+    <md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
+        debug
+    </md-button>
 </div>
-
 </template>
 
 <script>
