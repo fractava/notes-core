@@ -48,6 +48,7 @@ export default {
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
+			editingMode: state => state.core.editingMode,
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
@@ -55,7 +56,7 @@ export default {
 			return this.loadedPage.objects.shapes[this.id];
 		},
 		active: function() {
-			return this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
+			return this.editingMode == "editing" && this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
 		},
 	},
 	methods: {

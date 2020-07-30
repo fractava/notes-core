@@ -1,6 +1,6 @@
 <template>
     <svg class="sketch" :style="{width: loadedPage.size.x + 'px', height: loadedPage.size.y + 'px'}">
-        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index">
+        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index" :opacity="sketch.color.a">
             <line
                 v-for="(line, index) in sketch.coordinates"
                 :key="'sketch-' + index"
@@ -9,17 +9,17 @@
                 :x2="sketch.coordinates[index + 1].x"
                 :y2="sketch.coordinates[index + 1].y"
                 v-if="index != sketch.coordinates.length-1"
-                :style="{'stroke-width': line.width, stroke: sketch.color,}"
+                :style="{'stroke-width': line.width, stroke: sketchRGBString(sketch),}"
             />
-            <circle 
+            <circle
                 v-for="(line, index) in sketch.coordinates"
-				:key="'line-' + index"
+                :key="'line-' + index"
                 :cx="line.x"
                 :cy="line.y"
                 :r="line.width/2"
                 stroke=""
                 stroke-width="0"
-                :fill="sketch.color"
+                :fill="sketchRGBString(sketch)"
             />
         </g>
     </svg>
@@ -27,10 +27,20 @@
 
 <script>
 import { mapState } from "vuex";
+import * as tinycolor from "tinycolor2";
 
 export default {
-	computed: mapState({
-		loadedPage: state => state.core.loadedPage,
-	}),
+	computed: {
+    ...mapState({
+		  loadedPage: state => state.core.loadedPage,
+	  }),
+  },
+  methods: {
+    sketchRGBString: function(sketch) {
+      var color = tinycolor(sketch.color);
+      color.setAlpha(1);
+      return color.toRgbString();
+    },
+  },
 };
 </script>
