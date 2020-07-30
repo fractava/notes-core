@@ -8,7 +8,7 @@
 				v-on:click="select"
 			>
 				<md-button
-          :class="{'md-raised': id == selectedPencilId}"
+          :class="{'md-raised': id == selectedPencilId && editingMode == 'drawing'}"
         >
 					<md-icon :style="{color: pencilRGBAString, }">create</md-icon>
 				</md-button>
@@ -44,6 +44,7 @@ export default {
 			pencils: state => state.core.pencils,
 			selectedPencilId: state => state.core.selectedPencilId,
 			openedPencilSettingsId: state => state.core.openedPencilSettingsId,
+      editingMode: state => state.core.editingMode,
 		}),
 		pencilRGBAString: function() {
 			var color = tinycolor(this.pencils[this.id].color);
@@ -52,18 +53,18 @@ export default {
 	},
 	methods: {
 		select: function() {
-			if(this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
+			if(this.editingMode == 'drawing' && this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
 				this.$store.commit("switchPencilSettings", {id: this.id,}, {module: "core" });
 			}else {
 				this.$store.commit("closePencilSettings", {}, {module: "core" });
 			}
 
-			this.$store.commit("selectPencil", {id: this.id,}, {module: "core" });
+			this.$store.dispatch("selectPencil", {id: this.id,}, {module: "core" });
 		},
 		updateColor: function(color) {
 			console.log(color);
 			this.$store.commit("changePencilColor", {id: this.id, color: color.rgba, }, {module: "core" });
-		}
+		},
 	}
 };
 </script>

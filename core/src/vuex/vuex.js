@@ -134,7 +134,7 @@ export default {
 			if(options.id < state.pencils.length) {
 				state.selectedPencilId = options.id;
 			}
-			console.log("selectPencil");
+
 		},
 		switchPencilSettings(state, options) {
 			state.openedPencilSettingsId = options.id;
@@ -291,5 +291,11 @@ export default {
 		pointerUp: function({ commit }) {
 			commit("setPointer", {down: false, x: false, y: false, pressure: false,});
 		},
+
+		// Sketches
+		selectPencil: function({commit}, options) {
+			commit("selectPencil", {id: options.id, }, {module: "core" });
+			commit("switchEditingMode", {mode: "drawing", }, {module: "core" });
+		}
 	}
 };
