@@ -38,21 +38,21 @@ import { mixin } from "vuejs-quill";
 
 export default {
 	mixins: [mixin],
-  data: function() {
-    return {
-      mixinOptions: {
-      	theme: "snow",
-      	boundary: document.body,
-      	modules: {
-      		toolbar: [
-            [{ "size": fontSizeWhiteList }],
-      		],
-      	},
-      	placeholder: "Insert text here ...",
-      	readOnly: false,
-      },
-    };
-  }
+	data: function() {
+		return {
+			mixinOptions: {
+				theme: "snow",
+				boundary: document.body,
+				modules: {
+					toolbar: [
+						[{ "size": fontSizeWhiteList }],
+					],
+				},
+				placeholder: "Insert text here ...",
+				readOnly: false,
+			},
+		};
+	}
 };
 </script>
 <style>
