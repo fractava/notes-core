@@ -29,7 +29,7 @@
     "tinycolor2": "^1.4.1",
     "vue-color": "^2.7.1",
     "vue-material": "^1.0.0-beta-14",
-    "vuejs-quill": "^1.2.0"
+    "vuejs-quill": "^1.2.1"
   },
   "devDependencies": {
     "eslint": "^7.3.0",
