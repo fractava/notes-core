@@ -6,16 +6,17 @@
 				:md-active="openedPencilSettingsId == id"
 				class="navbarButton"
 				v-on:click="select"
-				:class="{'md-raised': id == selectedPencilId}"
 			>
-				<md-button>
-					<md-icon :style="{color: pencils[id].color, opacity: pencils[id].opacity, }">create</md-icon>
+				<md-button
+          :class="{'md-raised': id == selectedPencilId}"
+        >
+					<md-icon :style="{color: pencilRGBAString, }">create</md-icon>
 				</md-button>
 
 				<md-menu-content class="navbarMenu">
 					<span>
 						Pencil Settings:
-            <color-picker :colorRGBA="{...pencils[id].color, a: pencils[id].opacity, }" v-on:update="updateColor"/>
+            <color-picker :colorRGBA="pencils[id].color" v-on:update="updateColor"/>
 						Width: {{ pencils[id].width }}
 					</span>
 				</md-menu-content>
@@ -25,6 +26,7 @@
 
 <script>
 import { mapState } from "vuex";
+import * as tinycolor from "tinycolor2";
 import colorPicker from "../ColorPicker.vue";
 
 export default {
@@ -38,16 +40,16 @@ export default {
 		},
 	},
 	computed: {
-    ...mapState({
-      pencils: state => state.core.pencils,
-      selectedPencilId: state => state.core.selectedPencilId,
-      openedPencilSettingsId: state => state.core.openedPencilSettingsId,
-    }),
-    activeRGBString: function() {
-      var color = tinycolor();
-      return color.toRgbString();
-    },
-  },
+		...mapState({
+			pencils: state => state.core.pencils,
+			selectedPencilId: state => state.core.selectedPencilId,
+			openedPencilSettingsId: state => state.core.openedPencilSettingsId,
+		}),
+		pencilRGBAString: function() {
+			var color = tinycolor(this.pencils[this.id].color);
+			return color.toRgbString();
+		},
+	},
 	methods: {
 		select: function() {
 			if(this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
@@ -60,8 +62,7 @@ export default {
 		},
 		updateColor: function(color) {
 			console.log(color);
-      let rgb = {r: color.rgba.r, g: color.rgba.g, b: color.rgba.b, };
-      this.$store.commit("changePencilColor", {id: this.id, color: rgb, opacity: color.a }, {module: "core" });
+			this.$store.commit("changePencilColor", {id: this.id, color: color.rgba, }, {module: "core" });
 		}
 	}
 };

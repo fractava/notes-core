@@ -129,7 +129,6 @@ export default {
 		},
 		changePencilColor(state, options) {
 			state.pencils[options.id].color = options.color;
-			state.pencils[options.id].opacity = options.opacity || 1;
 		},
 		selectPencil(state, options) {
 			if(options.id < state.pencils.length) {
