@@ -2,14 +2,16 @@
     <div
         class="pageTitleContainer"
         :style="containerStyle"
-        :disabled="editingMode != 'editing'"
     >
         <md-field
             class="pageTitle"
             md-inline
         >
-        <label>Title</label>
-        <md-input v-model="title"></md-input>
+          <label>Title</label>
+          <md-input
+            v-model="title"
+            :disabled="editingMode != 'editing'"
+          ></md-input>
         </md-field>
     </div>
 </template>
@@ -27,7 +29,7 @@ export default {
 				return this.loadedPage.title;
 			}
 		},
-		inputSize: function() {
+		inputHeight: function() {
 			let size = this.loadedPage.background.size;
 
 			while(size < 32) {
@@ -36,12 +38,21 @@ export default {
 
 			return size;
 		},
+    inputWidth: function() {
+      let size = this.loadedPage.background.size;
+
+      while(size < 250) {
+        size = size + this.loadedPage.background.size;
+      }
+
+      return size;
+    },
 		containerStyle: function() {
 			return {
 				"top": this.loadedPage.background.size + 1  + "px",
 				"left": this.loadedPage.background.size + 1 + "px",
-				"height": this.inputSize   + "px",
-				"min-width": this.loadedPage.background.size * 5 - 1 + "px",
+				"height": this.inputHeight   + "px",
+				"min-width": this.inputWidth - 1 + "px",
 			};
 		},
 		...mapState({
