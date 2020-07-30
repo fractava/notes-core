@@ -44,7 +44,7 @@ export default {
 			pencils: state => state.core.pencils,
 			selectedPencilId: state => state.core.selectedPencilId,
 			openedPencilSettingsId: state => state.core.openedPencilSettingsId,
-      editingMode: state => state.core.editingMode,
+			editingMode: state => state.core.editingMode,
 		}),
 		pencilRGBAString: function() {
 			var color = tinycolor(this.pencils[this.id].color);
@@ -53,7 +53,7 @@ export default {
 	},
 	methods: {
 		select: function() {
-			if(this.editingMode == 'drawing' && this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
+			if(this.editingMode == "drawing" && this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
 				this.$store.commit("switchPencilSettings", {id: this.id,}, {module: "core" });
 			}else {
 				this.$store.commit("closePencilSettings", {}, {module: "core" });
