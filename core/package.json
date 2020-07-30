@@ -30,7 +30,7 @@
     "vue-color": "^2.7.1",
     "vue-material": "^1.0.0-beta-14",
     "vue-quill-editor": "^3.0.6",
-    "vuejs-quill": "^1.1.0"
+    "vuejs-quill": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^7.3.0",
