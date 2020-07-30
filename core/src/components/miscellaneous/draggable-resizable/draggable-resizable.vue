@@ -592,24 +592,24 @@ export default {
 			this.$emit("dragging", this.left, this.top);
 		},
 		moveHorizontally (val) {
-			const [deltaX, _] = snapToGrid(this.grid, val, this.top, this.scale);
+			const [deltaX, _] = snapToGrid(this.grid, val, this.top, this.scale); // eslint-disable-line
 
 			const left = restrictToBounds(deltaX, this.bounds.minLeft, this.bounds.maxLeft);
 
 			if(left < 0) {
-				left = 0;
+				left = 0; // eslint-disable-line
 			}
 
 			this.left = left;
 			this.right = this.parentWidth - this.width - left;
 		},
 		moveVertically (val) {
-			const [_, deltaY] = snapToGrid(this.grid, this.left, val, this.scale);
+			const [_, deltaY] = snapToGrid(this.grid, this.left, val, this.scale); // eslint-disable-line
 
 			const top = restrictToBounds(deltaY, this.bounds.minTop, this.bounds.maxTop);
 
 			if(top < 0) {
-				top = 0;
+				top = 0; // eslint-disable-line
 			}
 
 			this.top = top;
@@ -622,7 +622,7 @@ export default {
 			let bottom = this.bottom;
 
 			const mouseClickPosition = this.mouseClickPosition;
-			const lockAspectRatio = this.lockAspectRatio;
+			const lockAspectRatio = this.lockAspectRatio; // eslint-disable-line
 			const aspectFactor = this.aspectFactor;
 
 			const tmpDeltaX = mouseClickPosition.mouseX - (e.touches ? e.touches[0].pageX : e.pageX);
@@ -715,7 +715,7 @@ export default {
 			this.$emit("resizing", this.left, this.top, this.width, this.height);
 		},
 		changeWidth (val) {
-			const [newWidth, _] = snapToGrid(this.grid, val, 0, this.scale);
+			const [newWidth, _] = snapToGrid(this.grid, val, 0, this.scale); // eslint-disable-line
 
 			let right = restrictToBounds(
 				(this.parentWidth - newWidth - this.left),
@@ -737,7 +737,7 @@ export default {
 			this.height = height;
 		},
 		changeHeight (val) {
-			const [_, newHeight] = snapToGrid(this.grid, 0, val, this.scale);
+			const [_, newHeight] = snapToGrid(this.grid, 0, val, this.scale); // eslint-disable-line
 
 			let bottom = restrictToBounds(
 				(this.parentHeight - newHeight - this.top),
@@ -758,7 +758,7 @@ export default {
 			this.width = width;
 			this.height = height;
 		},
-		handleUp (e) {
+		handleUp (/*e*/) {
 			this.handle = null;
 
 			this.resetBoundsAndMouseState();
