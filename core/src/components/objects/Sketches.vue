@@ -9,6 +9,7 @@
                 :x2="sketch.coordinates[index + 1].x"
                 :y2="sketch.coordinates[index + 1].y"
                 :style="{'stroke-width': line.width, stroke: sketchRGBString(sketch),}"
+                v-on:click="clicked(index)"
             />
             <circle
                 v-for="(line, index) in sketch.coordinates"
@@ -19,6 +20,7 @@
                 stroke=""
                 stroke-width="0"
                 :fill="sketchRGBString(sketch)"
+                v-on:click="clicked(index)"
             />
         </g>
     </svg>
@@ -46,6 +48,9 @@ export default {
 				return index != lastId;
 			});
 		},
+    clicked: function(index) {
+      //console.log(index);
+    }
 	},
 };
 </script>

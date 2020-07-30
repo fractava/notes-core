@@ -2,6 +2,7 @@
     <div
         class="pageTitleContainer"
         :style="containerStyle"
+        :disabled="editingMode != 'editing'"
     >
         <md-field
             class="pageTitle"
@@ -46,6 +47,7 @@ export default {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
 			navbarHeight: state => state.core.navbarHeight,
+      editingMode: state => state.core.editingMode,
 		}),
 	},
 };
