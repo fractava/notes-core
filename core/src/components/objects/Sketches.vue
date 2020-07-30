@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     sketchRGBString: function(sketch) {
-      console.log(tinycolor);
       var color = tinycolor(sketch.color);
       color.setAlpha(1);
       return color.toRgbString();

@@ -18,7 +18,9 @@ export default {
 	props: {
 		colorRGBA: {
 			type: Object,
-			default: {r: 0, g: 0, b: 0, a: 0},
+			default() {
+            return {r: 0, g: 0, b: 0, a: 0};
+      }
 		},
 		color: {
 			type: String,
