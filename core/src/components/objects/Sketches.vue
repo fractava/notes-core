@@ -1,6 +1,10 @@
 <template>
     <svg class="sketch" :style="{width: loadedPage.size.x + 'px', height: loadedPage.size.y + 'px'}">
-        <g v-for="(sketch, index) in loadedPage.objects.sketch" :key="index" :opacity="sketch.color.a">
+        <g
+          v-for="(sketch, index) in loadedPage.objects.sketch"
+          :key="index"
+          :opacity="sketch.color.a"
+        >
             <line
                 v-for="(line, index) in sketchCoordinatesNotLast(sketch, index)"
                 :key="'sketch-' + index"
