@@ -58,14 +58,14 @@ export default {
 			var color = tinycolor(this.pencils[this.id].color);
 			return color.toRgbString();
 		},
-    width: {
-      set(width) {
-        this.$store.commit("changePencilWidth", {id: this.id, width,}, {module: "core" });
-      },
-      get() {
-        return this.pencils[this.id].width;
-      }
-    },
+		width: {
+			set(width) {
+				this.$store.commit("changePencilWidth", {id: this.id, width,}, {module: "core" });
+			},
+			get() {
+				return this.pencils[this.id].width;
+			}
+		},
 	},
 	methods: {
 		select: function() {

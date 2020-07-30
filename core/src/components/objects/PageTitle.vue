@@ -38,15 +38,15 @@ export default {
 
 			return size;
 		},
-    inputWidth: function() {
-      let size = this.loadedPage.background.size;
+		inputWidth: function() {
+			let size = this.loadedPage.background.size;
 
-      while(size < 250) {
-        size = size + this.loadedPage.background.size;
-      }
+			while(size < 250) {
+				size = size + this.loadedPage.background.size;
+			}
 
-      return size;
-    },
+			return size;
+		},
 		containerStyle: function() {
 			return {
 				"top": this.loadedPage.background.size + 1  + "px",
@@ -58,7 +58,7 @@ export default {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
 			navbarHeight: state => state.core.navbarHeight,
-      editingMode: state => state.core.editingMode,
+			editingMode: state => state.core.editingMode,
 		}),
 	},
 };

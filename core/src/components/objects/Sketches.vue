@@ -49,9 +49,9 @@ export default {
 				return index != lastId;
 			});
 		},
-    clicked: function(index) {
-      //console.log(index);
-    }
+		clicked: function(/*index*/) {
+			//console.log(index);
+		}
 	},
 };
 </script>
