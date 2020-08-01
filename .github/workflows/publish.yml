@@ -16,8 +16,8 @@ jobs:
           scope: '@fractava'
       - run: npm ci
         working-directory: core
-      - run: echo registry=https://registry.npmjs.org/@fractava >> .npmrc
-        working-directory: core
+      #- run: echo registry=https://registry.npmjs.org/@fractava >> .npmrc
+      #  working-directory: core
       - run: npm publish --access public
         working-directory: core
         env:
