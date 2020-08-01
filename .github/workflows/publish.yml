@@ -13,8 +13,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-          #scope: '@fractava'
+          scope: '@fractava'
       - run: npm ci
+        working-directory: core
+      - run: echo registry=https://registry.npmjs.org/@fractava >> .npmrc
         working-directory: core
       - run: npm publish --access public
         working-directory: core
