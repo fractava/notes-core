@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+          scope: '@fractava'
       - run: npm ci
         working-directory: core
       - run: npm publish --access public
@@ -27,10 +28,10 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@TessyPowder'
+          scope: '@fractava'
       - run: npm ci
         working-directory: core
-      - run: echo registry=https://npm.pkg.github.com/@TessyPowder >> .npmrc
+      - run: echo registry=https://npm.pkg.github.com/ >> .npmrc
         working-directory: core
       - run: npm publish 
         working-directory: core
