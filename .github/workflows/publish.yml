@@ -15,10 +15,10 @@ jobs:
           node-version: 12
       - run: npm ci
         working-directory: core
-      - uses: JS-DevTools/npm-publish@v1
+      - run: npm publish --access public
         working-directory: core
-        with:
-          token: ${{ secrets.PUBLISH_NPM_TOKEN }}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.PUBLISH_NPM_TOKEN}}
   publish-gpr:
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +32,7 @@ jobs:
         working-directory: core
       - run: echo registry=https://npm.pkg.github.com/@TessyPowder >> .npmrc
         working-directory: core
-      - run: npm publish
+      - run: npm publish 
         working-directory: core
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUBLISH_GITHUB_TOKEN}}
