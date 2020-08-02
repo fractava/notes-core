@@ -63,4 +63,35 @@ export default {
 	background-size: var(--backgroundSize) var(--backgroundSize) !important;
 	background-image: linear-gradient(to bottom, rgba(0,0,0,0.2) 1px, transparent 1px) !important;
 }
+@media print {
+  .PageContainer {
+  }
+  .Page {
+    overflow: visible !important;
+    transform: none !important;
+  }
+  .navbar {
+    display: none;
+  }
+  html, body, .PageContainer {
+    width: fit-content !important;
+    height: fit-content !important;
+    overflow: visible !important;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+  }
+  .handle {
+    display: none !important;
+  }
+}
+@page {
+    /*size: landscape;*/
+    size: 4000px;
+    -webkit-print-color-adjust: exact;
+}
+* {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+}
 </style>

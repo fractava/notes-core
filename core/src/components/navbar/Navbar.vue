@@ -8,6 +8,9 @@
     </md-tabs>
     <div class="navbarContent">
       <tab id="0">
+        <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
+          <md-icon>print</md-icon>
+        </md-button>
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
