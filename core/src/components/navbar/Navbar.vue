@@ -11,6 +11,21 @@
         <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
           <md-icon>print</md-icon>
         </md-button>
+
+        <md-menu
+          md-direction="bottom-start"
+          md-align-trigger
+          md-close-on-click
+        >
+          <md-button md-menu-trigger class="navbarButton smallNavbarButton">
+            <md-icon>save_alt</md-icon>
+          </md-button>
+
+          <md-menu-content class="navbarMenu">
+            <md-button class="navbarButton" v-on:click="savePDF()">PDF</md-button>
+            <md-button class="navbarButton" v-on:click="savePNG()">PNG</md-button>
+          </md-menu-content>
+        </md-menu>
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
@@ -34,6 +49,8 @@
 // miscellaneous
 import tabSelector from "./TabSelector.vue";
 import tab from "./Tab.vue";
+
+import printing from "../../mixins/printing.js";
 
 // Tab 0
 import quillToolbar from "./Tab0/QuillToolbar.vue";
@@ -77,6 +94,7 @@ export default {
 		focusedObjectType: state => state.core.focusedObjectType,
 		editingMode: state => state.core.editingMode,
 	}),
+	mixins: [printing],
 };
 </script>
 
