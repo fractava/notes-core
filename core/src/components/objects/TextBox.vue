@@ -27,6 +27,7 @@
 				:disabled="disabled"
 				:defaultFont="defaultFont"
 				:defaultFontSize="defaultFontSize"
+				:toolbarDisabled="true"
 			/>
 		</draggable-resizable>
 	</div>
