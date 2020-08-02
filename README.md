@@ -10,7 +10,7 @@
 
 # FRACTAVA Notes Core
 
-<img src="https://github.com/fractava/notes-resources/blob/master/Notes.png" width="240">
+<img src="https://raw.githubusercontent.com/fractava/notes-resources/master/Notes.png" width="240">
 
 [__Currently Work in Progress__](https://fractava.github.io/notes-docs/ideas)
 
