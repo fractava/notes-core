@@ -13,7 +13,12 @@
     "url": "git+https://github.com/fractava/notes-core.git"
   },
   "keywords": [
-    "notes"
+    "note",
+    "notes",
+    "school",
+    "education",
+    "cross-platform",
+    "productivity"
   ],
   "author": "FRACTAVA",
   "license": "GPL-3.0",
