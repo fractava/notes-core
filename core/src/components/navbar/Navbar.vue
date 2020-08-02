@@ -16,9 +16,8 @@
           md-direction="bottom-start"
           md-align-trigger
           md-close-on-click
-          class="navbarButton"
         >
-          <md-button md-menu-trigger>
+          <md-button md-menu-trigger class="navbarButton smallNavbarButton">
             <md-icon>save_alt</md-icon>
           </md-button>
 
