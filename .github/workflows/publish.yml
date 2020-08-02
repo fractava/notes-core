@@ -15,9 +15,6 @@ jobs:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
           scope: '@fractava'
-      - run: ls
-      - run: ls
-        working-directory: core
       - run: npm ci
         working-directory: core
       - run: npm publish --access public
