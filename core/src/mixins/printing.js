@@ -19,8 +19,6 @@ export default {
       this.toCanvas().then(canvas => {
         let image = canvas2image.convertToPNG(canvas, 4000, 4000);
 
-        console.log(image);
-
         var pdf = new jsPDF({
           unit: 'px',
           format: [4000, 4000]

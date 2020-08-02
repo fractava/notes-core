@@ -11,9 +11,22 @@
         <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
           <md-icon>print</md-icon>
         </md-button>
-        <md-button class="navbarButton smallNavbarButton" v-on:click="savePDF()">
-          <md-icon>save_alt</md-icon>
-        </md-button>
+
+        <md-menu
+          md-direction="bottom-start"
+          md-align-trigger
+          md-close-on-click
+          class="navbarButton"
+        >
+          <md-button md-menu-trigger>
+            <md-icon>save_alt</md-icon>
+          </md-button>
+
+          <md-menu-content class="navbarMenu">
+            <md-button class="navbarButton" v-on:click="savePDF()">PDF</md-button>
+            <md-button class="navbarButton" v-on:click="savePNG()">PNG</md-button>
+          </md-menu-content>
+        </md-menu>
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
