@@ -94,7 +94,7 @@ export default {
 		focusedObjectType: state => state.core.focusedObjectType,
 		editingMode: state => state.core.editingMode,
 	}),
-  mixins: [printing],
+	mixins: [printing],
 };
 </script>
 
