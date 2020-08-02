@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/fractava/notes-core#readme",
   "dependencies": {
-    "canvas2image-module-wrapper": "^1.2.0",
+    "canvas2image-module-wrapper": "^1.3.0",
     "font-detective": "^2.0.0",
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
