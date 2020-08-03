@@ -28,11 +28,11 @@ import { mapState } from "vuex";
 export default {
 	methods: {
 		toCanvas: function() {
-			return html2canvas(document.getElementsByClassName("Page")[0], this.html2canvasOptions);
+			return html2canvas(this.getPageClone(), this.html2canvasOptions);
 		},
 		exportPNG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
-			this.toCanvas().then(canvas => {
+			html2canvas(this.getPageClone(), this.html2canvasOptions).then(canvas => {
 				console.log(canvas);
 				canvas2image.saveAsPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
 				this.$store.commit("exportStopped", {}, {module: "core" });
@@ -59,7 +59,10 @@ export default {
 			});
 		},
 		getPageClone: function() {
-			return document.getElementsByClassName("Page")[0].cloneNode(true);
+      let element = document.getElementsByClassName("Page")[0].cloneNode(true);
+      element.style.transform = "";
+      console.log(element);
+			return element;
 		}
 	},
 	computed: {
