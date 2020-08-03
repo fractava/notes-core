@@ -21,7 +21,7 @@
 <script>
 import html2canvas from "html2canvas";
 import canvas2image from "canvas2image-2";
-import * as jsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
 
 import { mapState } from "vuex";
 
@@ -46,19 +46,16 @@ export default {
 		},
 		exportPDF: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
-			this.toCanvas().then(canvas => {
-				let image = canvas2image.convertToPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
-
-				var pdf = new jsPDF({
-					unit: "pt",
-					format: [this.loadedPage.size.x, this.loadedPage.size.y]
-				});
-
-				pdf.addImage(image, "PNG", 0, 0);
-				pdf.save("download.pdf");
-				console.log("save done");
-				this.$store.commit("exportStopped", {}, {module: "core" });
-			});
+        var element = document.getElementsByClassName('Page')[0];
+        var opt = {
+          filename:     'download.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  this.html2canvasOptions,
+          jsPDF:        {unit: "pt", format: [this.loadedPage.size.x, this.loadedPage.size.y]}
+        };
+        html2pdf().set(opt).from(element).save().then(function() {
+          this.$store.commit("exportStopped", {}, {module: "core" });
+        });
 		},
 	},
 	computed: {
