@@ -31,7 +31,11 @@ console.log(canvas2image);
 export default {
 	methods: {
 		toCanvas: function() {
-			return html2canvas(document.querySelector(".Page"));
+			return html2canvas(document.querySelector(".Page"), {
+        ignoreElements: function(element) {
+          return element.classList.contains("handle");
+        },
+      });
 		},
 		exportPNG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
