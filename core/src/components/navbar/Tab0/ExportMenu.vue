@@ -25,40 +25,33 @@ import * as jsPDF from "jspdf";
 
 import { mapState } from "vuex";
 
-console.log(html2canvas);
-console.log(canvas2image);
-
 export default {
 	methods: {
 		toCanvas: function() {
-			return html2canvas(document.querySelector(".Page"), {
-				ignoreElements: function(element) {
-					return element.classList.contains("handle");
-				},
-			});
+			return html2canvas(document.querySelector(".Page"), this.html2canvasOptions);
 		},
 		exportPNG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
-				canvas2image.saveAsPNG(canvas, 4000, 4000);
+				canvas2image.saveAsPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
 		exportJPG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
-				canvas2image.saveAsJPEG(canvas, 4000, 4000);
+				canvas2image.saveAsJPEG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
 		exportPDF: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
-				let image = canvas2image.convertToPNG(canvas, 4000, 4000);
+				let image = canvas2image.convertToPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
 
 				var pdf = new jsPDF({
-					unit: "px",
-					format: [4000, 4000]
+					unit: "pt",
+					format: [this.loadedPage.size.x, this.loadedPage.size.y]
 				});
 
 				pdf.addImage(image, "PNG", 0, 0);
@@ -66,10 +59,22 @@ export default {
 				console.log("save done");
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
+		},
+	},
+	computed: {
+		...mapState({
+			exportInProgress: state => state.core.exportInProgress,
+			loadedPage: state => state.core.loadedPage,
+		}),
+		html2canvasOptions: function() {
+			return {
+				ignoreElements: function(element) {
+					return element.classList.contains("handle");
+				},
+				/*width: this.loadedPage.size.x,
+				height: this.loadedPage.size.y,*/
+			};
 		}
 	},
-	computed: mapState({
-		exportInProgress: state => state.core.exportInProgress,
-	}),
 };
 </script>

@@ -78,9 +78,6 @@ export default {
     height: fit-content !important;
     overflow: visible !important;
   }
-  body {
-    -webkit-print-color-adjust: exact;
-  }
   .handle {
     display: none !important;
   }
