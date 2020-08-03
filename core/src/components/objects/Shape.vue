@@ -14,6 +14,8 @@
 			:enabled="active"
 			:maxX="loadedPage.size.x"
 			:maxY="loadedPage.size.y"
+			:mouseDragFromInside="true"
+			:touchDragFromInside="true"
 		>
 			<div
 				class="shape"

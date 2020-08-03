@@ -9,6 +9,8 @@
       [classNameDraggable]: draggable,
       [classNameResizable]: resizable
     }, className]"
+    @mousedown="elementMouseDownIfDragFromInside"
+    @touchstart="elementTouchDownIfDragFromInside"
   >
     <div
       v-for="handle in actualHandles"
@@ -119,6 +121,14 @@ export default {
 			type: Boolean,
 			default: false
 		},
+    mouseDragFromInside: {
+      type: Boolean,
+      default: false
+    },
+    touchDragFromInside: {
+      type: Boolean,
+      default: false
+    },
 		w: {
 			type: [Number, String],
 			default: 200,
@@ -309,6 +319,16 @@ export default {
 	},
 
 	methods: {
+    elementMouseDownIfDragFromInside(e) {
+      if(this.mouseDragFromInside) {
+        this.elementMouseDown(e);
+      }
+    },
+    elementTouchDownIfDragFromInside(e) {
+      if(this.touchDragFromInside) {
+        this.elementTouchDown(e);
+      }
+    },
 		resetBoundsAndMouseState () {
 			this.mouseClickPosition = { mouseX: 0, mouseY: 0, x: 0, y: 0, w: 0, h: 0 };
 
