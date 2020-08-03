@@ -28,12 +28,12 @@ import { mapState } from "vuex";
 export default {
 	methods: {
 		toCanvas: function() {
-			return html2canvas(document.getElementsByClassName('Page')[0], this.html2canvasOptions);
+			return html2canvas(document.getElementsByClassName("Page")[0], this.html2canvasOptions);
 		},
 		exportPNG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
-        console.log(canvas);
+				console.log(canvas);
 				canvas2image.saveAsPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
@@ -47,20 +47,20 @@ export default {
 		},
 		exportPDF: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
-        var element = this.getPageClone();
-        var opt = {
-          filename:     'download.pdf',
-          image:        { type: 'png'},
-          html2canvas:  this.html2canvasOptions,
-          jsPDF:        {unit: "pt", format: [this.loadedPage.size.x, this.loadedPage.size.y]}
-        };
-        html2pdf().set(opt).from(element).save().then(function() {
-          this.$store.commit("exportStopped", {}, {module: "core" });
-        });
+			var element = this.getPageClone();
+			var opt = {
+				filename:     "download.pdf",
+				image:        { type: "png"},
+				html2canvas:  this.html2canvasOptions,
+				jsPDF:        {unit: "pt", format: [this.loadedPage.size.x, this.loadedPage.size.y]}
+			};
+			html2pdf().set(opt).from(element).save().then(function() {
+				this.$store.commit("exportStopped", {}, {module: "core" });
+			});
 		},
-    getPageClone: function() {
-      return document.getElementsByClassName('Page')[0].cloneNode(true);
-    }
+		getPageClone: function() {
+			return document.getElementsByClassName("Page")[0].cloneNode(true);
+		}
 	},
 	computed: {
 		...mapState({
