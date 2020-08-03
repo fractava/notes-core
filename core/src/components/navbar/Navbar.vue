@@ -66,7 +66,7 @@ export default {
 		shapeToolbar,
 		addTextBox,
 		addShapes,
-    exportMenu,
+		exportMenu,
 	},
 	data: function() {
 		return {

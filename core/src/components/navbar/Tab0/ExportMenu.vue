@@ -32,10 +32,10 @@ export default {
 	methods: {
 		toCanvas: function() {
 			return html2canvas(document.querySelector(".Page"), {
-        ignoreElements: function(element) {
-          return element.classList.contains("handle");
-        },
-      });
+				ignoreElements: function(element) {
+					return element.classList.contains("handle");
+				},
+			});
 		},
 		exportPNG: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
@@ -44,13 +44,13 @@ export default {
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
-    exportJPG: function() {
-      this.$store.commit("exportStarted", {}, {module: "core" });
-      this.toCanvas().then(canvas => {
-        canvas2image.saveAsJPEG(canvas, 4000, 4000);
-        this.$store.commit("exportStopped", {}, {module: "core" });
-      });
-    },
+		exportJPG: function() {
+			this.$store.commit("exportStarted", {}, {module: "core" });
+			this.toCanvas().then(canvas => {
+				canvas2image.saveAsJPEG(canvas, 4000, 4000);
+				this.$store.commit("exportStopped", {}, {module: "core" });
+			});
+		},
 		exportPDF: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
@@ -68,8 +68,8 @@ export default {
 			});
 		}
 	},
-  computed: mapState({
-    exportInProgress: state => state.core.exportInProgress,
-  }),
+	computed: mapState({
+		exportInProgress: state => state.core.exportInProgress,
+	}),
 };
 </script>
