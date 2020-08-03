@@ -86,8 +86,7 @@ export default {
   }
 }
 @page {
-    /*size: landscape;*/
-    size: 4000px;
+    size: landscape;
     -webkit-print-color-adjust: exact;
 }
 * {

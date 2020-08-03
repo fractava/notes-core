@@ -1,6 +1,28 @@
+<template>
+  <md-menu
+    md-direction="bottom-start"
+    md-align-trigger
+    md-close-on-click
+  >
+    <md-button md-menu-trigger class="navbarButton smallNavbarButton" :class="{'md-raised': exportInProgress}">
+      <md-icon>save_alt</md-icon>
+    </md-button>
+
+    <md-menu-content class="exportMenu navbarMenu">
+      <div class="exportButtonContainer">
+        <md-button class="exportButton" v-on:click="exportPDF()">PDF</md-button>
+        <md-button class="exportButton" v-on:click="exportPNG()">PNG</md-button>
+      </div>
+    </md-menu-content>
+  </md-menu>
+</template>
+
+<script>
 import html2canvas from "html2canvas";
 import canvas2image from "canvas2image-module-wrapper";
 import * as jsPDF from "jspdf";
+
+import { mapState } from "vuex";
 
 console.log(html2canvas);
 console.log(canvas2image);
@@ -33,5 +55,9 @@ export default {
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		}
-	}
+	},
+  computed: mapState({
+    exportInProgress: state => state.core.exportInProgress,
+  }),
 };
+</script>

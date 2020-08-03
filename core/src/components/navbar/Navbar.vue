@@ -11,23 +11,7 @@
         <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
           <md-icon>print</md-icon>
         </md-button>
-
-        <md-menu
-          md-direction="bottom-start"
-          md-align-trigger
-          md-close-on-click
-        >
-          <md-button md-menu-trigger class="navbarButton smallNavbarButton" :class="{'md-raised': exportInProgress}">
-            <md-icon>save_alt</md-icon>
-          </md-button>
-
-          <md-menu-content class="exportMenu navbarMenu">
-            <div class="exportButtonContainer">
-              <md-button class="exportButton" v-on:click="exportPDF()">PDF</md-button>
-              <md-button class="exportButton" v-on:click="exportPNG()">PNG</md-button>
-            </div>
-          </md-menu-content>
-        </md-menu>
+        <export-menu />
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
@@ -52,12 +36,10 @@
 import tabSelector from "./TabSelector.vue";
 import tab from "./Tab.vue";
 
-import printing from "../../mixins/printing.js";
-
 // Tab 0
 import quillToolbar from "./Tab0/QuillToolbar.vue";
 import shapeToolbar from "./Tab0/ShapeToolbar.vue";
-
+import exportMenu from "./Tab0/ExportMenu.vue";
 // Tab 1
 import addPencil from "./Tab1/AddPencil.vue";
 import pencilSelector from "./Tab1/PencilSelector.vue";
@@ -84,6 +66,7 @@ export default {
 		shapeToolbar,
 		addTextBox,
 		addShapes,
+    exportMenu,
 	},
 	data: function() {
 		return {
@@ -95,9 +78,8 @@ export default {
 		pencils: state => state.core.pencils,
 		focusedObjectType: state => state.core.focusedObjectType,
 		editingMode: state => state.core.editingMode,
-    exportInProgress: state => state.core.exportInProgress,
 	}),
-	mixins: [printing],
+	mixins: [],
 };
 </script>
 
