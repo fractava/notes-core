@@ -12,6 +12,7 @@
       <div class="exportButtonContainer">
         <md-button class="exportButton" v-on:click="exportPDF()">PDF</md-button>
         <md-button class="exportButton" v-on:click="exportPNG()">PNG</md-button>
+        <md-button class="exportButton" v-on:click="exportJPG()">JPG</md-button>
       </div>
     </md-menu-content>
   </md-menu>
@@ -39,6 +40,13 @@ export default {
 				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
+    exportJPG: function() {
+      this.$store.commit("exportStarted", {}, {module: "core" });
+      this.toCanvas().then(canvas => {
+        canvas2image.saveAsJPEG(canvas, 4000, 4000);
+        this.$store.commit("exportStopped", {}, {module: "core" });
+      });
+    },
 		exportPDF: function() {
 			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
