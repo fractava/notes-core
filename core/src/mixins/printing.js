@@ -10,12 +10,15 @@ export default {
 		toCanvas: function() {
 			return html2canvas(document.querySelector(".Page"));
 		},
-		savePNG: function() {
+		exportPNG: function() {
+			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
 				canvas2image.saveAsPNG(canvas, 4000, 4000);
+				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
-		savePDF: function() {
+		exportPDF: function() {
+			this.$store.commit("exportStarted", {}, {module: "core" });
 			this.toCanvas().then(canvas => {
 				let image = canvas2image.convertToPNG(canvas, 4000, 4000);
 
@@ -26,6 +29,8 @@ export default {
 
 				pdf.addImage(image, "PNG", 0, 0);
 				pdf.save("download.pdf");
+				console.log("save done");
+				this.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		}
 	}

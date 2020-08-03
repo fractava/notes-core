@@ -17,13 +17,15 @@
           md-align-trigger
           md-close-on-click
         >
-          <md-button md-menu-trigger class="navbarButton smallNavbarButton">
+          <md-button md-menu-trigger class="navbarButton smallNavbarButton" :class="{'md-raised': exportInProgress}">
             <md-icon>save_alt</md-icon>
           </md-button>
 
-          <md-menu-content class="navbarMenu">
-            <md-button class="navbarButton" v-on:click="savePDF()">PDF</md-button>
-            <md-button class="navbarButton" v-on:click="savePNG()">PNG</md-button>
+          <md-menu-content class="exportMenu navbarMenu">
+            <div class="exportButtonContainer">
+              <md-button class="exportButton" v-on:click="exportPDF()">PDF</md-button>
+              <md-button class="exportButton" v-on:click="exportPNG()">PNG</md-button>
+            </div>
           </md-menu-content>
         </md-menu>
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
@@ -93,6 +95,7 @@ export default {
 		pencils: state => state.core.pencils,
 		focusedObjectType: state => state.core.focusedObjectType,
 		editingMode: state => state.core.editingMode,
+    exportInProgress: state => state.core.exportInProgress,
 	}),
 	mixins: [printing],
 };
@@ -125,5 +128,12 @@ export default {
   height: fit-content;
 	max-width: 60vh;
   max-height: unset !important;
+}
+.exportButtonContainer {
+  display: flex;
+  flex-direction: column;
+}
+.exportButton {
+  margin-left: 8px !important;
 }
 </style>
