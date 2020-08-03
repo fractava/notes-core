@@ -19,7 +19,7 @@
 
 <script>
 import html2canvas from "html2canvas";
-import canvas2image from "canvas2image-module-wrapper";
+import canvas2image from "canvas2image-2";
 import * as jsPDF from "jspdf";
 
 import { mapState } from "vuex";
