@@ -19,50 +19,59 @@
 </template>
 
 <script>
-import html2canvas from "html2canvas";
-import canvas2image from "canvas2image-2";
 import html2pdf from "html2pdf.js";
 
 import { mapState } from "vuex";
 
 export default {
 	methods: {
-		toCanvas: function() {
-			return html2canvas(this.getPageClone(), this.html2canvasOptions);
-		},
-		exportPNG: function() {
+		html2pdfStart: function(imageType) {
 			this.$store.commit("exportStarted", {}, {module: "core" });
-			html2canvas(this.getPageClone(), this.html2canvasOptions).then(canvas => {
-				console.log(canvas);
-				canvas2image.saveAsPNG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
-				this.$store.commit("exportStopped", {}, {module: "core" });
-			});
-		},
-		exportJPG: function() {
-			this.$store.commit("exportStarted", {}, {module: "core" });
-			this.toCanvas().then(canvas => {
-				canvas2image.saveAsJPEG(canvas, this.loadedPage.size.x, this.loadedPage.size.y);
-				this.$store.commit("exportStopped", {}, {module: "core" });
-			});
-		},
-		exportPDF: function() {
-			this.$store.commit("exportStarted", {}, {module: "core" });
+
 			var element = this.getPageClone();
 			var opt = {
 				filename:     "download.pdf",
-				image:        { type: "png"},
+				image:        { type: imageType},
 				html2canvas:  this.html2canvasOptions,
 				jsPDF:        {unit: "pt", format: [this.loadedPage.size.x, this.loadedPage.size.y]}
 			};
-			html2pdf().set(opt).from(element).save().then(function() {
-				this.$store.commit("exportStopped", {}, {module: "core" });
+
+			return html2pdf().set(opt).from(element);
+		},
+		exportPNG: function() {
+			let self = this;
+			this.html2pdfStart("png").outputImg("datauristring").then(function(result) {
+				console.log(result);
+				self.saveFile(result, "png", "download");
+				self.$store.commit("exportStopped", {}, {module: "core" });
+			});
+		},
+		exportJPG: function() {
+			let self = this;
+			this.html2pdfStart("jpeg").outputImg("datauristring").then(function(result) {
+				console.log(result);
+				self.saveFile(result, "jpg", "download");
+				self.$store.commit("exportStopped", {}, {module: "core" });
+			});
+		},
+		exportPDF: function() {
+			let self = this;
+			this.html2pdfStart("png").save().then(function() {
+				self.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
 		getPageClone: function() {
-      let element = document.getElementsByClassName("Page")[0].cloneNode(true);
-      element.style.transform = "";
-      console.log(element);
+			let element = document.getElementsByClassName("Page")[0].cloneNode(true);
+			element.style.transform = "";
+			console.log(element);
 			return element;
+		},
+		saveFile: function(strData, fileType, fileName = "download") {
+			console.log("save");
+			let saveLink = document.createElement("a");
+			saveLink.download = fileName + "." + fileType;
+			saveLink.href = strData;
+			saveLink.click();
 		}
 	},
 	computed: {
