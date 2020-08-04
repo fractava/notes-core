@@ -47,14 +47,14 @@ export default {
 				self.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
-    exportWEBP: function() {
-      let self = this;
-      this.html2pdfStart("webp").outputImg("datauristring").then(function(result) {
-        console.log(result);
-        self.saveFile(result, "webp", "download");
-        self.$store.commit("exportStopped", {}, {module: "core" });
-      });
-    },
+		exportWEBP: function() {
+			let self = this;
+			this.html2pdfStart("webp").outputImg("datauristring").then(function(result) {
+				console.log(result);
+				self.saveFile(result, "webp", "download");
+				self.$store.commit("exportStopped", {}, {module: "core" });
+			});
+		},
 		exportJPG: function() {
 			let self = this;
 			this.html2pdfStart("jpeg").outputImg("datauristring").then(function(result) {
