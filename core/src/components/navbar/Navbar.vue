@@ -8,6 +8,10 @@
     </md-tabs>
     <div class="navbarContent">
       <tab id="0">
+        <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
+          <md-icon>print</md-icon>
+        </md-button>
+        <export-menu />
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
       </tab>
@@ -35,7 +39,7 @@ import tab from "./Tab.vue";
 // Tab 0
 import quillToolbar from "./Tab0/QuillToolbar.vue";
 import shapeToolbar from "./Tab0/ShapeToolbar.vue";
-
+import exportMenu from "./Tab0/ExportMenu.vue";
 // Tab 1
 import addPencil from "./Tab1/AddPencil.vue";
 import pencilSelector from "./Tab1/PencilSelector.vue";
@@ -62,6 +66,7 @@ export default {
 		shapeToolbar,
 		addTextBox,
 		addShapes,
+		exportMenu,
 	},
 	data: function() {
 		return {
@@ -74,6 +79,7 @@ export default {
 		focusedObjectType: state => state.core.focusedObjectType,
 		editingMode: state => state.core.editingMode,
 	}),
+	mixins: [],
 };
 </script>
 
@@ -104,5 +110,12 @@ export default {
   height: fit-content;
 	max-width: 60vh;
   max-height: unset !important;
+}
+.exportButtonContainer {
+  display: flex;
+  flex-direction: column;
+}
+.exportButton {
+  margin-left: 8px !important;
 }
 </style>

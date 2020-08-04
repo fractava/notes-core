@@ -55,6 +55,7 @@ export default {
 		editingModeAdditionalInformation: "",
 		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
 		openedDialog: false,
+		exportInProgress: false,
 	},
 	mutations: {
 		// System
@@ -66,6 +67,12 @@ export default {
 		},
 		closedDialog(state) {
 			state.openedDialog = false;
+		},
+		exportStarted(state) {
+			state.exportInProgress = true;
+		},
+		exportStopped(state) {
+			state.exportInProgress = false;
 		},
 
 		// Navbar

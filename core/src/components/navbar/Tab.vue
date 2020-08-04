@@ -10,7 +10,6 @@
       <md-icon>gesture</md-icon>
     </md-button>
     <md-button class="navbarButton smallNavbarButton" />
-
     <slot />
   </div>
 </template>

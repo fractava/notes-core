@@ -155,6 +155,7 @@ export default {
 			editingMode: state => state.core.editingMode,
 			editingModeAdditionalInformation: state => state.core.editingModeAdditionalInformation,
 			pointer: state => state.core.pointer,
+			exportInProgress: state => state.core.exportInProgress,
 		}),
 		...mapGetters([
 			"lastSketch",
