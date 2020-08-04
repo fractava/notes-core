@@ -20,13 +20,13 @@
               <input
                 type="range"
                 v-model.number="width"
-                min="100"
+                min="200"
                 max="9000"
               >
               <input
                 type="range"
                 v-model.number="height"
-                min="100"
+                min="200"
                 max="9000"
               >
 						</div>
