@@ -12,6 +12,7 @@
       <div class="exportButtonContainer">
         <md-button class="exportButton" v-on:click="exportPDF()">PDF</md-button>
         <md-button class="exportButton" v-on:click="exportPNG()">PNG</md-button>
+        <md-button class="exportButton" v-on:click="exportWEBP()">WEBP</md-button>
         <md-button class="exportButton" v-on:click="exportJPG()">JPG</md-button>
       </div>
     </md-menu-content>
@@ -46,6 +47,14 @@ export default {
 				self.$store.commit("exportStopped", {}, {module: "core" });
 			});
 		},
+    exportWEBP: function() {
+      let self = this;
+      this.html2pdfStart("webp").outputImg("datauristring").then(function(result) {
+        console.log(result);
+        self.saveFile(result, "webp", "download");
+        self.$store.commit("exportStopped", {}, {module: "core" });
+      });
+    },
 		exportJPG: function() {
 			let self = this;
 			this.html2pdfStart("jpeg").outputImg("datauristring").then(function(result) {
