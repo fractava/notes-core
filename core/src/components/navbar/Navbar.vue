@@ -69,7 +69,7 @@ export default {
 		addTextBox,
 		addShapes,
 		exportMenu,
-    pageResize,
+		pageResize,
 	},
 	data: function() {
 		return {

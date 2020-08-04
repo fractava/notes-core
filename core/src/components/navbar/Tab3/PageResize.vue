@@ -58,14 +58,14 @@ export default {
 				return this.loadedPage.size.x;
 			}
 		},
-    height: {
-      set(height) {
-        this.$store.commit("setPageHeight", {height,}, {module: "core" });
-      },
-      get() {
-        return this.loadedPage.size.y;
-      }
-    },
+		height: {
+			set(height) {
+				this.$store.commit("setPageHeight", {height,}, {module: "core" });
+			},
+			get() {
+				return this.loadedPage.size.y;
+			}
+		},
 	},
 };
 </script>
