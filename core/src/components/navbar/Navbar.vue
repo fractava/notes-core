@@ -90,6 +90,11 @@ export default {
     display: flex;
     flex-direction: column;
 }
+.navbar .md-tabs-navigation .md-button {
+  height: initial !important;
+  max-height: 48px !important;
+  min-height: 25px !important;
+}
 .navbarTabs {
     height: 20%;
     display: flex;
