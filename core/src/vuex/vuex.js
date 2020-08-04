@@ -120,6 +120,12 @@ export default {
 		setBackgroundSize(state, options) {
 			state.loadedPage.background.size = options.size;
 		},
+		setPageWidth(state, options) {
+			state.loadedPage.size.x = options.width;
+		},
+		setPageHeight(state, options) {
+			state.loadedPage.size.y = options.height;
+		},
 
 		// Sketch
 		newSketch(state, color) {
