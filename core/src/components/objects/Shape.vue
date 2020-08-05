@@ -86,7 +86,7 @@ export default {
 			return this.editingMode == "editing" && this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
 		},
 		aspectRatioAttribute: function() {
-			return this.shape.distort ? 'none' : 'xMidYMid meet';
+			return this.shape.distort ? "none" : "xMidYMid meet";
 		},
 	},
 	methods: {
