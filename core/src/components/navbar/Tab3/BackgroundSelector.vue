@@ -9,6 +9,7 @@
 					md-menu-trigger
 				>
 					<md-icon>border_all</md-icon>
+          <md-tooltip md-direction="bottom">Page Background</md-tooltip>
 				</md-button>
 
 				<md-menu-content class="navbarMenu">

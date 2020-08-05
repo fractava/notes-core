@@ -9,6 +9,7 @@
 					md-menu-trigger
 				>
 					<md-icon>aspect_ratio</md-icon>
+          <md-tooltip md-direction="bottom">Page Size</md-tooltip>
 				</md-button>
 
 				<md-menu-content class="navbarMenu">
@@ -23,6 +24,7 @@
                   :class="{'md-raised': preset.name === selectedPresetName, }"
                 >
                   {{ preset.name }}
+                  <md-tooltip md-direction="bottom">{{ preset.tooltip }}</md-tooltip>
                 </md-button>
               </div>
               <span>
@@ -86,6 +88,7 @@ export default {
 				},
 				{
 					name: "custom",
+          tooltip: "custom size in px",
 				}
 			],
 		};
