@@ -134,6 +134,7 @@ export default {
           return preset.name;
         }
       }
+      return "custom";
     }
 	},
 };
