@@ -11,9 +11,9 @@ import modeSwitchButtons from "./ModeSwitchButtons.vue";
 import { mapState } from "vuex";
 
 export default {
-  components: {
-    modeSwitchButtons,
-  },
+	components: {
+		modeSwitchButtons,
+	},
 	props: {
 		"id": {
 			default: 0,

@@ -88,7 +88,7 @@ export default {
 				},
 				{
 					name: "custom",
-          tooltip: "custom size in px",
+					tooltip: "custom size in px",
 				}
 			],
 		};
