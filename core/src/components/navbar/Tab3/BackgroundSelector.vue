@@ -25,7 +25,7 @@
 									{{ type }}
 								</md-button>
 							</div>
-							<div>
+							<div v-if="loadedPage.background.type != 'none'">
 								<input
 									class="sizeSlider"
 									type="range"
@@ -48,7 +48,7 @@ import { mapState } from "vuex";
 export default {
 	data: function() {
 		return {
-			backgroundTypes: ["lines", "grid", "dottedGrid"],
+			backgroundTypes: ["none", "lines", "grid", "dottedGrid"],
 		};
 	},
 	methods: {
