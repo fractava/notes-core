@@ -95,8 +95,19 @@ export default {
 				},
 				width: this.loadedPage.size.x,
 				height: this.loadedPage.size.y,
+				onclone: (element) => {
+					const svgElements = Array.from(element.querySelectorAll("svg:not(.sketch)"));
+					svgElements.forEach(s => {
+						const bBox = s.getBBox();
+            console.log(s, bBox, s.parentElement.clientWidth, s.parentElement.clientHeight);
+						s.setAttribute("x", bBox.x);
+						s.setAttribute("y", bBox.y);
+						s.setAttribute("width", s.parentElement.clientWidth);
+						s.setAttribute("height", s.parentElement.clientHeight);
+					});
+				},
 			};
-		}
-	},
+		},
+	}
 };
 </script>

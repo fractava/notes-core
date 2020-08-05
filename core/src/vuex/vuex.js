@@ -236,6 +236,7 @@ export default {
 					width: options.width,
 					height: options.height,
 				},
+				strokeWeight: options.strokeWeight,
 				color: {
 					stroke: "#000000",
 					fill: "#ffffff00",

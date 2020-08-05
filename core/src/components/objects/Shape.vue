@@ -27,16 +27,18 @@
 			<div
 				class="shape"
 				v-if="shape.type=='circle'"
-				style="border: 4px solid; border-radius: 100%;"
-				:style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
 				v-on:click="activate"
-			/>
+			>
+				<svg viewBox="0 0 100 100" :preserveAspectRatio="aspectRatioAttribute" height="100%" width="100%">
+					<circle cx="50" cy="50" r="40" :fill="shape.color.fill" :stroke="shape.color.stroke" stroke-width="3" />
+				</svg>
+			</div>
 			<div
 				class="shape"
 				v-if="shape.type=='star'"
 				v-on:click="activate"
 			>
-				<svg viewBox="0 0 24 24"  :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
+				<svg viewBox="0 0 24 24" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
 					<path d="M0 0h24v24H0z" fill="none"/>
 					<path d="M0 0h24v24H0z" fill="none"/>
 					<path
