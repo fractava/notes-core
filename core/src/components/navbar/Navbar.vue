@@ -26,6 +26,7 @@
       <tab id="3" style="display: flex; flex-direction: row;">
         <zoom-control/>
         <background-selector />
+        <page-resize />
       </tab>
     </div>
   </div>
@@ -51,6 +52,7 @@ import addShapes from "./Tab2/AddShapes.vue";
 // Tab 3
 import zoomControl from "./Tab3/ZoomControl.vue";
 import backgroundSelector from "./Tab3/BackgroundSelector.vue";
+import pageResize from "./Tab3/PageResize.vue";
 
 import { mapState } from "vuex";
 
@@ -67,6 +69,7 @@ export default {
 		addTextBox,
 		addShapes,
 		exportMenu,
+		pageResize,
 	},
 	data: function() {
 		return {

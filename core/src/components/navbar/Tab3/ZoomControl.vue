@@ -7,10 +7,12 @@
 			<md-icon>remove</md-icon>
 		</md-button>
 		<md-button class="navbarButton" v-on:click="reset">
-			<md-icon>highlight_alt</md-icon>
+			<md-icon>youtube_searched_for</md-icon>
+			<md-tooltip md-direction="bottom">Reset Zoom</md-tooltip>
 		</md-button>
 		<md-button class="navbarButton" v-on:click="snapToWidth">
 			<md-icon>highlight_alt</md-icon>
+			<md-tooltip md-direction="bottom">Snap to objects</md-tooltip>
 		</md-button>
 	</div>
 </template>

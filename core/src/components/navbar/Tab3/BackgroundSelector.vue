@@ -9,6 +9,7 @@
 					md-menu-trigger
 				>
 					<md-icon>border_all</md-icon>
+          <md-tooltip md-direction="bottom">Page Background</md-tooltip>
 				</md-button>
 
 				<md-menu-content class="navbarMenu">
@@ -25,7 +26,7 @@
 									{{ type }}
 								</md-button>
 							</div>
-							<div>
+							<div v-if="loadedPage.background.type != 'none'">
 								<input
 									class="sizeSlider"
 									type="range"
@@ -48,7 +49,7 @@ import { mapState } from "vuex";
 export default {
 	data: function() {
 		return {
-			backgroundTypes: ["lines", "grid", "dottedGrid"],
+			backgroundTypes: ["none", "lines", "grid", "dottedGrid"],
 		};
 	},
 	methods: {
