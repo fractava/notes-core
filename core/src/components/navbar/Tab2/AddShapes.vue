@@ -19,6 +19,9 @@
 							<md-button v-on:click="add('square')">
 								<md-icon>crop_square</md-icon>
 							</md-button>
+              <md-button v-on:click="add('star')">
+                <md-icon>star_border</md-icon>
+              </md-button>
 						</div>
 					</span>
 				</md-menu-content>
