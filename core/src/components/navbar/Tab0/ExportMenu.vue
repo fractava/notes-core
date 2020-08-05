@@ -99,7 +99,7 @@ export default {
 					const svgElements = Array.from(element.querySelectorAll("svg:not(.sketch)"));
 					svgElements.forEach(s => {
 						const bBox = s.getBBox();
-            console.log(s, bBox, s.parentElement.clientWidth, s.parentElement.clientHeight);
+						console.log(s, bBox, s.parentElement.clientWidth, s.parentElement.clientHeight);
 						s.setAttribute("x", bBox.x);
 						s.setAttribute("y", bBox.y);
 						s.setAttribute("width", s.parentElement.clientWidth);
