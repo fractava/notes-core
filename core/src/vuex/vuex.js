@@ -240,6 +240,7 @@ export default {
 					stroke: "#000000",
 					fill: "#ffffff00",
 				},
+				distort: options.distort,
 			});
 		},
 		moveShape(state, options) {
@@ -260,6 +261,9 @@ export default {
 		setStrokeColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
+		setShapeDistort(state, options) {
+			state.loadedPage.objects.shapes[options.id].distort = options.distort;
+		}
 	},
 	getters: {
 		// Page
