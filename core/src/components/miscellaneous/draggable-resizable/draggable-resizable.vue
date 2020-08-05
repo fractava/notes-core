@@ -320,12 +320,12 @@ export default {
 
 	methods: {
 		elementMouseDownIfDragFromInside(e) {
-			if(this.mouseDragFromInside) {
+			if(this.enabled && this.mouseDragFromInside) {
 				this.elementMouseDown(e);
 			}
 		},
 		elementTouchDownIfDragFromInside(e) {
-			if(this.touchDragFromInside) {
+			if(this.enabled && this.touchDragFromInside) {
 				this.elementTouchDown(e);
 			}
 		},
