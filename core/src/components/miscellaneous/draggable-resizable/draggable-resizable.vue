@@ -186,9 +186,9 @@ export default {
 		},
 		handles: {
 			type: Array,
-			default: () => ["tl", "tm", "tr", "mr", "br", "bm", "bl", "ml"],
+			default: () => ["tl", "tm", "tr", "mr", "br", "bm", "bl", "ml", 'rot'],
 			validator: (val) => {
-				const s = new Set(["tl", "tm", "tr", "mr", "br", "bm", "bl", "ml"]);
+				const s = new Set(["tl", "tm", "tr", "mr", "br", "bm", "bl", "ml", 'rot']);
 
 				return new Set(val.filter(h => s.has(h))).size === val.length;
 			}
@@ -270,7 +270,8 @@ export default {
 			handle: null,
 			resizing: false,
 			dragging: false,
-			zIndex: this.z
+			zIndex: this.z,
+      degree: 0,
 		};
 	},
 
@@ -640,6 +641,7 @@ export default {
 			let top = this.top;
 			let right = this.right;
 			let bottom = this.bottom;
+      let degree = this.degree;
 
 			const mouseClickPosition = this.mouseClickPosition;
 			const lockAspectRatio = this.lockAspectRatio; // eslint-disable-line
@@ -658,7 +660,17 @@ export default {
 
 			const [deltaX, deltaY] = snapToGrid(this.grid, tmpDeltaX, tmpDeltaY, this.scale);
 
-			if (this.handle.includes("b")) {
+      if (this.handle === 'rot') {
+        console.log("rot");
+        //this.active = true
+        this.opacity = 0.6
+        let radians = Math.atan2(mouseClickPosition.mouseX - (this.left + (this.width / 2)), mouseClickPosition.mouseY - (this.top + (this.height / 2)))
+        //let radians = Math.atan2(deltaX, deltaY);
+        degree = (radians * (180 / Math.PI) * -1);
+        degree = Math.floor((degree + 360) % 360);
+        //this.degree = degree;
+        console.log(degree)
+      }else if (this.handle.includes("b")) {
 				bottom = restrictToBounds(
 					mouseClickPosition.bottom + deltaY,
 					this.bounds.minBottom,
@@ -672,7 +684,7 @@ export default {
 				if (this.lockAspectRatio && this.resizingOnY) {
 					right = this.right - (this.bottom - bottom) * aspectFactor;
 				}
-			} else if (this.handle.includes("t")) {
+			} else if (this.handle.includes("t") && this.handle !== 'rot') {
 				top = restrictToBounds(
 					mouseClickPosition.top - deltaY,
 					this.bounds.minTop,
@@ -688,7 +700,7 @@ export default {
 				}
 			}
 
-			if (this.handle.includes("r")) {
+			if (this.handle.includes("r") && this.handle !== 'rot') {
 				right = restrictToBounds(
 					mouseClickPosition.right + deltaX,
 					this.bounds.minRight,
@@ -731,8 +743,9 @@ export default {
 			this.bottom = bottom;
 			this.width = width;
 			this.height = height;
+      this.degree = degree;
 
-			this.$emit("resizing", this.left, this.top, this.width, this.height);
+			this.$emit("resizing", this.left, this.top, this.width, this.height, this.degree);
 		},
 		changeWidth (val) {
 			const [newWidth, _] = snapToGrid(this.grid, val, 0, this.scale); // eslint-disable-line
@@ -798,7 +811,7 @@ export default {
 	computed: {
 		style () {
 			return {
-				transform: `translate(${this.left}px, ${this.top}px)`,
+				transform: `translate(${this.left}px, ${this.top}px) rotate(${this.degree}deg)`,
 				width: this.computedWidth,
 				height: this.computedHeight,
 				zIndex: this.zIndex,
@@ -975,6 +988,44 @@ export default {
 	bottom: -9px;
 	right: -9px;
 	cursor: se-resize;
+}
+
+.handle-rot {
+   bottom: -45px;
+    left: 50%;
+    margin-left: -5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+.handle-rot:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    width: 0;
+    height: 20px;
+    margin-left: -1px;
+    border-left: 1px dashed #3f4652;
+    background-color: #fff;
+}
+.handle-rot:after {
+    content: '';
+    background-color: #fff;
+    background-image: url(https://cdn.rawgit.com/berkaygure/19b8f05102fb11f57fff1cf3f3a2fc48/raw/6f7a11dd1ea612ce7392c1b6d7ccbabb6404e489/icon_rotate.svg);
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: 1px 2px;
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,.15);
 }
 
 @media only screen and (max-width: 768px) {

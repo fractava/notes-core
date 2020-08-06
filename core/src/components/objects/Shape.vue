@@ -17,6 +17,7 @@
 			:mouseDragFromInside="true"
 			:touchDragFromInside="true"
 		>
+			<!-- :grid="[loadedPage.background.size, loadedPage.background.size]" -->
 			<div
 				class="shape"
 				v-if="shape.type=='square'"
