@@ -1,21 +1,18 @@
 <template>
 	<div class="shapeContainer">
-		<draggable-resizable
+		<drr
 			:w="shape.position.width"
 			:h="shape.position.height"
-			:x="shape.position.x"
-			:y="shape.position.y"
+			:x="shape.position.x + (shape.position.width / 2)"
+			:y="shape.position.y + (shape.position.height / 2)"
+			:angle="shape.rotation"
 			:minHeight="50"
 			:minWidth="50"
-			@dragging="onDrag"
-			@resizing="onResize"
-			@deactivated="deactivate"
-			:parent="false"
-			:enabled="active"
-			:maxX="loadedPage.size.x"
-			:maxY="loadedPage.size.y"
-			:mouseDragFromInside="true"
-			:touchDragFromInside="true"
+			:outerBound="{x: loadedPage.size.x/2, y: loadedPage.size.y/2, w: loadedPage.size.x, h: loadedPage.size.y}"
+			:innerBound="{x: 0, y: 0, w: 50, h: 50}"
+			@change="onChange"
+			:selected="active"
+			@select="activate"
 		>
 			<!-- :grid="[loadedPage.background.size, loadedPage.background.size]" -->
 			<div
@@ -70,16 +67,18 @@
 						/>
 				</svg>
 			</div>
-		</draggable-resizable>
+		</drr>
 	</div>
 </template>
 <script>
 import { mapState } from "vuex";
-import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
+//import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
+import drr from '@minogin/vue-drag-resize-rotate'
 
 export default {
 	components: {
-		draggableResizable,
+		//draggableResizable,
+		drr,
 	},
 	props: {
 		id: {
@@ -110,12 +109,12 @@ export default {
 		deactivate: function() {
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
-		onResize: function (x, y, width, height) {
+		onChange: function(rect) {
+			let x = rect.x - (rect.w / 2);
+			let y = rect.y - (rect.h / 2);
+
 			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
-			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
-		},
-		onDrag: function (x, y) {
-			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
+			this.$store.commit("resizeShape", {id: this.id, width: rect.w, height: rect.h,}, {module: "core" });
 		},
 	},
 };
