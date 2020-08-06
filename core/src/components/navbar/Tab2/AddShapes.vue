@@ -13,18 +13,9 @@
 				<md-menu-content class="navbarMenu">
 					<span>
 						<div class="addFormContainer">
-							<md-button v-on:click="add('circle')">
-								<md-icon>radio_button_unchecked</md-icon>
+							<md-button v-for="(shape, index) in shapes" :key="'shape_selector' + index" v-on:click="add(shape)">
+								<md-icon>{{ shape.icon }}</md-icon>
 							</md-button>
-							<md-button v-on:click="add('square')">
-								<md-icon>crop_square</md-icon>
-							</md-button>
-              <md-button v-on:click="add('star')">
-                <md-icon>star_border</md-icon>
-              </md-button>
-              <md-button v-on:click="add('arrow')">
-                <md-icon>arrow_right_alt</md-icon>
-              </md-button>
 						</div>
 					</span>
 				</md-menu-content>
@@ -36,9 +27,35 @@
 import { mapState } from "vuex";
 
 export default {
+	data: function() {
+		return {
+			shapes: [
+				{
+					name: "square",
+					distort: true,
+					icon: "crop_square",
+				},
+				{
+					name: "circle",
+					distort: false,
+					icon: "radio_button_unchecked"
+				},
+				{
+					name: "star",
+					distort: false,
+					icon: "star_border",
+				},
+				{
+					name: "arrow",
+					distort: true,
+					icon: "arrow_right_alt",
+				}
+			]
+		};
+	},
 	methods: {
-		add: function(type) {
-			this.$store.commit("switchEditingMode", {mode: "addShape", information: type,}, {module: "core" });
+		add: function(information) {
+			this.$store.commit("switchEditingMode", {mode: "addShape", information,}, {module: "core" });
 		},
 	},
 	computed: {
