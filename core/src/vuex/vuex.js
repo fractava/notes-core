@@ -242,6 +242,7 @@ export default {
 					fill: "#ffffff00",
 				},
 				distort: options.distort,
+				rotation: options.rotation,
 			});
 		},
 		moveShape(state, options) {

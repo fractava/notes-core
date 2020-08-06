@@ -48,8 +48,27 @@ export default {
 				{
 					name: "arrow",
 					distort: true,
-					icon: "arrow_right_alt",
-				}
+					icon: "arrow_back",
+          rotation: 180,
+				},
+        {
+          name: "arrow",
+          distort: true,
+          icon: "arrow_forward",
+          rotation: 0,
+        },
+        {
+          name: "arrow",
+          distort: true,
+          icon: "arrow_upward",
+          rotation: 270,
+        },
+        {
+          name: "arrow",
+          distort: true,
+          icon: "arrow_downward",
+          rotation: 90,
+        },
 			]
 		};
 	},

@@ -53,9 +53,20 @@
 				v-if="shape.type=='arrow'"
 				v-on:click="activate"
 			>
-				<svg viewBox="0 5 24 14" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
+				<svg
+					viewBox="0 5 24 14"
+					:preserveAspectRatio="aspectRatioAttribute"
+					width="100%"
+					height="100%"
+					:style="{}"
+
+				>
 						<path d="M0 0h24v24H0z" fill="none"/>
-						<path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
+						<path
+							:fill="shape.color.fill"
+							:stroke="shape.color.stroke"
+							d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
+						/>
 				</svg>
 			</div>
 		</draggable-resizable>

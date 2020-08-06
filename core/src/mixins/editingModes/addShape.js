@@ -31,6 +31,7 @@ export const addShape = {
 				height,
 				distort: this.editingModeAdditionalInformation.distort,
 				strokeWeight: 4,
+				rotation: this.editingModeAdditionalInformation.rotation,
 			}, {module: "core" });
 			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
 		},
