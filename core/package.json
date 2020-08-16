@@ -31,7 +31,7 @@
     "font-detective": "^2.0.0",
     "html2canvas": "^1.0.0-rc.5",
     "html2pdf.js": "^0.9.2",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.0.0",
     "mathlive": "^0.54.1",
     "quill-mathlive-blot": "^1.2.0",
     "quill-mathquill-blot": "^1.8.0",
