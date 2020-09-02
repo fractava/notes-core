@@ -1,6 +1,6 @@
 <template>
-	<div class="shapeContainer">
-		<draggable-resizable
+	<div class="shapeContainer" ref="container" >
+		<!--<draggable-resizable
 			:w="shape.position.width"
 			:h="shape.position.height"
 			:x="shape.position.x"
@@ -16,7 +16,19 @@
 			:maxY="loadedPage.size.y"
 			:mouseDragFromInside="true"
 			:touchDragFromInside="true"
+		>-->
+		<Moveable
+			class="moveable"
+			v-bind="moveable"
+			@drag="handleDrag"
+			@dragStart="handleDragStart"
+			@resize="handleResize"
+			@rotate="handleRotate"
+			@warp="handleWarp"
+			@pinch="handlePinch"
+			:style="containerStyle"
 		>
+			<span>{{ JSON.stringify(moveable) }}</span>
 			<div
 				class="shape"
 				v-if="shape.type=='square'"
@@ -58,21 +70,27 @@
 						<path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
 				</svg>
 			</div>
-		</draggable-resizable>
+		</Moveable>
 	</div>
 </template>
 <script>
 import { mapState } from "vuex";
-import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
+import Moveable from 'vue-moveable';
 
 export default {
 	components: {
-		draggableResizable,
+		Moveable,
 	},
 	props: {
 		id: {
 			type: Number,
 		},
+	},
+	data: function() {
+		return {
+			beforeDragX: false,
+			beforeDragY: false,
+		};
 	},
 	computed: {
 		...mapState({
@@ -81,6 +99,25 @@ export default {
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
+		moveable: function() {
+			console.log(this.$refs, this.$refs.container);
+			return {
+				//moveable: {
+					draggable: true,
+					throttleDrag: 0,
+					resizable: true,
+					throttleResize: 0,
+					keepRatio: false,
+					scalable: false,
+					throttleScale: 0,
+					rotatable: true,
+					throttleRotate: 0,
+					pinchable: true,
+					origin: false,
+					container: this.$refs.container,
+				//},
+			}
+		},
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
 		},
@@ -90,6 +127,17 @@ export default {
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";
 		},
+		containerStyle: function() {
+			console.log(this.shape);
+			let style = {
+				top: this.shape.position.x + "px",
+				left: this.shape.position.y + "px",
+				width: this.shape.position.width + "px",
+				height: this.shape.position.height + "px",
+			};
+			console.log(style);
+			return style;
+		},
 	},
 	methods: {
 		activate: function() {
@@ -98,12 +146,33 @@ export default {
 		deactivate: function() {
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
-		onResize: function (x, y, width, height) {
+		handleDragStart() {
+			console.log("start");
+			this.beforeDragX = this.shape.position.x;
+			this.beforeDragY = this.shape.position.y;
+		},
+		handleDrag({ target, left, top, translate, beforeTranslate}) {
+			console.log(beforeTranslate);
+			let x = translate[1] + this.beforeDragX;
+			let y = translate[0] + this.beforeDragY;
+
+			console.log("onDrag", target, x, y, translate);
 			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
+		},
+		handleResize({ target, width, height}) {
+			console.log("onResize", target, width, height);
 			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
 		},
-		onDrag: function (x, y) {
-			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
+		handleRotate({ target, transform }) {
+			console.log("onRotate", target, transform);
+			target.style.transform = transform;
+		},
+		handleWarp({ target, transform }) {
+			console.log("onWarp",target, transform);
+			//target.style.transform = transform;
+		},
+		handlePinch({ target, transform }) {
+			console.log("onPinch", target, transform);
 		},
 	},
 };
@@ -119,5 +188,10 @@ export default {
 	left: 0px;
 	width: 0px;
 	height: 0px;
+}
+.moveable {
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 </style>
