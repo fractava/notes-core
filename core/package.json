@@ -43,6 +43,6 @@
   "devDependencies": {
     "eslint": "^7.6.0",
     "eslint-config-jonathantreffler": "^1.4.0",
-    "eslint-plugin-vue": "^6.2.2"
+    "eslint-plugin-vue": "^7.0.1"
   }
 }
