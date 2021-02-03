@@ -6,7 +6,7 @@
 ![GitHub Publish Workflow Status](https://img.shields.io/github/workflow/status/fractava/notes-core/Publish?label=Publish&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/fractava/notes-core?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/fractava/notes-core?style=flat-square)
-[![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)](https://github.com/fractava/notes-core/commits/)
+[![Maintenance](https://img.shields.io/maintenance/yes/2021?style=flat-square)](https://github.com/fractava/notes-core/commits/)
 
 # FRACTAVA Notes Core
 
