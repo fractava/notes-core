@@ -94,16 +94,18 @@ export default {
             isMounted: false,
             moveableOptions: {
                 draggable: true,
-                throttleDrag: 0,
+                throttleDrag: 1,
                 resizable: true,
                 throttleResize: 1,
                 keepRatio: false,
                 scalable: false,
-                throttleScale: 0,
+                throttleScale: 1,
                 rotatable: true,
-                throttleRotate: 0,
+                throttleRotate: 1,
                 pinchable: true,
-                origin: false,
+                origin: true,
+                originDraggable: true,
+                edge: true,
             },
 		};
     },
@@ -183,7 +185,7 @@ export default {
             delta[1] && (target.style.height = `${height}px`);
 
             //this.frame.translate = drag.beforeTranslate;
-            target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
+            //target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
 
             this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
         },
