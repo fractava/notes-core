@@ -21,16 +21,11 @@
 		<Moveable
 			class="moveable"
 			v-bind="moveableOptions"
-			:style="containerStyle"
             :container="$refs.container"
             v-if="isMounted"
             @drag="handleDrag"
-			@dragStart="handleDragStart"
 			@resize="handleResize"
 			@rotate="handleRotate"
-            @rotateStart="handleRotateStart"
-			@warp="handleWarp"
-			@pinch="handlePinch"
 		>
 			<!--<span>{{ JSON.stringify(moveableOptions) }}</span>-->
 			<div
@@ -113,8 +108,9 @@ export default {
 		};
     },
     mounted: function() {
+        this.isMounted = true;
         this.$nextTick(function () {
-            this.isMounted = true;
+            
             /*this.$set(this.moveableOptions, 'container', this.$refs.container);
 
             console.log(this.moveableOptions.container);
@@ -175,49 +171,28 @@ export default {
             console.log("deactivate");
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
-		handleDragStart() {
-			console.log("drag start");
-			this.beforeDragX = this.shape.position.x;
-			this.beforeDragY = this.shape.position.y;
-		},
-		handleDrag({ target, top, left}) {
-            console.log("onDrag", target, left, top);
+        handleDrag({ target, transform, left, top }) {
+            console.log('onDrag left, top', transform);
+            target.style.transform = transform;
 
-            // dont ask me why top is x and left is y, i dont know why it need to be this way, it works
-            let x = this.beforeDragX + left;
-            let y = this.beforeDragY + top;
-
-			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
-		},
-		handleResize({ target, width, height, delta}) {
-            console.log("onResize", target, width, height);
-            
-            // immeaditly change size, because the style update by the store commit takes to long
+            this.$store.commit("moveShape", {id: this.id, x: left, y: top,}, {module: "core" });
+        },
+        handleResize({target, width, height, delta, drag, }) {
+            console.log('onResize', width, height);
             delta[0] && (target.style.width = `${width}px`);
             delta[1] && (target.style.height = `${height}px`);
 
+            //this.frame.translate = drag.beforeTranslate;
+            target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
 
-			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
+            this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
         },
-        handleRotateStart() {
-            console.log("rotation start");
-            this.beforeRotationDeg = this.shape.position.rotation;
+        handleRotate({ target, rotate, transform }) {
+            console.log('onRotate', rotate);
+            target.style.transform = transform;
+
+            this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
         },
-		handleRotate({ target, transform, rotate, delta }) {
-			console.log("onRotate", target, transform, rotate, delta);
-            //target.style.transform = transform;
-
-            let rotation = this.beforeRotationDeg + rotate;
-
-            this.$store.commit("rotateShape", {id: this.id, rotation,}, {module: "core" });
-		},
-		handleWarp({ target, transform }) {
-			console.log("onWarp",target, transform);
-			//target.style.transform = transform;
-		},
-		handlePinch({ target, transform }) {
-			console.log("onPinch", target, transform);
-		},
 	},
 };
 </script>
