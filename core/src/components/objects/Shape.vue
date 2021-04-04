@@ -1,5 +1,5 @@
 <template>
-	<div class="shapeContainer" ref="container" >
+	<div class="shapeContainer">
 		<!--<draggable-resizable
 			:w="shape.position.width"
 			:h="shape.position.height"
@@ -17,18 +17,22 @@
 			:mouseDragFromInside="true"
 			:touchDragFromInside="true"
 		>-->
+        <div ref="container">
 		<Moveable
 			class="moveable"
-			v-bind="moveable"
-			@drag="handleDrag"
+			v-bind="moveableOptions"
+			:style="containerStyle"
+            :container="$refs.container"
+            v-if="isMounted"
+            @drag="handleDrag"
 			@dragStart="handleDragStart"
 			@resize="handleResize"
 			@rotate="handleRotate"
+            @rotateStart="handleRotateStart"
 			@warp="handleWarp"
 			@pinch="handlePinch"
-			:style="containerStyle"
 		>
-			<span>{{ JSON.stringify(moveable) }}</span>
+			<!--<span>{{ JSON.stringify(moveableOptions) }}</span>-->
 			<div
 				class="shape"
 				v-if="shape.type=='square'"
@@ -71,6 +75,7 @@
 				</svg>
 			</div>
 		</Moveable>
+        </div>
 	</div>
 </template>
 <script>
@@ -89,9 +94,38 @@ export default {
 	data: function() {
 		return {
 			beforeDragX: false,
-			beforeDragY: false,
+            beforeDragY: false,
+            beforeRotationDeg: false,
+            isMounted: false,
+            moveableOptions: {
+                draggable: true,
+                throttleDrag: 0,
+                resizable: true,
+                throttleResize: 1,
+                keepRatio: false,
+                scalable: false,
+                throttleScale: 0,
+                rotatable: true,
+                throttleRotate: 0,
+                pinchable: true,
+                origin: false,
+            },
 		};
-	},
+    },
+    mounted: function() {
+        this.$nextTick(function () {
+            this.isMounted = true;
+            /*this.$set(this.moveableOptions, 'container', this.$refs.container);
+
+            console.log(this.moveableOptions.container);
+            
+            let self = this;
+            setTimeout(function () {
+                console.log(self.isMounted);
+                self.isMounted = true;
+            }, 10000);*/
+        });
+    },
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
@@ -99,25 +133,17 @@ export default {
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
-		moveable: function() {
-			console.log(this.$refs, this.$refs.container);
-			return {
-				//moveable: {
-					draggable: true,
-					throttleDrag: 0,
-					resizable: true,
-					throttleResize: 0,
-					keepRatio: false,
-					scalable: false,
-					throttleScale: 0,
-					rotatable: true,
-					throttleRotate: 0,
-					pinchable: true,
-					origin: false,
-					container: this.$refs.container,
-				//},
-			}
-		},
+		/*moveableOptions: function() {
+            console.log(this.$refs, this.$refs.container);
+            if(this.isMounted) {
+                return {
+
+                    
+                }
+            } else {
+                return {};
+            }
+		},*/
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
 		},
@@ -130,10 +156,11 @@ export default {
 		containerStyle: function() {
 			console.log(this.shape);
 			let style = {
-				top: this.shape.position.x + "px",
-				left: this.shape.position.y + "px",
+				//top: this.shape.position.x + "px",
+				//left: this.shape.position.y + "px",
 				width: this.shape.position.width + "px",
-				height: this.shape.position.height + "px",
+                height: this.shape.position.height + "px",
+                transform: "translate(" + this.shape.position.x + "px, " + this.shape.position.y + "px) rotate(" + this.shape.position.rotation + "deg)",
 			};
 			console.log(style);
 			return style;
@@ -141,31 +168,48 @@ export default {
 	},
 	methods: {
 		activate: function() {
+            console.log("activate");
 			this.$store.commit("focusObject", {type: "shapes", id: this.id,}, {module: "core" });
 		},
 		deactivate: function() {
+            console.log("deactivate");
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
 		handleDragStart() {
-			console.log("start");
+			console.log("drag start");
 			this.beforeDragX = this.shape.position.x;
 			this.beforeDragY = this.shape.position.y;
 		},
-		handleDrag({ target, left, top, translate, beforeTranslate}) {
-			console.log(beforeTranslate);
-			let x = translate[1] + this.beforeDragX;
-			let y = translate[0] + this.beforeDragY;
+		handleDrag({ target, top, left}) {
+            console.log("onDrag", target, left, top);
 
-			console.log("onDrag", target, x, y, translate);
+            // dont ask me why top is x and left is y, i dont know why it need to be this way, it works
+            let x = this.beforeDragX + left;
+            let y = this.beforeDragY + top;
+
 			this.$store.commit("moveShape", {id: this.id, x, y,}, {module: "core" });
 		},
-		handleResize({ target, width, height}) {
-			console.log("onResize", target, width, height);
+		handleResize({ target, width, height, delta}) {
+            console.log("onResize", target, width, height);
+            
+            // immeaditly change size, because the style update by the store commit takes to long
+            delta[0] && (target.style.width = `${width}px`);
+            delta[1] && (target.style.height = `${height}px`);
+
+
 			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
-		},
-		handleRotate({ target, transform }) {
-			console.log("onRotate", target, transform);
-			target.style.transform = transform;
+        },
+        handleRotateStart() {
+            console.log("rotation start");
+            this.beforeRotationDeg = this.shape.position.rotation;
+        },
+		handleRotate({ target, transform, rotate, delta }) {
+			console.log("onRotate", target, transform, rotate, delta);
+            //target.style.transform = transform;
+
+            let rotation = this.beforeRotationDeg + rotate;
+
+            this.$store.commit("rotateShape", {id: this.id, rotation,}, {module: "core" });
 		},
 		handleWarp({ target, transform }) {
 			console.log("onWarp",target, transform);

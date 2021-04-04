@@ -234,7 +234,8 @@ export default {
 					x: options.x,
 					y: options.y,
 					width: options.width,
-					height: options.height,
+                    height: options.height,
+                    rotation: 0,
 				},
 				strokeWeight: options.strokeWeight,
 				color: {
@@ -255,7 +256,10 @@ export default {
 		resizeShape(state, options) {
 			state.loadedPage.objects.shapes[options.id].position.width = options.width;
 			state.loadedPage.objects.shapes[options.id].position.height = options.height;
-		},
+        },
+        rotateShape(state, options) {
+            state.loadedPage.objects.shapes[options.id].position.rotation = options.rotation;
+        },
 		setFillColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
 		},
