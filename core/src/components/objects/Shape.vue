@@ -62,7 +62,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import Moveable from 'vue-moveable';
+import Moveable from "vue-moveable";
 
 export default {
 	components: {
@@ -76,49 +76,49 @@ export default {
 	data: function() {
 		return {
 			beforeDragX: false,
-            beforeDragY: false,
-            beforeRotationDeg: false,
-            isMounted: false,
-            moveableOptions: {
-                draggable: true,
-                throttleDrag: 1,
-                resizable: true,
-                throttleResize: 1,
-                keepRatio: false,
-                scalable: false,
-                throttleScale: 1,
-                rotatable: true,
-                throttleRotate: 1,
-                pinchable: true,
-                originDraggable: true,
-                edge: true,
-                renderDirections: ["nw","n","ne","w","e","sw","s","se"],
-                //bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-                bounds: {
-                    left: 0,
-                    top: 0,
-                },
-                //padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-                horizontalGuidelines: [],
-                snappable: true,
-                snapThreshold: 5,
-                snapVertical: true,
-                snapHorizontal: true,
-                snapElement: true,
-            },
-            frame: {
-                transformOrigin: "50% 50%",
-            }
+			beforeDragY: false,
+			beforeRotationDeg: false,
+			isMounted: false,
+			moveableOptions: {
+				draggable: true,
+				throttleDrag: 1,
+				resizable: true,
+				throttleResize: 1,
+				keepRatio: false,
+				scalable: false,
+				throttleScale: 1,
+				rotatable: true,
+				throttleRotate: 1,
+				pinchable: true,
+				originDraggable: true,
+				edge: true,
+				renderDirections: ["nw","n","ne","w","e","sw","s","se"],
+				//bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				bounds: {
+					left: 0,
+					top: 0,
+				},
+				//padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				horizontalGuidelines: [],
+				snappable: true,
+				snapThreshold: 5,
+				snapVertical: true,
+				snapHorizontal: true,
+				snapElement: true,
+			},
+			frame: {
+				transformOrigin: "50% 50%",
+			}
 		};
-    },
-    mounted: function() {
-        this.isMounted = true;
-        this.$nextTick(function () {
-            this.updateStyles(this.$refs.moveable.$el);
-            this.$refs.moveable.updateRect();
-            this.updateGuidelines();
-        });
-    },
+	},
+	mounted: function() {
+		this.isMounted = true;
+		this.$nextTick(function () {
+			this.updateStyles(this.$refs.moveable.$el);
+			this.$refs.moveable.updateRect();
+			this.updateGuidelines();
+		});
+	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
@@ -138,75 +138,75 @@ export default {
 	},
 	methods: {
 		activate: function() {
-            console.log("activate");
+			console.log("activate");
 			this.$store.commit("focusObject", {type: "shapes", id: this.id,}, {module: "core" });
 		},
 		deactivate: function() {
-            console.log("deactivate");
+			console.log("deactivate");
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
-        },
-        handleDragStart(e) {
-            e.set([this.shape.position.x, this.shape.position.y]);
-        },
-        handleDrag({ target, transform, left, top, beforeTranslate }) {
-            console.log('onDrag left, top', transform);
-            target.style.transform = transform;
+		},
+		handleDragStart(e) {
+			e.set([this.shape.position.x, this.shape.position.y]);
+		},
+		handleDrag({ target, transform, beforeTranslate }) {
+			console.log("onDrag left, top", transform);
+			target.style.transform = transform;
 
-            this.$store.commit("moveShape", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
-        },
-        handleResizeStart(e) {
-            console.log("handleResizeStart", e);
+			this.$store.commit("moveShape", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+		},
+		handleResizeStart(e) {
+			console.log("handleResizeStart", e);
 
-            e.setOrigin(["%", "%"]);
-            e.dragStart && e.dragStart.set([this.shape.position.x, this.shape.position.y]);
-        },
-        handleResize({target, width, height, delta, drag, }) {
-            console.log('onResize', width, height);
+			e.setOrigin(["%", "%"]);
+			e.dragStart && e.dragStart.set([this.shape.position.x, this.shape.position.y]);
+		},
+		handleResize({target, width, height, delta, drag, }) {
+			console.log("onResize", width, height);
 
-            delta[0] && (target.style.width = `${width}px`);
-            delta[1] && (target.style.height = `${height}px`);
+			delta[0] && (target.style.width = `${width}px`);
+			delta[1] && (target.style.height = `${height}px`);
 
-            this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
-            this.$store.commit("moveShape", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
-        },
-        handleRotateStart(e) {
-            console.log("onRotateStart", e);
+			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
+			this.$store.commit("moveShape", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+		},
+		handleRotateStart(e) {
+			console.log("onRotateStart", e);
 
-            e.set(this.shape.position.rotation);
-        },
-        handleRotate({ target, rotate, transform, beforeRotate }) {
-            console.log('onRotate', rotate);
+			e.set(this.shape.position.rotation);
+		},
+		handleRotate({ target, rotate, transform, }) {
+			console.log("onRotate", rotate);
 
-            target.style.transform = transform;
+			target.style.transform = transform;
 
-            this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
-        },
-        handleRender(e) {
-            this.updateStyles(e.target);
-        },
-        updateStyles(target) {
-            console.log(target);
-            target.style.transformOrigin = this.frame.transformOrigin;
-            target.style.width = `${this.shape.position.width}px`;
-            target.style.height = `${this.shape.position.height}px`;
-            target.style.transform = `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`;
-        },
-        updateGuidelines() {
-            let horizontalGuidelines = [];
-            for(let coordinate = 0; coordinate <= this.loadedPage.size.x; coordinate += this.loadedPage.background.size) {
-                horizontalGuidelines.push(coordinate);
-            }
+			this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
+		},
+		handleRender(e) {
+			this.updateStyles(e.target);
+		},
+		updateStyles(target) {
+			console.log(target);
+			target.style.transformOrigin = this.frame.transformOrigin;
+			target.style.width = `${this.shape.position.width}px`;
+			target.style.height = `${this.shape.position.height}px`;
+			target.style.transform = `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`;
+		},
+		updateGuidelines() {
+			let horizontalGuidelines = [];
+			for(let coordinate = 0; coordinate <= this.loadedPage.size.x; coordinate += this.loadedPage.background.size) {
+				horizontalGuidelines.push(coordinate);
+			}
 
-            let verticalGuidelines = [];
-            for(let coordinate = 0; coordinate <= this.loadedPage.size.y; coordinate += this.loadedPage.background.size) {
-                verticalGuidelines.push(coordinate);
-            }
+			let verticalGuidelines = [];
+			for(let coordinate = 0; coordinate <= this.loadedPage.size.y; coordinate += this.loadedPage.background.size) {
+				verticalGuidelines.push(coordinate);
+			}
 
-            console.log(horizontalGuidelines, verticalGuidelines);
+			console.log(horizontalGuidelines, verticalGuidelines);
             
-            this.moveableOptions.horizontalGuidelines = horizontalGuidelines;
-            this.moveableOptions.verticalGuidelines = verticalGuidelines;
-        },
+			this.moveableOptions.horizontalGuidelines = horizontalGuidelines;
+			this.moveableOptions.verticalGuidelines = verticalGuidelines;
+		},
 	},
 };
 </script>
