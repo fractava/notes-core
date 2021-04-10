@@ -35,6 +35,9 @@
 				</span>
 			</md-menu-content>
 		</md-menu>
+		<md-button class="navbarButton" v-on:click="toggleDistort()" :class="{'md-raised': shape.distort }">
+        Distort
+    </md-button>
 	</div>
 </template>
 <script>
@@ -58,17 +61,23 @@ export default {
 		updateStrokeColor: function(color) {
 			this.$store.commit("setStrokeColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
 		},
+		toggleDistort: function() {
+			this.$store.commit("setShapeDistort", {id: this.focuseObjectId, distort: !this.shape.distort,}, {module: "core" });
+		},
 	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
+		shape: function() {
+			return this.loadedPage.objects.shapes[this.focuseObjectId];
+		},
 		strokeColor: function() {
-			return this.loadedPage.objects.shapes[this.focuseObjectId].color.stroke;
+			return this.shape.color.stroke;
 		},
 		fillColor: function() {
-			return this.loadedPage.objects.shapes[this.focuseObjectId].color.fill;
+			return this.shape.color.fill;
 		},
 	},
 };

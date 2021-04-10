@@ -235,11 +235,14 @@ export default {
 					y: options.y,
 					width: options.width,
 					height: options.height,
+					rotation: 0,
 				},
+				strokeWeight: options.strokeWeight,
 				color: {
 					stroke: "#000000",
 					fill: "#ffffff00",
 				},
+				distort: options.distort,
 			});
 		},
 		moveShape(state, options) {
@@ -254,12 +257,18 @@ export default {
 			state.loadedPage.objects.shapes[options.id].position.width = options.width;
 			state.loadedPage.objects.shapes[options.id].position.height = options.height;
 		},
+		rotateShape(state, options) {
+			state.loadedPage.objects.shapes[options.id].position.rotation = options.rotation;
+		},
 		setFillColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
 		},
 		setStrokeColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
+		setShapeDistort(state, options) {
+			state.loadedPage.objects.shapes[options.id].distort = options.distort;
+		}
 	},
 	getters: {
 		// Page

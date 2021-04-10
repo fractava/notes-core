@@ -23,7 +23,15 @@ export const addShape = {
 			let width = endX - startX;
 			let height = endY - startY;
 			console.log(startX, startY, width, height);
-			this.$store.commit("newShape", {type: this.editingModeAdditionalInformation, x: startX, y: startY, width, height,}, {module: "core" });
+			this.$store.commit("newShape", {
+				type: this.editingModeAdditionalInformation.name,
+				x: startX,
+				y: startY,
+				width,
+				height,
+				distort: this.editingModeAdditionalInformation.distort,
+				strokeWeight: 4,
+			}, {module: "core" });
 			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
 		},
 		addShapePointerLeave: function() {
