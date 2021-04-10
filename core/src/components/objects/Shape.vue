@@ -1,79 +1,61 @@
 <template>
 	<div class="shapeContainer">
-		<!--<draggable-resizable
-			:w="shape.position.width"
-			:h="shape.position.height"
-			:x="shape.position.x"
-			:y="shape.position.y"
-			:minHeight="50"
-			:minWidth="50"
-			@dragging="onDrag"
-			@resizing="onResize"
-			@deactivated="deactivate"
-			:parent="false"
-			:enabled="active"
-			:maxX="loadedPage.size.x"
-			:maxY="loadedPage.size.y"
-			:mouseDragFromInside="true"
-			:touchDragFromInside="true"
-		>-->
         <div ref="container">
-		<Moveable
-			class="moveable"
-			v-bind="moveableOptions"
-            :container="$refs.container"
-            v-if="isMounted"
-            @dragStart="handleDragStart"
-            @drag="handleDrag"
-            @resizeStart="handleResizeStart"
-			@resize="handleResize"
-            @rotateStart="handleRotateStart"
-			@rotate="handleRotate"
-            @render="handleRender"
-		>
-			<!--<span>{{ JSON.stringify(moveableOptions) }}</span>-->
-			<div
-				class="shape"
-				v-if="shape.type=='square'"
-				style="border: 4px solid;"
-				:style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
-				v-on:click="activate"
-			/>
-			<div
-				class="shape"
-				v-if="shape.type=='circle'"
-				v-on:click="activate"
-			>
-				<svg viewBox="0 0 100 100" :preserveAspectRatio="aspectRatioAttribute" height="100%" width="100%">
-					<circle cx="50" cy="50" r="40" :fill="shape.color.fill" :stroke="shape.color.stroke" stroke-width="3" />
-				</svg>
-			</div>
-			<div
-				class="shape"
-				v-if="shape.type=='star'"
-				v-on:click="activate"
-			>
-				<svg viewBox="0 0 24 24" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
-					<path d="M0 0h24v24H0z" fill="none"/>
-					<path d="M0 0h24v24H0z" fill="none"/>
-					<path
-						d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-						:fill="shape.color.fill"
-						:stroke="shape.color.stroke"
-					/>
-				</svg>
-			</div>
-			<div
-				class="shape"
-				v-if="shape.type=='arrow'"
-				v-on:click="activate"
-			>
-				<svg viewBox="0 5 24 14" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
-						<path d="M0 0h24v24H0z" fill="none"/>
-						<path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
-				</svg>
-			</div>
-		</Moveable>
+            <Moveable
+                class="moveable"
+                v-bind="moveableOptions"
+                :container="$refs.container"
+                v-if="isMounted"
+                @dragStart="handleDragStart"
+                @drag="handleDrag"
+                @resizeStart="handleResizeStart"
+                @resize="handleResize"
+                @rotateStart="handleRotateStart"
+                @rotate="handleRotate"
+                @render="handleRender"
+            >
+                <div
+                    class="shape"
+                    v-if="shape.type=='square'"
+                    style="border: 4px solid;"
+                    :style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
+                    v-on:click="activate"
+                />
+                <div
+                    class="shape"
+                    v-if="shape.type=='circle'"
+                    v-on:click="activate"
+                >
+                    <svg viewBox="0 0 100 100" :preserveAspectRatio="aspectRatioAttribute" height="100%" width="100%">
+                        <circle cx="50" cy="50" r="40" :fill="shape.color.fill" :stroke="shape.color.stroke" stroke-width="3" />
+                    </svg>
+                </div>
+                <div
+                    class="shape"
+                    v-if="shape.type=='star'"
+                    v-on:click="activate"
+                >
+                    <svg viewBox="0 0 24 24" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path
+                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                            :fill="shape.color.fill"
+                            :stroke="shape.color.stroke"
+                        />
+                    </svg>
+                </div>
+                <div
+                    class="shape"
+                    v-if="shape.type=='arrow'"
+                    v-on:click="activate"
+                >
+                    <svg viewBox="0 5 24 14" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                            <path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
+                    </svg>
+                </div>
+            </Moveable>
         </div>
 	</div>
 </template>
@@ -120,18 +102,6 @@ export default {
     },
     mounted: function() {
         this.isMounted = true;
-        this.$nextTick(function () {
-            
-            /*this.$set(this.moveableOptions, 'container', this.$refs.container);
-
-            console.log(this.moveableOptions.container);
-            
-            let self = this;
-            setTimeout(function () {
-                console.log(self.isMounted);
-                self.isMounted = true;
-            }, 10000);*/
-        });
     },
 	computed: {
 		...mapState({
@@ -140,17 +110,6 @@ export default {
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
 		}),
-		/*moveableOptions: function() {
-            console.log(this.$refs, this.$refs.container);
-            if(this.isMounted) {
-                return {
-
-                    
-                }
-            } else {
-                return {};
-            }
-		},*/
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
 		},
@@ -159,18 +118,6 @@ export default {
 		},
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";
-		},
-		containerStyle: function() {
-			console.log(this.shape);
-			let style = {
-				//top: this.shape.position.x + "px",
-				//left: this.shape.position.y + "px",
-				width: this.shape.position.width + "px",
-                height: this.shape.position.height + "px",
-                transform: "translate(" + this.shape.position.x + "px, " + this.shape.position.y + "px) rotate(" + this.shape.position.rotation + "deg)",
-			};
-			console.log(style);
-			return style;
 		},
 	},
 	methods: {
@@ -195,16 +142,15 @@ export default {
         },
         handleResizeStart(e) {
             console.log("handleResizeStart", e);
+
             e.setOrigin(["%", "%"]);
             e.dragStart && e.dragStart.set(this.frame.translate);
         },
         handleResize({target, width, height, delta, drag, }) {
             console.log('onResize', width, height);
+
             delta[0] && (target.style.width = `${width}px`);
             delta[1] && (target.style.height = `${height}px`);
-
-            //this.frame.translate = drag.beforeTranslate;
-            //target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
 
             const beforeTranslate = drag.beforeTranslate;
             this.frame.translate = beforeTranslate;
@@ -216,6 +162,7 @@ export default {
         },
         handleRotate({ target, rotate, transform, beforeRotate }) {
             console.log('onRotate', rotate);
+            
             target.style.transform = transform;
 
             this.frame.rotate = beforeRotate;
