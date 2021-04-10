@@ -6,6 +6,7 @@
                 v-bind="moveableOptions"
                 :container="$refs.container"
                 v-if="isMounted"
+                ref="moveable"
                 @dragStart="handleDragStart"
                 @drag="handleDrag"
                 @resizeStart="handleResizeStart"
@@ -92,16 +93,19 @@ export default {
                 origin: true,
                 originDraggable: true,
                 edge: true,
+                renderDirections: ["nw","n","ne","w","e","sw","s","se"],
             },
             frame: {
-                translate: [0,0],
-                rotate: 0,
                 transformOrigin: "50% 50%",
             }
 		};
     },
     mounted: function() {
         this.isMounted = true;
+        this.$nextTick(function () {
+            this.updateStyles(this.$refs.moveable.$el);
+            this.$refs.moveable.updateRect();
+        });
     },
 	computed: {
 		...mapState({
@@ -130,21 +134,19 @@ export default {
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
         },
         handleDragStart(e) {
-            e.set(this.frame.translate);
+            e.set([this.shape.position.x, this.shape.position.y]);
         },
         handleDrag({ target, transform, left, top, beforeTranslate }) {
             console.log('onDrag left, top', transform);
             target.style.transform = transform;
 
-            this.frame.translate = beforeTranslate;
-
-            this.$store.commit("moveShape", {id: this.id, x: left, y: top,}, {module: "core" });
+            this.$store.commit("moveShape", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
         },
         handleResizeStart(e) {
             console.log("handleResizeStart", e);
 
             e.setOrigin(["%", "%"]);
-            e.dragStart && e.dragStart.set(this.frame.translate);
+            e.dragStart && e.dragStart.set([this.shape.position.x, this.shape.position.y]);
         },
         handleResize({target, width, height, delta, drag, }) {
             console.log('onResize', width, height);
@@ -152,28 +154,31 @@ export default {
             delta[0] && (target.style.width = `${width}px`);
             delta[1] && (target.style.height = `${height}px`);
 
-            const beforeTranslate = drag.beforeTranslate;
-            this.frame.translate = beforeTranslate;
-
             this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
+            this.$store.commit("moveShape", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
         },
         handleRotateStart(e) {
-            e.set(this.frame.rotate);
+            console.log("onRotateStart", e);
+
+            e.set(this.shape.position.rotation);
         },
         handleRotate({ target, rotate, transform, beforeRotate }) {
             console.log('onRotate', rotate);
-            
-            target.style.transform = transform;
 
-            this.frame.rotate = beforeRotate;
+            target.style.transform = transform;
 
             this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
         },
         handleRender(e) {
-            const { translate, rotate, transformOrigin } = this.frame;
-            e.target.style.transformOrigin = transformOrigin;
-            e.target.style.transform = `translate(${translate[0]}px, ${translate[1]}px)` + ` rotate(${rotate}deg)`;
-        }
+            this.updateStyles(e.target);
+        },
+        updateStyles(target) {
+            console.log(target);
+            target.style.transformOrigin = this.frame.transformOrigin;
+            target.style.width = `${this.shape.position.width}px`;
+            target.style.height = `${this.shape.position.height}px`;
+            target.style.transform = `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`;
+        },
 	},
 };
 </script>
