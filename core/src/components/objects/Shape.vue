@@ -23,9 +23,13 @@
 			v-bind="moveableOptions"
             :container="$refs.container"
             v-if="isMounted"
+            @dragStart="handleDragStart"
             @drag="handleDrag"
+            @resizeStart="handleResizeStart"
 			@resize="handleResize"
+            @rotateStart="handleRotateStart"
 			@rotate="handleRotate"
+            @render="handleRender"
 		>
 			<!--<span>{{ JSON.stringify(moveableOptions) }}</span>-->
 			<div
@@ -107,6 +111,11 @@ export default {
                 originDraggable: true,
                 edge: true,
             },
+            frame: {
+                translate: [0,0],
+                rotate: 0,
+                transformOrigin: "50% 50%",
+            }
 		};
     },
     mounted: function() {
@@ -172,12 +181,22 @@ export default {
 		deactivate: function() {
             console.log("deactivate");
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
-		},
-        handleDrag({ target, transform, left, top }) {
+        },
+        handleDragStart(e) {
+            e.set(this.frame.translate);
+        },
+        handleDrag({ target, transform, left, top, beforeTranslate }) {
             console.log('onDrag left, top', transform);
             target.style.transform = transform;
 
+            this.frame.translate = beforeTranslate;
+
             this.$store.commit("moveShape", {id: this.id, x: left, y: top,}, {module: "core" });
+        },
+        handleResizeStart(e) {
+            console.log("handleResizeStart", e);
+            e.setOrigin(["%", "%"]);
+            e.dragStart && e.dragStart.set(this.frame.translate);
         },
         handleResize({target, width, height, delta, drag, }) {
             console.log('onResize', width, height);
@@ -187,14 +206,27 @@ export default {
             //this.frame.translate = drag.beforeTranslate;
             //target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
 
+            const beforeTranslate = drag.beforeTranslate;
+            this.frame.translate = beforeTranslate;
+
             this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
         },
-        handleRotate({ target, rotate, transform }) {
+        handleRotateStart(e) {
+            e.set(this.frame.rotate);
+        },
+        handleRotate({ target, rotate, transform, beforeRotate }) {
             console.log('onRotate', rotate);
             target.style.transform = transform;
 
+            this.frame.rotate = beforeRotate;
+
             this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
         },
+        handleRender(e) {
+            const { translate, rotate, transformOrigin } = this.frame;
+            e.target.style.transformOrigin = transformOrigin;
+            e.target.style.transform = `translate(${translate[0]}px, ${translate[1]}px)` + ` rotate(${rotate}deg)`;
+        }
 	},
 };
 </script>
