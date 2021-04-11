@@ -1,0 +1,32 @@
+name: Deploy Demo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - name: "Install and prepare Dependencies"
+      run: cd core && npm link && cd ../dev-server/ && npm ci && npm link @fractava/fractava-notes-core
+
+    - name: "Build static Website"
+      run: npm run build
+      working-directory: dev-server
+
+    - name: "Deploy"
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        BRANCH: demo
+        FOLDER: dev-server/dist/
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BASE_BRANCH: master
+        SINGLE_COMMIT: true
+        CLEAN: true
