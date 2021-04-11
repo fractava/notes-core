@@ -1,8 +1,7 @@
 #bin/#!/bin/sh
 
 cd core
-npm link
-cd ../dev-server
-npm install
-npm link @fractava/fractava-notes-core
+npm ci
+cd ../dev-server/
+npm ci
 npm run serve

@@ -14,8 +14,8 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: "Install and prepare Dependencies"
-      run: cd core && npm link && cd ../dev-server/ && npm ci && npm link @fractava/fractava-notes-core
+    - name: "Install Dependencies"
+      run: cd core && npm ci && cd ../dev-server/ && npm ci
 
     - name: "Build static Website"
       run: npm run build

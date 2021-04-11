@@ -2,13 +2,13 @@ import Vue from "vue";
 import Vuex from 'vuex';
 
 import App from "./App.vue";
-import Core from "@fractava/fractava-notes-core";
+import Core from "../../core/src/index.js";
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuex);
 
-import vuexCoreModule from "@fractava/fractava-notes-core/src/vuex/vuex.js";
+import vuexCoreModule from "../../core/src/vuex/vuex.js";
 
 console.log(vuexCoreModule);
 

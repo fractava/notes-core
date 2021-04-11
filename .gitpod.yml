@@ -1,6 +1,5 @@
 tasks:
-  - command: cd core && npm link && cd ../dev-server/ && npm ci && npm link
-      @fractava/fractava-notes-core && npm run serve
+  - command: sh start.sh
 
 vscode:
   extensions:
