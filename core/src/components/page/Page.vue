@@ -2,6 +2,7 @@
 	<div class="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
 		<div
 			class="Page"
+            ref="page"
 			:class="[loadedPage.background.type]"
 			v-on:pointerdown="pointerdown"
 			v-on:pointermove="pointermove"
@@ -10,6 +11,16 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
+            <!-- <Selecto
+                v-if="isMounted"
+                :container="$refs.page"
+                :selectableTargets='selectableTargets'
+                :selectByClick="true"
+                :selectFromInside="true"
+                :continueSelect="false"
+                :toggleContinueSelect='"shift"'
+                :hitRate="100"
+                /> -->
 			<sketches class="collectionContainer" />
 			<textBoxes class="collectionContainer" />
 			<shapes class="collectionContainer" />
@@ -26,19 +37,26 @@ import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
+import { VueSelecto } from "vue-selecto";
 
 export default {
 	components: {
 		Sketches,
 		pageTitle,
 		textBoxes,
-		shapes,
+        shapes,
+        Selecto: VueSelecto,
 	},
 	mixins: [drawing, addTextBox, addShape],
 	data: function() {
 		return {
+            isMounted: false,
+            selectableTargets: [],
 		};
-	},
+    },
+    mounted: function() {
+        this.isMounted = true;
+    },
 	methods: {
 		pointerdown: function(event) {
 			if(this.debug) {
@@ -161,7 +179,13 @@ export default {
 			"lastSketch",
 			"selectedPencil",
 		]),
-	},
+    },
+    watch: {
+        loadedPage: function() {
+            this.selectableTargets = [document.querySelector(".object")];
+            console.log(this.selectableTargets);
+        },
+    },
 };
 </script>
 
