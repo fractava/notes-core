@@ -6,7 +6,7 @@ on:
       - dependabot*
 
 jobs:
-  deploy:
+  test-build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
