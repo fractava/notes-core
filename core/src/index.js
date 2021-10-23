@@ -7,11 +7,15 @@ import "vue-material/dist/theme/default.css";
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 
+import PortalVue from 'portal-vue'
+
 export default {
 	install: function (Vue, options) {
 		console.log(options);
 
 		Vue.use(VueMaterial);
+
+		Vue.use(PortalVue)
 
 		// enable or disable debug output
 		options.store.commit("setDebug", options.debug, {module: "core" });
