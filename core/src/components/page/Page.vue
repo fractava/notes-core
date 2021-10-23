@@ -80,6 +80,9 @@ export default {
 			console.log(selectedObjects);
 		},
 		onDragStart: function(e) {
+			if(!(this.editingMode === 'selecting')) {
+				e.stop();
+			}
 			console.log(e);
 		},
 		pointerdown: function(event) {
