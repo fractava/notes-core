@@ -168,6 +168,7 @@ export default {
 					y: options.y,
 					width: options.width,
 					height: options.height,
+					rotation: 0,
 				},
 				content: {},
 				quill: undefined,
@@ -207,7 +208,9 @@ export default {
 			}
 		},
 		moveTextBox(state, options) {
+			console.log("moveTextBox");
 			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
+				console.log("moveTextBox x")
 				state.loadedPage.objects.textBoxes[options.id].position.x = options.x;
 			}
 			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
@@ -217,6 +220,9 @@ export default {
 		resizeTextBox(state, options) {
 			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
 			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
+		},
+		rotateTextBox(state, options) {
+			state.loadedPage.objects.textBoxes[options.id].position.rotation = options.rotation;
 		},
 		insertEmbed(state, options) {
 			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
@@ -274,6 +280,47 @@ export default {
 		// Page
 		focusedObject: (state) => () => {
 			return state.objects[state.focusedObjectType][state.focuseObjectId];
+		},
+
+		moveableOptions: (state) => {
+			let horizontalGuidelines = [];
+			for(let coordinate = 0; coordinate <= state.loadedPage.size.x; coordinate += state.loadedPage.background.size) {
+				horizontalGuidelines.push(coordinate);
+			}
+
+			let verticalGuidelines = [];
+			for(let coordinate = 0; coordinate <= state.loadedPage.size.y; coordinate += state.loadedPage.background.size) {
+				verticalGuidelines.push(coordinate);
+			}
+
+			return {
+				draggable: true,
+				throttleDrag: 1,
+				resizable: true,
+				throttleResize: 1,
+				keepRatio: false,
+				scalable: false,
+				throttleScale: 1,
+				rotatable: true,
+				throttleRotate: 1,
+				pinchable: true,
+				originDraggable: true,
+				edge: true,
+				renderDirections: ["nw","n","ne","w","e","sw","s","se"],
+				//bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				bounds: {
+					left: 0,
+					top: 0,
+				},
+				//padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				horizontalGuidelines,
+				verticalGuidelines,
+				snappable: true,
+				snapThreshold: 5,
+				snapVertical: true,
+				snapHorizontal: true,
+				snapElement: true,
+			}
 		},
 
 		// Sketch

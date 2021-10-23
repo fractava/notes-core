@@ -61,7 +61,7 @@
 	</div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Moveable from "vue-moveable";
 
 export default {
@@ -79,33 +79,6 @@ export default {
 			beforeDragY: false,
 			beforeRotationDeg: false,
 			isMounted: false,
-			moveableOptions: {
-				draggable: true,
-				throttleDrag: 1,
-				resizable: true,
-				throttleResize: 1,
-				keepRatio: false,
-				scalable: false,
-				throttleScale: 1,
-				rotatable: true,
-				throttleRotate: 1,
-				pinchable: true,
-				originDraggable: true,
-				edge: true,
-				renderDirections: ["nw","n","ne","w","e","sw","s","se"],
-				//bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-				bounds: {
-					left: 0,
-					top: 0,
-				},
-				//padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-				horizontalGuidelines: [],
-				snappable: true,
-				snapThreshold: 5,
-				snapVertical: true,
-				snapHorizontal: true,
-				snapElement: true,
-			},
 			frame: {
 				transformOrigin: "50% 50%",
 			}
@@ -116,7 +89,6 @@ export default {
 		this.$nextTick(function () {
 			this.updateStyles(this.$refs.moveable.$el);
 			this.$refs.moveable.updateRect();
-			this.updateGuidelines();
 		});
 	},
 	computed: {
@@ -125,6 +97,9 @@ export default {
 			editingMode: state => state.core.editingMode,
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
+		}),
+		...mapGetters({
+			moveableOptions: "moveableOptions",
 		}),
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
@@ -190,22 +165,6 @@ export default {
 			target.style.width = `${this.shape.position.width}px`;
 			target.style.height = `${this.shape.position.height}px`;
 			target.style.transform = `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`;
-		},
-		updateGuidelines() {
-			let horizontalGuidelines = [];
-			for(let coordinate = 0; coordinate <= this.loadedPage.size.x; coordinate += this.loadedPage.background.size) {
-				horizontalGuidelines.push(coordinate);
-			}
-
-			let verticalGuidelines = [];
-			for(let coordinate = 0; coordinate <= this.loadedPage.size.y; coordinate += this.loadedPage.background.size) {
-				verticalGuidelines.push(coordinate);
-			}
-
-			console.log(horizontalGuidelines, verticalGuidelines);
-            
-			this.moveableOptions.horizontalGuidelines = horizontalGuidelines;
-			this.moveableOptions.verticalGuidelines = verticalGuidelines;
 		},
 	},
 };

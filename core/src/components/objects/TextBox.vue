@@ -3,45 +3,47 @@
 		class="textBoxContainer"
 		:class="{active: active, disabled: disabled}"
 	>
-		<draggable-resizable
-			:w="textBox.position.width"
-			:h="textBox.position.height"
-			:x="textBox.position.x"
-			:y="textBox.position.y"
-			:minHeight="50"
-			:minWidth="50"
-			@dragging="onDrag"
-			@resizing="onResize"
-			:parent="false"
-			:enabled="active"
-			:maxX="loadedPage.size.x"
-			:maxY="loadedPage.size.y"
-			v-on:click="activate"
-		>
-			<quill
-				class="textBox"
-				v-model="content"
-				v-on:assign:quill="assignQuill"
-				v-on:activate="activate"
-				:focused="active"
-				:disabled="disabled"
-				:defaultFont="defaultFont"
-				:defaultFontSize="defaultFontSize"
-				:toolbarDisabled="true"
-			/>
-		</draggable-resizable>
+		<div ref="container">
+            <Moveable
+                class="moveable"
+                v-bind="moveableOptions"
+				:draggable="false"
+                :container="$refs.container"
+                v-if="isMounted"
+                ref="moveable"
+                @dragStart="handleDragStart"
+                @drag="handleDrag"
+                @resizeStart="handleResizeStart"
+                @resize="handleResize"
+                @rotateStart="handleRotateStart"
+                @rotate="handleRotate"
+                @render="handleRender"
+            >
+				<quill
+					class="textBox"
+					v-model="content"
+					v-on:assign:quill="assignQuill"
+					v-on:activate="activate"
+					:focused="active"
+					:disabled="disabled"
+					:defaultFont="defaultFont"
+					:defaultFontSize="defaultFontSize"
+					:toolbarDisabled="true"
+				/>
+			</Moveable>
+		</div>
 	</div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import quill from "./quill.vue";
-import draggableResizable from "../miscellaneous/draggable-resizable/draggable-resizable.vue";
+import Moveable from "vue-moveable";
 
 export default {
 	components: {
 		quill,
-		draggableResizable,
+		Moveable,
 	},
 	props: {
 		id: {
@@ -52,7 +54,18 @@ export default {
 		return {
 			defaultFont: "Calibri",
 			defaultFontSize: "20px",
+			isMounted: false,
+			frame: {
+				transformOrigin: "50% 50%",
+			}
 		};
+	},
+	mounted: function() {
+		this.isMounted = true;
+		this.$nextTick(function () {
+			this.updateStyles(this.$refs.moveable.$el);
+			this.$refs.moveable.updateRect();
+		});
 	},
 	computed: {
 		textBox: function() {
@@ -79,21 +92,64 @@ export default {
 			focuseObjectId: state => state.core.focuseObjectId,
 			openedDialog: state => state.core.openedDialog,
 		}),
+		...mapGetters([
+			"moveableOptions",
+		]),
 	},
 	methods: {
 		activate: function() {
 			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
 		},
-		onResize: function (x, y, width, height) {
-			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
-			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
-		},
-		onDrag: function (x, y) {
-			this.$store.commit("moveTextBox", {id: this.id, x, y,}, {module: "core" });
-		},
 		assignQuill: function(quill) {
 			console.log(quill);
 			this.$store.commit("assignQuillToTextBox", { id: this.id, quill }, {module: "core" });
+		},
+		handleDragStart(e) {
+			e.set([this.textBox.position.x, this.textBox.position.y]);
+		},
+		handleDrag({ target, transform, beforeTranslate }) {
+			console.log("onDrag left, top", transform);
+			target.style.transform = transform;
+
+			this.$store.commit("moveTextBox", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+		},
+		handleResizeStart(e) {
+			console.log("handleResizeStart", e);
+
+			e.setOrigin(["%", "%"]);
+			e.dragStart && e.dragStart.set([this.textBox.position.x, this.textBox.position.y]);
+		},
+		handleResize({target, width, height, delta, drag, }) {
+			console.log("onResize", width, height);
+
+			delta[0] && (target.style.width = `${width}px`);
+			delta[1] && (target.style.height = `${height}px`);
+
+			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
+			this.$store.commit("moveTextBox", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+		},
+		handleRotateStart(e) {
+			console.log("onRotateStart", e);
+
+			e.set(this.textBox.position.rotation);
+		},
+		handleRotate({ target, rotate, transform, }) {
+			console.log("onRotate", rotate);
+
+			target.style.transform = transform;
+
+			this.$store.commit("rotateTextBox", {id: this.id, rotation: rotate,}, {module: "core" });
+		},
+		handleRender(e) {
+			this.updateStyles(e.target);
+		},
+		updateStyles(target) {
+			console.log(target);
+			console.log(`translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`);
+			target.style.transformOrigin = this.frame.transformOrigin;
+			target.style.width = `${this.textBox.position.width}px`;
+			target.style.height = `${this.textBox.position.height}px`;
+			target.style.transform = `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`;
 		},
 	},
 };
