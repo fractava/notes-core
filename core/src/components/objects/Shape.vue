@@ -17,6 +17,7 @@
             >
                 <div
                     class="shape"
+					:data-shape-id="id"
                     v-if="shape.type=='square'"
                     style="border: 4px solid;"
                     :style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
@@ -24,6 +25,7 @@
                 />
                 <div
                     class="shape"
+					:data-shape-id="id"
                     v-if="shape.type=='circle'"
                     v-on:click="activate"
                 >
@@ -33,6 +35,7 @@
                 </div>
                 <div
                     class="shape"
+					:data-shape-id="id"
                     v-if="shape.type=='star'"
                     v-on:click="activate"
                 >
@@ -48,6 +51,7 @@
                 </div>
                 <div
                     class="shape"
+					:data-shape-id="id"
                     v-if="shape.type=='arrow'"
                     v-on:click="activate"
                 >

@@ -1,7 +1,22 @@
 <template>
-	<div class="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+			<VueSelecto
+				:rootContainer="$refs.zoomedContainer"
+				:container="$refs.zoomedContainer"
+				:dragContainer="$refs.zoomedContainer"
+				:selectableTargets='[".shape", ".textBox"]'
+				:style="{'top': '-300px'}"
+				:selectByClick="true"
+				:selectFromInside="true"
+				:continueSelect="false"
+				:toggleContinueSelect='"shift"'
+				:hitRate="100"
+				@select="onSelect"
+				@dragStart="onDragStart"
+				/>
 		<div
 			class="Page"
+			ref="page"
 			:class="[loadedPage.background.type]"
 			v-on:pointerdown="pointerdown"
 			v-on:pointermove="pointermove"
@@ -27,12 +42,15 @@ import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
 
+import { VueSelecto } from "vue-selecto";
+
 export default {
 	components: {
 		Sketches,
 		pageTitle,
 		textBoxes,
 		shapes,
+		VueSelecto,
 	},
 	mixins: [drawing, addTextBox, addShape],
 	data: function() {
@@ -40,6 +58,30 @@ export default {
 		};
 	},
 	methods: {
+		onSelect: function(e) {
+			console.log("onselect");
+			console.log(e);
+
+			let selectedObjects = {
+				shape: [],
+				textBox: [],
+			}
+
+			for(let object of e.selected) {
+				console.log(object);
+				if(object.hasAttribute("data-shape-id")) {
+					selectedObjects.shape.push(object.getAttribute("data-shape-id"))
+				}
+				if(object.hasAttribute("data-textBox-id")) {
+					selectedObjects.textBox.push(object.getAttribute("data-textBox-id"))
+				}
+			}
+
+			console.log(selectedObjects);
+		},
+		onDragStart: function(e) {
+			console.log(e);
+		},
 		pointerdown: function(event) {
 			if(this.debug) {
 				console.log("pointerdown");

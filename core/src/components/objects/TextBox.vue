@@ -21,6 +21,7 @@
             >
 				<quill
 					class="textBox"
+					:data-textBox-id="id"
 					v-model="content"
 					v-on:assign:quill="assignQuill"
 					v-on:activate="activate"
