@@ -18,7 +18,7 @@ const store = new Vuex.Store({
     }
 });
 
-Vue.use(Core, {store, debug: true,});
+Vue.use(Core, {store, debug: false,});
 
 new Vue({
     render: function (h) { return h(App); },

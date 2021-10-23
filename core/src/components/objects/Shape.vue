@@ -1,5 +1,5 @@
 <template>
-	<div class="shapeContainer">
+	<div class="shapeContainer" :class="{deactivated: !active}">
         <div ref="container">
             <Moveable
                 class="moveable"
@@ -109,7 +109,7 @@ export default {
 			return this.loadedPage.objects.shapes[this.id];
 		},
 		active: function() {
-			return this.editingMode == "editing" && this.focusedObjectType == "shapes" && this.focuseObjectId == this.id;
+			return (this.editingMode == "editing" || this.editingMode == "selecting") && this.$store.getters.objectFocused("shape", this.id);
 		},
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";
@@ -118,7 +118,13 @@ export default {
 	methods: {
 		activate: function() {
 			console.log("activate");
-			this.$store.commit("focusObject", {type: "shapes", id: this.id,}, {module: "core" });
+
+			let objects = {
+				shape: [this.id],
+				textBox: [],
+			}
+
+			this.$store.commit("updateFocusedObjects", {objects,}, {module: "core" });
 		},
 		deactivate: function() {
 			console.log("deactivate");
@@ -189,5 +195,8 @@ export default {
 	position: absolute;
 	width: 100%;
 	height: 100%;
+}
+.shapeContainer.deactivated .moveable-control-box {
+	display: none !important;
 }
 </style>

@@ -49,8 +49,10 @@ export default {
 			y: false,
 			pressure: false,
 		},
-		focusedObjectType: false,
-		focuseObjectId: false,
+		focusedObjects: {
+			textBox: [],
+			shape: [],
+		},
 		editingMode: "editing",
 		editingModeAdditionalInformation: "",
 		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
@@ -95,9 +97,8 @@ export default {
 		setPointer(state, options) {
 			state.pointer = options;
 		},
-		focusObject(state, options) {
-			state.focusedObjectType = options.type;
-			state.focuseObjectId = options.id;
+		updateFocusedObjects(state, options) {
+			state.focusedObjects = options.objects;
 		},
 		scroll(state, options) {
 			if(options.x != undefined) {
@@ -278,8 +279,11 @@ export default {
 	},
 	getters: {
 		// Page
-		focusedObject: (state) => () => {
-			return state.objects[state.focusedObjectType][state.focuseObjectId];
+		objectFocused: (state) => (type, id) => {
+			console.log(state.focusedObjects[type]);
+			return state.focusedObjects[type].includes(id);
+			//return state.objects[state.focusedObjectType][state.focuseObjectId];
+
 		},
 
 		moveableOptions: (state) => {

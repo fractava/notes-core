@@ -70,14 +70,15 @@ export default {
 			for(let object of e.selected) {
 				console.log(object);
 				if(object.hasAttribute("data-shape-id")) {
-					selectedObjects.shape.push(object.getAttribute("data-shape-id"))
+					selectedObjects.shape.push(parseInt(object.getAttribute("data-shape-id"), 10))
 				}
 				if(object.hasAttribute("data-textBox-id")) {
-					selectedObjects.textBox.push(object.getAttribute("data-textBox-id"))
+					selectedObjects.textBox.push(parseInt(object.getAttribute("data-textBox-id"), 10))
 				}
 			}
 
 			console.log(selectedObjects);
+			this.$store.commit("updateFocusedObjects", {objects: selectedObjects,}, {module: "core" });
 		},
 		onDragStart: function(e) {
 			if(!(this.editingMode === 'selecting')) {
