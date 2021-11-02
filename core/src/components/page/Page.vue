@@ -27,7 +27,7 @@
 			<pageTitle />
 			<sketches class="collectionContainer" />
 			<textBoxes class="collectionContainer" />
-			<shapes class="collectionContainer" />
+			<shapes class="collectionContainer" :rootContainer="$refs.zoomedContainer" />
 	</div>
   </div>
 </template>
@@ -207,6 +207,9 @@ export default {
 			"lastSketch",
 			"selectedPencil",
 		]),
+	},
+	mounted() {
+		console.log(this.$refs.zoomedContainer);
 	},
 };
 </script>

@@ -1,20 +1,5 @@
 <template>
-	<div class="shapeContainer" :class="{deactivated: !active}">
-        <div ref="container">
-            <Moveable
-                class="moveable"
-                v-bind="moveableOptions"
-                :container="$refs.container"
-                v-if="isMounted"
-                ref="moveable"
-                @dragStart="handleDragStart"
-                @drag="handleDrag"
-                @resizeStart="handleResizeStart"
-                @resize="handleResize"
-                @rotateStart="handleRotateStart"
-                @rotate="handleRotate"
-                @render="handleRender"
-            >
+	<div class="shapeContainer" :class="{deactivated: !active}" :data-shape-id="id">
                 <div
                     class="shape"
 					:data-shape-id="id"
@@ -59,19 +44,13 @@
                             <path d="M0 0h24v24H0z" fill="none"/>
                             <path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
                     </svg>
-                </div>
-            </Moveable>
-        </div>
+        		</div>
 	</div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex";
-import Moveable from "vue-moveable";
 
 export default {
-	components: {
-		Moveable,
-	},
 	props: {
 		id: {
 			type: Number,
@@ -79,21 +58,11 @@ export default {
 	},
 	data: function() {
 		return {
-			beforeDragX: false,
-			beforeDragY: false,
-			beforeRotationDeg: false,
 			isMounted: false,
-			frame: {
-				transformOrigin: "50% 50%",
-			}
 		};
 	},
 	mounted: function() {
 		this.isMounted = true;
-		this.$nextTick(function () {
-			this.updateStyles(this.$refs.moveable.$el);
-			this.$refs.moveable.updateRect();
-		});
 	},
 	computed: {
 		...mapState({
@@ -101,9 +70,6 @@ export default {
 			editingMode: state => state.core.editingMode,
 			focusedObjectType: state => state.core.focusedObjectType,
 			focuseObjectId: state => state.core.focuseObjectId,
-		}),
-		...mapGetters({
-			moveableOptions: "moveableOptions",
 		}),
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];
@@ -130,52 +96,6 @@ export default {
 			console.log("deactivate");
 			this.$store.commit("focusObject", {type: false, id: false,}, {module: "core" });
 		},
-		handleDragStart(e) {
-			e.set([this.shape.position.x, this.shape.position.y]);
-		},
-		handleDrag({ target, transform, beforeTranslate }) {
-			console.log("onDrag left, top", transform);
-			target.style.transform = transform;
-
-			this.$store.commit("moveShape", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
-		},
-		handleResizeStart(e) {
-			console.log("handleResizeStart", e);
-
-			e.setOrigin(["%", "%"]);
-			e.dragStart && e.dragStart.set([this.shape.position.x, this.shape.position.y]);
-		},
-		handleResize({target, width, height, delta, drag, }) {
-			console.log("onResize", width, height);
-
-			delta[0] && (target.style.width = `${width}px`);
-			delta[1] && (target.style.height = `${height}px`);
-
-			this.$store.commit("resizeShape", {id: this.id, width, height,}, {module: "core" });
-			this.$store.commit("moveShape", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
-		},
-		handleRotateStart(e) {
-			console.log("onRotateStart", e);
-
-			e.set(this.shape.position.rotation);
-		},
-		handleRotate({ target, rotate, transform, }) {
-			console.log("onRotate", rotate);
-
-			target.style.transform = transform;
-
-			this.$store.commit("rotateShape", {id: this.id, rotation: rotate,}, {module: "core" });
-		},
-		handleRender(e) {
-			this.updateStyles(e.target);
-		},
-		updateStyles(target) {
-			console.log(target);
-			target.style.transformOrigin = this.frame.transformOrigin;
-			target.style.width = `${this.shape.position.width}px`;
-			target.style.height = `${this.shape.position.height}px`;
-			target.style.transform = `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`;
-		},
 	},
 };
 </script>
@@ -188,8 +108,8 @@ export default {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	width: 0px;
-	height: 0px;
+	width: 100%;
+	height: 100%;
 }
 .moveable {
 	position: absolute;
