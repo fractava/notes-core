@@ -25,9 +25,26 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
-			<sketches class="collectionContainer" />
-			<textBoxes class="collectionContainer" />
-			<shapes class="collectionContainer" :rootContainer="$refs.zoomedContainer" />
+			<Moveable
+				class="moveable"
+				v-bind="moveableOptions"
+				:container="$refs.zoomedContainer"
+				ref="moveable"
+				:target="targets"
+				:groupable="true"
+				@dragStart="handleDragStart"
+				@drag="handleDrag"
+				@resizeStart="handleResizeStart"
+				@resize="handleResize"
+				@rotateStart="handleRotateStart"
+				@rotate="handleRotate"
+				@render="handleRender"
+				:rootContainer="$refs.zoomedContainer"
+			>
+				<sketches class="collectionContainer" />
+				<textBoxes class="collectionContainer" />
+				<shapes class="collectionContainer" ref="shapes" />
+			</Moveable>
 	</div>
   </div>
 </template>
@@ -36,6 +53,7 @@
 import { drawing } from "../../mixins/editingModes/drawing.js";
 import { addTextBox } from "../../mixins/editingModes/addTextBox.js";
 import { addShape } from "../../mixins/editingModes/addShape.js";
+import { domToOjectId } from "../../mixins/editingModes/domToOjectId.js";
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
@@ -43,6 +61,7 @@ import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
 
 import { VueSelecto } from "vue-selecto";
+import Moveable from "vue-moveable";
 
 export default {
 	components: {
@@ -51,10 +70,17 @@ export default {
 		textBoxes,
 		shapes,
 		VueSelecto,
+		Moveable,
 	},
-	mixins: [drawing, addTextBox, addShape],
+	mixins: [drawing, addTextBox, addShape, domToOjectId],
 	data: function() {
 		return {
+			beforeDragX: false,
+			beforeDragY: false,
+			beforeRotationDeg: false,
+			frame: {
+				transformOrigin: "50% 50%",
+			}
 		};
 	},
 	methods: {
@@ -190,6 +216,79 @@ export default {
 		calculatePressure: function(event) {
 			return this.selectedPencil.width * 2 * (event.pressure || 0.5);
 		},
+
+
+
+
+
+		// Moveable
+
+		handleDragStart(e) {
+			let id = this.domShapeToId(target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			e.set([shape.position.x, shape.position.y]);
+		},
+		handleDrag({ target, transform, beforeTranslate }) {
+			//console.log("handleDrag", target);
+
+			console.log("onDrag left, top", transform);
+			target.style.transform = transform;
+
+			let id = this.domShapeToId(target);
+
+			this.$store.commit("moveShape", {id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+		},
+		handleResizeStart(e) {
+			let id = this.domShapeToId(target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			console.log("handleResizeStart", e);
+
+			e.setOrigin(["%", "%"]);
+			e.dragStart && e.dragStart.set([shape.position.x, shape.position.y]);
+		},
+		handleResize({target, width, height, delta, drag, }) {
+			console.log("onResize", width, height);
+
+			delta[0] && (target.style.width = `${width}px`);
+			delta[1] && (target.style.height = `${height}px`);
+
+			let id = this.domShapeToId(target);
+
+			this.$store.commit("resizeShape", {id, width, height,}, {module: "core" });
+			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+		},
+		handleRotateStart(e) {
+			let id = this.domShapeToId(target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			console.log("onRotateStart", e);
+
+			e.set(shape.position.rotation);
+		},
+		handleRotate({ target, rotate, transform, }) {
+			console.log("onRotate", rotate);
+
+			target.style.transform = transform;
+
+			let id = this.domShapeToId(target);
+
+			this.$store.commit("rotateShape", {id, rotation: rotate,}, {module: "core" });
+		},
+		handleRender(e) {
+			this.updateStyles(e.target);
+		},
+		updateStyles(target) {
+			let id = this.domShapeToId(target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			console.log(target);
+			target.style.transformOrigin = this.frame.transformOrigin;
+			target.style.width = `${shape.position.width}px`;
+			target.style.height = `${shape.position.height}px`;
+			target.style.transform = `translate(${shape.position.x}px, ${shape.position.y}px)` + ` rotate(${shape.position.rotation}deg)`;
+		},
 	},
 	computed: {
 		...mapState({
@@ -206,10 +305,18 @@ export default {
 		...mapGetters([
 			"lastSketch",
 			"selectedPencil",
+			"moveableOptions",
 		]),
+		targets: function() {
+			if(this.$refs.shapes && this.$refs.shapes.$refs.shape) {
+				return this.$refs.shapes.$refs.shape;
+			} else {
+				return [];
+			}
+		}
 	},
 	mounted() {
-		console.log(this.$refs.zoomedContainer);
+		console.log(this.$refs.shapes);
 	},
 };
 </script>
