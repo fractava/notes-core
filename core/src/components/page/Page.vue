@@ -35,21 +35,27 @@
 			<pageTitle />
 			<!-- @render="handleRender"
 				:container="$refs.zoomedContainer"
-				@dragStart="handleDragStart"
-				@drag="handleDrag"
-				@resizeStart="handleResizeStart"
-				@resize="handleResize"
-				@rotateStart="handleRotateStart"
-				@rotate="handleRotate"
-				:rootContainer="$refs.zoomedContainer"
+
+				
 			-->
 			<Moveable
 				class="moveable"
 				v-bind="moveableOptions"
 				
+				:rootContainer="body"
+				:container="$refs.page"
+				v-if="isMounted"
 				ref="moveable"
 				:target="targets"
 				:groupable="true"
+				@draGroupStart="handleDraGroupStart"
+				@dragStart="handleDragStart"
+				@dragGroup="handleDragGroup"
+				@drag="handleDrag"
+				@resizeStart="handleResizeStart"
+				@resize="handleResize"
+				@rotateStart="handleRotateStart"
+				@rotate="handleRotate"
 				
 			>
 				<sketches class="collectionContainer" />
@@ -91,6 +97,8 @@ export default {
 			beforeRotationDeg: false,
 			targets: [],
 			selectableTargets: [".shape", ".textBox"],
+			body: document.body,
+			isMounted: false,
 		};
 	},
 	methods: {
@@ -246,22 +254,36 @@ export default {
 
 
 		// Moveable
-
+		handleDraGroupStart({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				this.handleDragStart(e);
+			}
+		},
 		handleDragStart(e) {
 			let id = this.domShapeToId(target);
 			let shape = this.loadedPage.objects.shapes[id];
 
 			e.set([shape.position.x, shape.position.y]);
 		},
+		handleDragGroup({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				console.log(e);
+				this.handleDrag(e);
+			}
+		},
 		handleDrag({ target, transform, beforeTranslate }) {
 			//console.log("handleDrag", target);
 
-			console.log("onDrag left, top", transform);
+			console.log("onDrag left, top", transform, target);
 			target.style.transform = transform;
 
 			let id = this.domShapeToId(target);
 
 			this.$store.commit("moveShape", {id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+
+			console.log("handleDrag done");
 		},
 		handleResizeStart(e) {
 			let id = this.domShapeToId(target);
@@ -345,6 +367,8 @@ export default {
 	},
 	mounted() {
 		console.log(this.$refs.shapes);
+		console.log(this.$refs.zoomedContainer);
+		this.isMounted = true;
 	},
 	watch: {
 		selectableTargets() {
