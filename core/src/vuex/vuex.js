@@ -243,6 +243,7 @@ export default {
 					width: options.width,
 					height: options.height,
 					rotation: 0,
+					transformOrigin: "50% 50%",
 				},
 				strokeWeight: options.strokeWeight,
 				color: {
@@ -266,6 +267,9 @@ export default {
 		},
 		rotateShape(state, options) {
 			state.loadedPage.objects.shapes[options.id].position.rotation = options.rotation;
+		},
+		setShapeTransformOrigin(state, options) {
+			state.loadedPage.objects.shapes[options.id].position.transformOrigin = options.transformOrigin;
 		},
 		setFillColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.fill = options.color;

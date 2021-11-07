@@ -1,18 +1,26 @@
 <template>
 	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
-			<VueSelecto
+			<!-- 
+
 				:rootContainer="$refs.zoomedContainer"
 				:container="$refs.zoomedContainer"
 				:dragContainer="$refs.zoomedContainer"
-				:selectableTargets='[".shape", ".textBox"]'
 				:style="{'top': '-300px'}"
+			-->
+			<!-- selectableTargets.sync is a workaround -->
+			<VueSelecto
+				:selectableTargets.sync='selectableTargets'
 				:selectByClick="true"
 				:selectFromInside="true"
 				:continueSelect="false"
 				:toggleContinueSelect='"shift"'
 				:hitRate="100"
+				@selectStart="onSelectStart"
 				@select="onSelect"
+				@selectEnd="onSelectEnd"
 				@dragStart="onDragStart"
+				@drag="onDrag"
+				@dragEnd="onDragEnd"
 				/>
 		<div
 			class="Page"
@@ -25,21 +33,24 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
-			<Moveable
-				class="moveable"
-				v-bind="moveableOptions"
+			<!-- @render="handleRender"
 				:container="$refs.zoomedContainer"
-				ref="moveable"
-				:target="targets"
-				:groupable="true"
 				@dragStart="handleDragStart"
 				@drag="handleDrag"
 				@resizeStart="handleResizeStart"
 				@resize="handleResize"
 				@rotateStart="handleRotateStart"
 				@rotate="handleRotate"
-				@render="handleRender"
 				:rootContainer="$refs.zoomedContainer"
+			-->
+			<Moveable
+				class="moveable"
+				v-bind="moveableOptions"
+				
+				ref="moveable"
+				:target="targets"
+				:groupable="true"
+				
 			>
 				<sketches class="collectionContainer" />
 				<textBoxes class="collectionContainer" />
@@ -78,12 +89,14 @@ export default {
 			beforeDragX: false,
 			beforeDragY: false,
 			beforeRotationDeg: false,
-			frame: {
-				transformOrigin: "50% 50%",
-			}
+			targets: [],
+			selectableTargets: [".shape", ".textBox"],
 		};
 	},
 	methods: {
+		onSelectStart: function(e) {
+
+		},
 		onSelect: function(e) {
 			console.log("onselect");
 			console.log(e);
@@ -105,12 +118,23 @@ export default {
 
 			console.log(selectedObjects);
 			this.$store.commit("updateFocusedObjects", {objects: selectedObjects,}, {module: "core" });
+
+			this.targets = e.selected;
+		},
+		onSelectEnd: function(e) {
+
 		},
 		onDragStart: function(e) {
 			if(!(this.editingMode === 'selecting')) {
 				e.stop();
 			}
 			console.log(e);
+		},
+		onDrag: function(e) {
+
+		},
+		onDragEnd: function(e) {
+
 		},
 		pointerdown: function(event) {
 			if(this.debug) {
@@ -276,7 +300,7 @@ export default {
 
 			this.$store.commit("rotateShape", {id, rotation: rotate,}, {module: "core" });
 		},
-		handleRender(e) {
+		/*handleRender(e) {
 			this.updateStyles(e.target);
 		},
 		updateStyles(target) {
@@ -288,6 +312,10 @@ export default {
 			target.style.width = `${shape.position.width}px`;
 			target.style.height = `${shape.position.height}px`;
 			target.style.transform = `translate(${shape.position.x}px, ${shape.position.y}px)` + ` rotate(${shape.position.rotation}deg)`;
+		},*/
+
+		test(e) {
+			console.log("test", e);
 		},
 	},
 	computed: {
@@ -307,16 +335,21 @@ export default {
 			"selectedPencil",
 			"moveableOptions",
 		]),
-		targets: function() {
+		/*targets: function() {
 			if(this.$refs.shapes && this.$refs.shapes.$refs.shape) {
 				return this.$refs.shapes.$refs.shape;
 			} else {
 				return [];
 			}
-		}
+		}*/
 	},
 	mounted() {
 		console.log(this.$refs.shapes);
+	},
+	watch: {
+		selectableTargets() {
+			console.log("selectableTargets updated :/");
+		}
 	},
 };
 </script>

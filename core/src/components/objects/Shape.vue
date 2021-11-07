@@ -1,17 +1,18 @@
 <template>
-	<div class="shapeContainer" :class="{deactivated: !active}" :data-shape-id="id">
+	<div class="shapeContainer" :data-shape-id="id">
                 <div
                     class="shape"
 					:data-shape-id="id"
                     v-if="shape.type=='square'"
                     style="border: 4px solid;"
-                    :style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill,}"
+                    :style="{'border-color': shape.color.stroke, 'background-color': shape.color.fill, ...style}"
                     v-on:click="activate"
                 />
                 <div
                     class="shape"
 					:data-shape-id="id"
                     v-if="shape.type=='circle'"
+					:style="style"
                     v-on:click="activate"
                 >
                     <svg viewBox="0 0 100 100" :preserveAspectRatio="aspectRatioAttribute" height="100%" width="100%">
@@ -23,6 +24,7 @@
 					:data-shape-id="id"
                     v-if="shape.type=='star'"
                     v-on:click="activate"
+					:style="style"
                 >
                     <svg viewBox="0 0 24 24" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
                         <path d="M0 0h24v24H0z" fill="none"/>
@@ -39,6 +41,7 @@
 					:data-shape-id="id"
                     v-if="shape.type=='arrow'"
                     v-on:click="activate"
+					:style="style"
                 >
                     <svg viewBox="0 5 24 14" :preserveAspectRatio="aspectRatioAttribute" width="100%" height="100%">
                             <path d="M0 0h24v24H0z" fill="none"/>
@@ -79,6 +82,14 @@ export default {
 		},
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";
+		},
+		style: function() {
+			return {
+				width: `${this.shape.position.width}px`,
+				height: `${this.shape.position.height}px`,
+				transformOrigin: this.shape.position.transformOrigin,
+				transform: `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`
+			}
 		},
 	},
 	methods: {
