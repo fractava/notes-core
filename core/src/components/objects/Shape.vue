@@ -78,7 +78,7 @@ export default {
 			return this.loadedPage.objects.shapes[this.id];
 		},
 		active: function() {
-			return (this.editingMode == "editing" || this.editingMode == "selecting") && this.$store.getters.objectFocused("shape", this.id);
+			return (this.editingMode == "editing" || this.editingMode == "selecting") && this.$store.getters.objectFocused("shapes", this.id);
 		},
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";

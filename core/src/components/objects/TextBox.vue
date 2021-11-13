@@ -15,6 +15,7 @@
 				:defaultFont="defaultFont"
 				:defaultFontSize="defaultFontSize"
 				:toolbarDisabled="true"
+				:style="style"
 			/>
 		</div>
 	</div>
@@ -40,9 +41,6 @@ export default {
 			defaultFont: "Calibri",
 			defaultFontSize: "20px",
 			isMounted: false,
-			frame: {
-				transformOrigin: "50% 50%",
-			}
 		};
 	},
 	mounted: function() {
@@ -68,7 +66,15 @@ export default {
 			return this.editingMode != "editing";
 		},
 		active: function() {
-			return this.editingMode == "editing" && this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;
+			return this.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.openedDialog == false;
+		},
+		style: function() {
+			return {
+				width: `${this.textBox.position.width}px`,
+				height: `${this.textBox.position.height}px`,
+				transformOrigin: this.textBox.position.transformOrigin,
+				transform: `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`
+			}
 		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
@@ -131,7 +137,7 @@ export default {
 		updateStyles(target) {
 			console.log(target);
 			console.log(`translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`);
-			target.style.transformOrigin = this.frame.transformOrigin;
+			target.style.transformOrigin = this.textBox.position.transformOrigin;
 			target.style.width = `${this.textBox.position.width}px`;
 			target.style.height = `${this.textBox.position.height}px`;
 			target.style.transform = `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`;

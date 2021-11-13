@@ -56,10 +56,10 @@ export default {
 	},
 	methods: {
 		updateFillColor: function(color) {
-			this.$store.commit("setFillColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
+			this.$store.commit("setShapeFillColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
 		},
 		updateStrokeColor: function(color) {
-			this.$store.commit("setStrokeColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
+			this.$store.commit("setShapeStrokeColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
 		},
 		toggleDistort: function() {
 			this.$store.commit("setShapeDistort", {id: this.focuseObjectId, distort: !this.shape.distort,}, {module: "core" });

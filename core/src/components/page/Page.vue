@@ -9,7 +9,6 @@
 			:hitRate="100"
 			@selectStart="onSelectStart"
 			@select="onSelect"
-			@selectEnd="onSelectEnd"
 			@dragStart="onDragStart"
 			@drag="onDrag"
 			@dragEnd="onDragEnd"
@@ -84,9 +83,6 @@ export default {
 	mixins: [drawing, addTextBox, addShape, domToOjectId],
 	data: function() {
 		return {
-			beforeDragX: false,
-			beforeDragY: false,
-			beforeRotationDeg: false,
 			targets: [],
 			selectableTargets: [".object"],
 			body: document.body,
@@ -98,31 +94,11 @@ export default {
 
 		},
 		onSelect: function(e) {
-			console.log("onselect");
-			console.log(e);
+			let selectedObjects = this.domObjectsToIds(e.selected);
 
-			let selectedObjects = {
-				shape: [],
-				textBox: [],
-			}
-
-			for(let object of e.selected) {
-				console.log(object);
-				if(object.hasAttribute("data-shape-id")) {
-					selectedObjects.shape.push(parseInt(object.getAttribute("data-shape-id"), 10))
-				}
-				if(object.hasAttribute("data-textBox-id")) {
-					selectedObjects.textBox.push(parseInt(object.getAttribute("data-textBox-id"), 10))
-				}
-			}
-
-			console.log(selectedObjects);
 			this.$store.commit("updateFocusedObjects", {objects: selectedObjects,}, {module: "core" });
 
 			this.targets = e.selected;
-		},
-		onSelectEnd: function(e) {
-
 		},
 		onDragStart: function(e) {
 			if(!(this.editingMode === 'selecting')) {
@@ -266,9 +242,9 @@ export default {
 		handleDrag({ target, transform, beforeTranslate }) {
 			target.style.transform = transform;
 
-			let id = this.domShapeToId(target);
+			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("moveShape", {id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+			this.$store.commit("moveObject", {id, type, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
 		},
 
 		handleResizeGroupStart({ events }) {
@@ -296,10 +272,10 @@ export default {
 
 			target.style.transform = drag.transform;
 
-			let id = this.domShapeToId(target);
+			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("resizeShape", {id, width, height,}, {module: "core" });
-			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+			this.$store.commit("resizeObject", {id, type, width, height,}, {module: "core" });
+			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
 		},
 
 		handleRotateGroupStart({ events }) {
@@ -325,14 +301,10 @@ export default {
 		handleRotate({ target, rotate, transform, drag }) {
 			target.style.transform = drag.transform;
 
-			let id = this.domShapeToId(target);
+			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("rotateShape", {id, rotation: rotate,}, {module: "core" });
-			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
-		},
-
-		test(e) {
-			console.log("test", e);
+			this.$store.commit("rotateObject", {id, type, rotation: rotate,}, {module: "core" });
+			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
 		},
 	},
 	computed: {
