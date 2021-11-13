@@ -4,34 +4,19 @@
 		:class="{active: active, disabled: disabled}"
 	>
 		<div ref="container">
-            <Moveable
-                class="moveable"
-                v-bind="moveableOptions"
-				:draggable="false"
-                :container="$refs.container"
-                v-if="isMounted"
-                ref="moveable"
-                @dragStart="handleDragStart"
-                @drag="handleDrag"
-                @resizeStart="handleResizeStart"
-                @resize="handleResize"
-                @rotateStart="handleRotateStart"
-                @rotate="handleRotate"
-                @render="handleRender"
-            >
-				<quill
-					class="textBox"
-					:data-textBox-id="id"
-					v-model="content"
-					v-on:assign:quill="assignQuill"
-					v-on:activate="activate"
-					:focused="active"
-					:disabled="disabled"
-					:defaultFont="defaultFont"
-					:defaultFontSize="defaultFontSize"
-					:toolbarDisabled="true"
-				/>
-			</Moveable>
+			<quill
+				class="textBox object"
+				:data-textBox-id="id"
+				v-model="content"
+				v-on:assign:quill="assignQuill"
+				v-on:activate="activate"
+				:focused="active"
+				:disabled="disabled"
+				:defaultFont="defaultFont"
+				:defaultFontSize="defaultFontSize"
+				:toolbarDisabled="true"
+				:style="style"
+			/>
 		</div>
 	</div>
 </template>
@@ -39,12 +24,10 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import quill from "./quill.vue";
-import Moveable from "vue-moveable";
 
 export default {
 	components: {
 		quill,
-		Moveable,
 	},
 	props: {
 		id: {
@@ -56,9 +39,6 @@ export default {
 			defaultFont: "Calibri",
 			defaultFontSize: "20px",
 			isMounted: false,
-			frame: {
-				transformOrigin: "50% 50%",
-			}
 		};
 	},
 	mounted: function() {
@@ -84,7 +64,15 @@ export default {
 			return this.editingMode != "editing";
 		},
 		active: function() {
-			return this.editingMode == "editing" && this.focusedObjectType == "textBoxes" && this.focuseObjectId == this.id && this.openedDialog == false;
+			return this.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.openedDialog == false;
+		},
+		style: function() {
+			return {
+				width: `${this.textBox.position.width}px`,
+				height: `${this.textBox.position.height}px`,
+				transformOrigin: this.textBox.position.transformOrigin,
+				transform: `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`
+			};
 		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
@@ -147,7 +135,7 @@ export default {
 		updateStyles(target) {
 			console.log(target);
 			console.log(`translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`);
-			target.style.transformOrigin = this.frame.transformOrigin;
+			target.style.transformOrigin = this.textBox.position.transformOrigin;
 			target.style.width = `${this.textBox.position.width}px`;
 			target.style.height = `${this.textBox.position.height}px`;
 			target.style.transform = `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`;
@@ -161,7 +149,7 @@ export default {
 		top: 0px;
 		left: 0px;
 		width: 0px;
-    	height: 0px;
+		height: 0px;
 	}
 	.textBox {
 		width: 100%;

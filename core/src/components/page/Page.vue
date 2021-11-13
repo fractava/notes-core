@@ -1,19 +1,15 @@
 <template>
 	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
-			<VueSelecto
-				:rootContainer="$refs.zoomedContainer"
-				:container="$refs.zoomedContainer"
-				:dragContainer="$refs.zoomedContainer"
-				:selectableTargets='[".shape", ".textBox"]'
-				:style="{'top': '-300px'}"
-				:selectByClick="true"
-				:selectFromInside="true"
-				:continueSelect="false"
-				:toggleContinueSelect='"shift"'
-				:hitRate="100"
-				@select="onSelect"
-				@dragStart="onDragStart"
-				/>
+		<VueSelecto
+			:selectableTargets.sync='selectableTargets'
+			:selectByClick="true"
+			:selectFromInside="true"
+			:continueSelect="false"
+			:toggleContinueSelect='"shift"'
+			:hitRate="100"
+			@select="onSelect"
+			@dragStart="onDragStart"
+		/>
 		<div
 			class="Page"
 			ref="page"
@@ -27,7 +23,33 @@
 			<pageTitle />
 			<sketches class="collectionContainer" />
 			<textBoxes class="collectionContainer" />
-			<shapes class="collectionContainer" />
+			<shapes class="collectionContainer" ref="shapes" />
+			<Moveable
+				class="moveable"
+				v-bind="moveableOptions"
+				
+				:rootContainer="body"
+				:container="$refs.page"
+				v-if="isMounted"
+				ref="moveable"
+				:target="targets"
+				
+				@dragGroupStart="handleDragGroupStart"
+				@dragStart="handleDragStart"
+				@dragGroup="handleDragGroup"
+				@drag="handleDrag"
+
+				@resizeGroupStart="handleResizeGroupStart"
+				@resizeStart="handleResizeStart"
+				@resizeGroup="handleResizeGroup"
+				@resize="handleResize"
+
+				@rotateGroupStart="handleRotateGroupStart"
+				@rotateStart="handleRotateStart"
+				@rotateGroup="handleRotateGroup"
+				@rotate="handleRotate"
+				
+			/>
 	</div>
   </div>
 </template>
@@ -36,6 +58,7 @@
 import { drawing } from "../../mixins/editingModes/drawing.js";
 import { addTextBox } from "../../mixins/editingModes/addTextBox.js";
 import { addShape } from "../../mixins/editingModes/addShape.js";
+import { domToOjectId } from "../../mixins/editingModes/domToOjectId.js";
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
@@ -43,6 +66,7 @@ import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
 
 import { VueSelecto } from "vue-selecto";
+import Moveable from "vue-moveable";
 
 export default {
 	components: {
@@ -51,37 +75,27 @@ export default {
 		textBoxes,
 		shapes,
 		VueSelecto,
+		Moveable,
 	},
-	mixins: [drawing, addTextBox, addShape],
+	mixins: [drawing, addTextBox, addShape, domToOjectId],
 	data: function() {
 		return {
+			targets: [],
+			selectableTargets: [".object"],
+			body: document.body,
+			isMounted: false,
 		};
 	},
 	methods: {
 		onSelect: function(e) {
-			console.log("onselect");
-			console.log(e);
+			let selectedObjects = this.domObjectsToIds(e.selected);
 
-			let selectedObjects = {
-				shape: [],
-				textBox: [],
-			}
-
-			for(let object of e.selected) {
-				console.log(object);
-				if(object.hasAttribute("data-shape-id")) {
-					selectedObjects.shape.push(parseInt(object.getAttribute("data-shape-id"), 10))
-				}
-				if(object.hasAttribute("data-textBox-id")) {
-					selectedObjects.textBox.push(parseInt(object.getAttribute("data-textBox-id"), 10))
-				}
-			}
-
-			console.log(selectedObjects);
 			this.$store.commit("updateFocusedObjects", {objects: selectedObjects,}, {module: "core" });
+
+			this.targets = e.selected;
 		},
 		onDragStart: function(e) {
-			if(!(this.editingMode === 'selecting')) {
+			if(!(this.editingMode === "selecting")) {
 				e.stop();
 			}
 			console.log(e);
@@ -190,6 +204,96 @@ export default {
 		calculatePressure: function(event) {
 			return this.selectedPencil.width * 2 * (event.pressure || 0.5);
 		},
+
+
+
+
+
+		// Moveable
+		handleDragGroupStart({ events }) {
+			for(let e of events) {
+				this.handleDragStart(e);
+			}
+		},
+		handleDragStart(e) {
+			let id = this.domShapeToId(e.target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			e.set([shape.position.x, shape.position.y]);
+		},
+		handleDragGroup({ events }) {
+			for(let e of events) {
+				console.log(e);
+				this.handleDrag(e);
+			}
+		},
+		handleDrag({ target, transform, beforeTranslate }) {
+			target.style.transform = transform;
+
+			let {id, type} = this.domObjectToId(target);
+
+			this.$store.commit("moveObject", {id, type, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+		},
+
+		handleResizeGroupStart({ events }) {
+			for(let e of events) {
+				this.handleResizeStart(e);
+			}
+		},
+		handleResizeStart(e) {
+			let id = this.domShapeToId(e.target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			e.setOrigin(["%", "%"]);
+			e.dragStart && e.dragStart.set([shape.position.x, shape.position.y]);
+		},
+
+		handleResizeGroup({ events }) {
+			for(let e of events) {
+				this.handleResize(e);
+			}
+		},
+
+		handleResize({target, width, height, delta, drag, }) {
+			delta[0] && (target.style.width = `${width}px`);
+			delta[1] && (target.style.height = `${height}px`);
+
+			target.style.transform = drag.transform;
+
+			let {id, type} = this.domObjectToId(target);
+
+			this.$store.commit("resizeObject", {id, type, width, height,}, {module: "core" });
+			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+		},
+
+		handleRotateGroupStart({ events }) {
+			for(let e of events) {
+				this.handleRotateStart(e);
+			}
+		},
+
+		handleRotateStart(e) {
+			console.log(e);
+			let id = this.domShapeToId(e.target);
+			let shape = this.loadedPage.objects.shapes[id];
+
+			e.set(shape.position.rotation);
+		},
+
+		handleRotateGroup({ events }) {
+			for(let e of events) {
+				this.handleRotate(e);
+			}
+		},
+
+		handleRotate({ target, rotate, drag }) {
+			target.style.transform = drag.transform;
+
+			let {id, type} = this.domObjectToId(target);
+
+			this.$store.commit("rotateObject", {id, type, rotation: rotate,}, {module: "core" });
+			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+		},
 	},
 	computed: {
 		...mapState({
@@ -206,7 +310,13 @@ export default {
 		...mapGetters([
 			"lastSketch",
 			"selectedPencil",
+			"moveableOptions",
 		]),
+	},
+	mounted() {
+		console.log(this.$refs.shapes);
+		console.log(this.$refs.zoomedContainer);
+		this.isMounted = true;
 	},
 };
 </script>
