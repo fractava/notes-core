@@ -1,27 +1,19 @@
 <template>
 	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
-			<!-- 
-
-				:rootContainer="$refs.zoomedContainer"
-				:container="$refs.zoomedContainer"
-				:dragContainer="$refs.zoomedContainer"
-				:style="{'top': '-300px'}"
-			-->
-			<!-- selectableTargets.sync is a workaround -->
-			<VueSelecto
-				:selectableTargets.sync='selectableTargets'
-				:selectByClick="true"
-				:selectFromInside="true"
-				:continueSelect="false"
-				:toggleContinueSelect='"shift"'
-				:hitRate="100"
-				@selectStart="onSelectStart"
-				@select="onSelect"
-				@selectEnd="onSelectEnd"
-				@dragStart="onDragStart"
-				@drag="onDrag"
-				@dragEnd="onDragEnd"
-				/>
+		<VueSelecto
+			:selectableTargets.sync='selectableTargets'
+			:selectByClick="true"
+			:selectFromInside="true"
+			:continueSelect="false"
+			:toggleContinueSelect='"shift"'
+			:hitRate="100"
+			@selectStart="onSelectStart"
+			@select="onSelect"
+			@selectEnd="onSelectEnd"
+			@dragStart="onDragStart"
+			@drag="onDrag"
+			@dragEnd="onDragEnd"
+		/>
 		<div
 			class="Page"
 			ref="page"
@@ -33,11 +25,6 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
-			<!-- @render="handleRender"
-				:container="$refs.zoomedContainer"
-
-				
-			-->
 			<Moveable
 				class="moveable"
 				v-bind="moveableOptions"
@@ -101,7 +88,7 @@ export default {
 			beforeDragY: false,
 			beforeRotationDeg: false,
 			targets: [],
-			selectableTargets: [".shape", ".textBox"],
+			selectableTargets: [".object"],
 			body: document.body,
 			isMounted: false,
 		};
@@ -260,7 +247,6 @@ export default {
 
 		// Moveable
 		handleDragGroupStart({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				this.handleDragStart(e);
 			}
@@ -272,27 +258,20 @@ export default {
 			e.set([shape.position.x, shape.position.y]);
 		},
 		handleDragGroup({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				console.log(e);
 				this.handleDrag(e);
 			}
 		},
 		handleDrag({ target, transform, beforeTranslate }) {
-			//console.log("handleDrag", target);
-
-			console.log("onDrag left, top", transform, target);
 			target.style.transform = transform;
 
 			let id = this.domShapeToId(target);
 
 			this.$store.commit("moveShape", {id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
-
-			console.log("handleDrag done");
 		},
 
 		handleResizeGroupStart({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				this.handleResizeStart(e);
 			}
@@ -301,22 +280,17 @@ export default {
 			let id = this.domShapeToId(target);
 			let shape = this.loadedPage.objects.shapes[id];
 
-			console.log("handleResizeStart", e);
-
 			e.setOrigin(["%", "%"]);
 			e.dragStart && e.dragStart.set([shape.position.x, shape.position.y]);
 		},
 
 		handleResizeGroup({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				this.handleResize(e);
 			}
 		},
 
 		handleResize({target, width, height, delta, drag, }) {
-			console.log("onResize", width, height);
-
 			delta[0] && (target.style.width = `${width}px`);
 			delta[1] && (target.style.height = `${height}px`);
 
@@ -329,7 +303,6 @@ export default {
 		},
 
 		handleRotateGroupStart({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				this.handleRotateStart(e);
 			}
@@ -339,43 +312,23 @@ export default {
 			let id = this.domShapeToId(target);
 			let shape = this.loadedPage.objects.shapes[id];
 
-			console.log("onRotateStart", e);
-
 			e.set(shape.position.rotation);
 		},
 
 		handleRotateGroup({ events }) {
-			console.log("Events", events);
 			for(let e of events) {
 				this.handleRotate(e);
 			}
 		},
 
 		handleRotate({ target, rotate, transform, drag }) {
-			console.log("onRotate", rotate);
-
 			target.style.transform = drag.transform;
 
 			let id = this.domShapeToId(target);
 
 			this.$store.commit("rotateShape", {id, rotation: rotate,}, {module: "core" });
-
-			console.log(drag.beforeTranslate);
 			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
 		},
-		/*handleRender(e) {
-			this.updateStyles(e.target);
-		},
-		updateStyles(target) {
-			let id = this.domShapeToId(target);
-			let shape = this.loadedPage.objects.shapes[id];
-
-			console.log(target);
-			target.style.transformOrigin = this.frame.transformOrigin;
-			target.style.width = `${shape.position.width}px`;
-			target.style.height = `${shape.position.height}px`;
-			target.style.transform = `translate(${shape.position.x}px, ${shape.position.y}px)` + ` rotate(${shape.position.rotation}deg)`;
-		},*/
 
 		test(e) {
 			console.log("test", e);
@@ -398,23 +351,11 @@ export default {
 			"selectedPencil",
 			"moveableOptions",
 		]),
-		/*targets: function() {
-			if(this.$refs.shapes && this.$refs.shapes.$refs.shape) {
-				return this.$refs.shapes.$refs.shape;
-			} else {
-				return [];
-			}
-		}*/
 	},
 	mounted() {
 		console.log(this.$refs.shapes);
 		console.log(this.$refs.zoomedContainer);
 		this.isMounted = true;
-	},
-	watch: {
-		selectableTargets() {
-			console.log("selectableTargets updated :/");
-		}
 	},
 };
 </script>

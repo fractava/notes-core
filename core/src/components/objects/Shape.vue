@@ -1,7 +1,7 @@
 <template>
 	<div class="shapeContainer" :data-shape-id="id">
                 <div
-                    class="shape"
+                    class="shape object"
 					:data-shape-id="id"
                     v-if="shape.type=='square'"
                     style="border: 4px solid;"
@@ -9,7 +9,7 @@
                     v-on:click="activate"
                 />
                 <div
-                    class="shape"
+                    class="shape object"
 					:data-shape-id="id"
                     v-if="shape.type=='circle'"
 					:style="style"
@@ -20,7 +20,7 @@
                     </svg>
                 </div>
                 <div
-                    class="shape"
+                    class="shape object"
 					:data-shape-id="id"
                     v-if="shape.type=='star'"
                     v-on:click="activate"
@@ -37,7 +37,7 @@
                     </svg>
                 </div>
                 <div
-                    class="shape"
+                    class="shape object"
 					:data-shape-id="id"
                     v-if="shape.type=='arrow'"
                     v-on:click="activate"

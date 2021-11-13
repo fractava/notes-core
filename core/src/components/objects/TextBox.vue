@@ -4,34 +4,18 @@
 		:class="{active: active, disabled: disabled}"
 	>
 		<div ref="container">
-            <Moveable
-                class="moveable"
-                v-bind="moveableOptions"
-				:draggable="false"
-                :container="$refs.container"
-                v-if="isMounted"
-                ref="moveable"
-                @dragStart="handleDragStart"
-                @drag="handleDrag"
-                @resizeStart="handleResizeStart"
-                @resize="handleResize"
-                @rotateStart="handleRotateStart"
-                @rotate="handleRotate"
-                @render="handleRender"
-            >
-				<quill
-					class="textBox"
-					:data-textBox-id="id"
-					v-model="content"
-					v-on:assign:quill="assignQuill"
-					v-on:activate="activate"
-					:focused="active"
-					:disabled="disabled"
-					:defaultFont="defaultFont"
-					:defaultFontSize="defaultFontSize"
-					:toolbarDisabled="true"
-				/>
-			</Moveable>
+			<quill
+				class="textBox object"
+				:data-textBox-id="id"
+				v-model="content"
+				v-on:assign:quill="assignQuill"
+				v-on:activate="activate"
+				:focused="active"
+				:disabled="disabled"
+				:defaultFont="defaultFont"
+				:defaultFontSize="defaultFontSize"
+				:toolbarDisabled="true"
+			/>
 		</div>
 	</div>
 </template>
