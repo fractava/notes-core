@@ -47,21 +47,26 @@
 				v-if="isMounted"
 				ref="moveable"
 				:target="targets"
-				:groupable="true"
-				@draGroupStart="handleDraGroupStart"
+				
+				@dragGroupStart="handleDragGroupStart"
 				@dragStart="handleDragStart"
 				@dragGroup="handleDragGroup"
 				@drag="handleDrag"
+
+				@resizeGroupStart="handleResizeGroupStart"
 				@resizeStart="handleResizeStart"
+				@resizeGroup="handleResizeGroup"
 				@resize="handleResize"
+
+				@rotateGroupStart="handleRotateGroupStart"
 				@rotateStart="handleRotateStart"
+				@rotateGroup="handleRotateGroup"
 				@rotate="handleRotate"
 				
-			>
-				<sketches class="collectionContainer" />
-				<textBoxes class="collectionContainer" />
-				<shapes class="collectionContainer" ref="shapes" />
-			</Moveable>
+			/>
+			<sketches class="collectionContainer" />
+			<textBoxes class="collectionContainer" />
+			<shapes class="collectionContainer" ref="shapes" />
 	</div>
   </div>
 </template>
@@ -254,7 +259,7 @@ export default {
 
 
 		// Moveable
-		handleDraGroupStart({ events }) {
+		handleDragGroupStart({ events }) {
 			console.log("Events", events);
 			for(let e of events) {
 				this.handleDragStart(e);
@@ -285,6 +290,13 @@ export default {
 
 			console.log("handleDrag done");
 		},
+
+		handleResizeGroupStart({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				this.handleResizeStart(e);
+			}
+		},
 		handleResizeStart(e) {
 			let id = this.domShapeToId(target);
 			let shape = this.loadedPage.objects.shapes[id];
@@ -294,6 +306,14 @@ export default {
 			e.setOrigin(["%", "%"]);
 			e.dragStart && e.dragStart.set([shape.position.x, shape.position.y]);
 		},
+
+		handleResizeGroup({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				this.handleResize(e);
+			}
+		},
+
 		handleResize({target, width, height, delta, drag, }) {
 			console.log("onResize", width, height);
 
@@ -305,6 +325,14 @@ export default {
 			this.$store.commit("resizeShape", {id, width, height,}, {module: "core" });
 			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
 		},
+
+		handleRotateGroupStart({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				this.handleRotateStart(e);
+			}
+		},
+
 		handleRotateStart(e) {
 			let id = this.domShapeToId(target);
 			let shape = this.loadedPage.objects.shapes[id];
@@ -313,7 +341,15 @@ export default {
 
 			e.set(shape.position.rotation);
 		},
-		handleRotate({ target, rotate, transform, }) {
+
+		handleRotateGroup({ events }) {
+			console.log("Events", events);
+			for(let e of events) {
+				this.handleRotate(e);
+			}
+		},
+
+		handleRotate({ target, rotate, transform, drag }) {
 			console.log("onRotate", rotate);
 
 			target.style.transform = transform;
@@ -321,6 +357,9 @@ export default {
 			let id = this.domShapeToId(target);
 
 			this.$store.commit("rotateShape", {id, rotation: rotate,}, {module: "core" });
+
+			console.log(drag.beforeTranslate);
+			this.$store.commit("moveShape", {id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
 		},
 		/*handleRender(e) {
 			this.updateStyles(e.target);
