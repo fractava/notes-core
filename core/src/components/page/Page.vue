@@ -320,6 +320,8 @@ export default {
 			delta[0] && (target.style.width = `${width}px`);
 			delta[1] && (target.style.height = `${height}px`);
 
+			target.style.transform = drag.transform;
+
 			let id = this.domShapeToId(target);
 
 			this.$store.commit("resizeShape", {id, width, height,}, {module: "core" });
@@ -352,7 +354,7 @@ export default {
 		handleRotate({ target, rotate, transform, drag }) {
 			console.log("onRotate", rotate);
 
-			target.style.transform = transform;
+			target.style.transform = drag.transform;
 
 			let id = this.domShapeToId(target);
 
