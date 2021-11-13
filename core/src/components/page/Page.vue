@@ -25,6 +25,9 @@
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
+			<sketches class="collectionContainer" />
+			<textBoxes class="collectionContainer" />
+			<shapes class="collectionContainer" ref="shapes" />
 			<Moveable
 				class="moveable"
 				v-bind="moveableOptions"
@@ -51,9 +54,6 @@
 				@rotate="handleRotate"
 				
 			/>
-			<sketches class="collectionContainer" />
-			<textBoxes class="collectionContainer" />
-			<shapes class="collectionContainer" ref="shapes" />
 	</div>
   </div>
 </template>
@@ -252,7 +252,7 @@ export default {
 			}
 		},
 		handleDragStart(e) {
-			let id = this.domShapeToId(target);
+			let id = this.domShapeToId(e.target);
 			let shape = this.loadedPage.objects.shapes[id];
 
 			e.set([shape.position.x, shape.position.y]);
@@ -277,7 +277,7 @@ export default {
 			}
 		},
 		handleResizeStart(e) {
-			let id = this.domShapeToId(target);
+			let id = this.domShapeToId(e.target);
 			let shape = this.loadedPage.objects.shapes[id];
 
 			e.setOrigin(["%", "%"]);
@@ -309,7 +309,8 @@ export default {
 		},
 
 		handleRotateStart(e) {
-			let id = this.domShapeToId(target);
+			console.log(e);
+			let id = this.domShapeToId(e.target);
 			let shape = this.loadedPage.objects.shapes[id];
 
 			e.set(shape.position.rotation);
