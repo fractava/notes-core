@@ -13,7 +13,7 @@
 <script>
 
 import shape from "./Shape.vue";
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
 	props: {
@@ -21,7 +21,7 @@ export default {
 	},
 	data: function() {
 		return {
-		}
+		};
 	},
 	components: {
 		shape,
@@ -31,12 +31,5 @@ export default {
 			loadedPage: state => state.core.loadedPage,
 		}),
 	},
-	mounted: function() {
-		//this.$nextTick(function () {
-			//this.updateStyles(this.$refs.moveable.$el);
-			//this.$refs.moveable.updateRect();
-		//});
-	},
-
 };
 </script>

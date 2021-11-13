@@ -47,11 +47,11 @@
                             <path d="M0 0h24v24H0z" fill="none"/>
                             <path :fill="shape.color.fill" :stroke="shape.color.stroke" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/>
                     </svg>
-        		</div>
+				</div>
 	</div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
 	props: {
@@ -89,7 +89,7 @@ export default {
 				height: `${this.shape.position.height}px`,
 				transformOrigin: this.shape.position.transformOrigin,
 				transform: `translate(${this.shape.position.x}px, ${this.shape.position.y}px)` + ` rotate(${this.shape.position.rotation}deg)`
-			}
+			};
 		},
 	},
 	methods: {
@@ -99,7 +99,7 @@ export default {
 			let objects = {
 				shape: [this.id],
 				textBox: [],
-			}
+			};
 
 			this.$store.commit("updateFocusedObjects", {objects,}, {module: "core" });
 		},

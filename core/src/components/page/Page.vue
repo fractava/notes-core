@@ -7,11 +7,8 @@
 			:continueSelect="false"
 			:toggleContinueSelect='"shift"'
 			:hitRate="100"
-			@selectStart="onSelectStart"
 			@select="onSelect"
 			@dragStart="onDragStart"
-			@drag="onDrag"
-			@dragEnd="onDragEnd"
 		/>
 		<div
 			class="Page"
@@ -90,9 +87,6 @@ export default {
 		};
 	},
 	methods: {
-		onSelectStart: function(e) {
-
-		},
 		onSelect: function(e) {
 			let selectedObjects = this.domObjectsToIds(e.selected);
 
@@ -101,16 +95,10 @@ export default {
 			this.targets = e.selected;
 		},
 		onDragStart: function(e) {
-			if(!(this.editingMode === 'selecting')) {
+			if(!(this.editingMode === "selecting")) {
 				e.stop();
 			}
 			console.log(e);
-		},
-		onDrag: function(e) {
-
-		},
-		onDragEnd: function(e) {
-
 		},
 		pointerdown: function(event) {
 			if(this.debug) {
@@ -298,7 +286,7 @@ export default {
 			}
 		},
 
-		handleRotate({ target, rotate, transform, drag }) {
+		handleRotate({ target, rotate, drag }) {
 			target.style.transform = drag.transform;
 
 			let {id, type} = this.domObjectToId(target);

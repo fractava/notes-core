@@ -312,7 +312,7 @@ export default {
 				snapVertical: true,
 				snapHorizontal: true,
 				snapElement: true,
-			}
+			};
 		},
 
 		// Sketch

@@ -24,12 +24,10 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import quill from "./quill.vue";
-import Moveable from "vue-moveable";
 
 export default {
 	components: {
 		quill,
-		Moveable,
 	},
 	props: {
 		id: {
@@ -74,7 +72,7 @@ export default {
 				height: `${this.textBox.position.height}px`,
 				transformOrigin: this.textBox.position.transformOrigin,
 				transform: `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`
-			}
+			};
 		},
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
@@ -151,7 +149,7 @@ export default {
 		top: 0px;
 		left: 0px;
 		width: 0px;
-    	height: 0px;
+		height: 0px;
 	}
 	.textBox {
 		width: 100%;
