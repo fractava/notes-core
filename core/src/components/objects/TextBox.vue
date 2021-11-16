@@ -22,7 +22,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
+
+import { mapState } from "vuex";
 import quill from "./quill.vue";
 
 export default {
@@ -34,19 +36,12 @@ export default {
 			type: Number,
 		},
 	},
+	mixins: [isMountedMixin],
 	data: function() {
 		return {
 			defaultFont: "Calibri",
 			defaultFontSize: "20px",
-			isMounted: false,
 		};
-	},
-	mounted: function() {
-		this.isMounted = true;
-		this.$nextTick(function () {
-			this.updateStyles(this.$refs.moveable.$el);
-			this.$refs.moveable.updateRect();
-		});
 	},
 	computed: {
 		textBox: function() {
@@ -81,9 +76,6 @@ export default {
 			focuseObjectId: state => state.core.focuseObjectId,
 			openedDialog: state => state.core.openedDialog,
 		}),
-		...mapGetters([
-			"moveableOptions",
-		]),
 	},
 	methods: {
 		activate: function() {

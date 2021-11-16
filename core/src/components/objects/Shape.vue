@@ -51,6 +51,8 @@
 	</div>
 </template>
 <script>
+import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
+
 import { mapState } from "vuex";
 
 export default {
@@ -59,14 +61,7 @@ export default {
 			type: Number,
 		},
 	},
-	data: function() {
-		return {
-			isMounted: false,
-		};
-	},
-	mounted: function() {
-		this.isMounted = true;
-	},
+	mixins: [isMountedMixin],
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
