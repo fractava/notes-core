@@ -1,5 +1,18 @@
 tasks:
-  - command: sh start.sh
+  - name: Dev Server
+    command: sh start.sh
+  - name: JSDocs Compile
+    command:
+      cd core
+      npx nodemon --exec 'npx jsdoc -c jsdoc.json src -d docs' --watch src
+  - name: JSDocs Livereload
+    command:
+      cd core
+      npx livereload src
+  - name: JSDocs Serve
+    command:
+      cd core
+      npx serve docs
 
 vscode:
   extensions:
