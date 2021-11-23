@@ -12,8 +12,8 @@
           <md-icon>print</md-icon>
         </md-button>
         <export-menu />
-        <quill-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'textBoxes'" />
-        <shape-toolbar v-if="editingMode == 'editing' && focusedObjectType == 'shapes'" />
+        <quill-toolbar v-if="editingMode == 'editing' && focusedObjects.textBoxes && focusedObjects.textBoxes.length === 1 && numberOfObjectsFocused === 1" />
+        <shape-toolbar v-if="editingMode == 'editing' && focusedObjects.shapes && focusedObjects.shapes.length === 1 && numberOfObjectsFocused === 1" />
       </tab>
       <tab id="1" style="display: flex; flex-direction: row;">
         <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
@@ -54,7 +54,7 @@ import zoomControl from "./Tab3/ZoomControl.vue";
 import backgroundSelector from "./Tab3/BackgroundSelector.vue";
 import pageResize from "./Tab3/PageResize.vue";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
 	components: {
@@ -76,12 +76,17 @@ export default {
 			openedPencilSettingsId: -1,
 		};
 	},
-	computed: mapState({
-		activeNavbarTab: state => state.core.activeNavbarTab,
-		pencils: state => state.core.pencils,
-		focusedObjectType: state => state.core.focusedObjectType,
-		editingMode: state => state.core.editingMode,
-	}),
+	computed: {
+    ...mapState({
+      activeNavbarTab: state => state.core.activeNavbarTab,
+      pencils: state => state.core.pencils,
+      focusedObjects: state => state.core.focusedObjects,
+      editingMode: state => state.core.editingMode,
+    }),
+    ...mapGetters([
+      "numberOfObjectsFocused",
+    ]),
+  },
 	mixins: [],
 };
 </script>

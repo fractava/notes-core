@@ -274,6 +274,16 @@ export default {
 			return state.focusedObjects[type].includes(id);
 		},
 
+		numberOfObjectsFocused: (state) => {
+			let res = 0;
+
+			for(let objectType in state.focusedObjects) {
+				res += state.focusedObjects[objectType].length;
+			}
+
+			return res;
+		},
+
 		moveableOptions: (state) => {
 			let horizontalGuidelines = [];
 			for(let coordinate = 0; coordinate <= state.loadedPage.size.x; coordinate += state.loadedPage.background.size) {

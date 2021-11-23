@@ -8,7 +8,8 @@
 			:toggleContinueSelect='"shift"'
 			:hitRate="100"
 			@select="onSelect"
-			@dragStart="onDragStart"
+			@drag="onDrag"
+			ref="selecto"
 		/>
 		<div
 			class="Page"
