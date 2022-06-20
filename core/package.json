@@ -42,7 +42,7 @@
     "vuejs-quill": "^1.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.6.0",
+    "eslint": "^8.18.0",
     "eslint-config-jonathantreffler": "^1.4.0",
     "eslint-plugin-vue": "^7.0.1"
   }
