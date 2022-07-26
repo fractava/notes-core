@@ -6,7 +6,8 @@
 ![GitHub Publish Workflow Status](https://img.shields.io/github/workflow/status/fractava/notes-core/Publish?label=Publish&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/fractava/notes-core?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/fractava/notes-core?style=flat-square)
-[![Maintenance](https://img.shields.io/maintenance/yes/2021?style=flat-square)](https://github.com/fractava/notes-core/commits/)
+[![Maintenance](https://img.shields.io/maintenance/yes/2022?style=flat-square)](https://github.com/fractava/notes-core/commits/)
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
 # FRACTAVA Notes Core
 
