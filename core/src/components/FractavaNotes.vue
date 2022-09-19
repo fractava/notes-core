@@ -14,6 +14,7 @@
 import Page from "./page/Page.vue";
 import Navbar from "./navbar/Navbar.vue";
 import PageContainer from "./page/PageContainer.vue";
+
 import { mapState } from "vuex";
 
 export default {

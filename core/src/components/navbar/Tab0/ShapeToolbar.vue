@@ -56,22 +56,25 @@ export default {
 	},
 	methods: {
 		updateFillColor: function(color) {
-			this.$store.commit("setFillColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
+			this.$store.commit("setShapeFillColor", {id: this.id, color: color.hex8,}, {module: "core" });
 		},
 		updateStrokeColor: function(color) {
-			this.$store.commit("setStrokeColor", {id: this.focuseObjectId, color: color.hex8,}, {module: "core" });
+			this.$store.commit("setShapeStrokeColor", {id: this.id, color: color.hex8,}, {module: "core" });
 		},
 		toggleDistort: function() {
-			this.$store.commit("setShapeDistort", {id: this.focuseObjectId, distort: !this.shape.distort,}, {module: "core" });
+			this.$store.commit("setShapeDistort", {id: this.id, distort: !this.shape.distort,}, {module: "core" });
 		},
 	},
 	computed: {
 		...mapState({
 			loadedPage: state => state.core.loadedPage,
-			focuseObjectId: state => state.core.focuseObjectId,
+			focusedObjects: state => state.core.focusedObjects,
 		}),
+		id: function() {
+			return this.focusedObjects.shapes[0];
+		},
 		shape: function() {
-			return this.loadedPage.objects.shapes[this.focuseObjectId];
+			return this.loadedPage.objects.shapes[this.id];
 		},
 		strokeColor: function() {
 			return this.shape.color.stroke;

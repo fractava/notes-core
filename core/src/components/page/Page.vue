@@ -1,7 +1,19 @@
 <template>
-	<div class="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+		<VueSelecto
+			:selectableTargets.sync='selectableTargets'
+			:selectByClick="true"
+			:selectFromInside="true"
+			:continueSelect="false"
+			:toggleContinueSelect='"shift"'
+			:hitRate="100"
+			@select="onSelect"
+			@drag="onDrag"
+			ref="selecto"
+		/>
 		<div
 			class="Page"
+			ref="page"
 			:class="[loadedPage.background.type]"
 			v-on:pointerdown="pointerdown"
 			v-on:pointermove="pointermove"
@@ -13,6 +25,32 @@
 			<sketches class="collectionContainer" />
 			<textBoxes class="collectionContainer" />
 			<shapes class="collectionContainer" />
+			<Moveable
+				class="moveable"
+				v-bind="moveableOptions"
+				
+				:rootContainer="body"
+				:container="$refs.page"
+				v-if="isMounted"
+				ref="moveable"
+				:target="targets"
+				
+				@dragGroupStart="handleDragGroupStart"
+				@dragStart="handleDragStart"
+				@dragGroup="handleDragGroup"
+				@drag="handleDrag"
+
+				@resizeGroupStart="handleResizeGroupStart"
+				@resizeStart="handleResizeStart"
+				@resizeGroup="handleResizeGroup"
+				@resize="handleResize"
+
+				@rotateGroupStart="handleRotateGroupStart"
+				@rotateStart="handleRotateStart"
+				@rotateGroup="handleRotateGroup"
+				@rotate="handleRotate"
+				
+			/>
 	</div>
   </div>
 </template>
@@ -21,11 +59,19 @@
 import { drawing } from "../../mixins/editingModes/drawing.js";
 import { addTextBox } from "../../mixins/editingModes/addTextBox.js";
 import { addShape } from "../../mixins/editingModes/addShape.js";
+import { domToOjectId } from "../../mixins/editingModes/domToOjectId.js";
+import { selectoEventHandlers } from "../../mixins/editingModes/selectoEventHandlers.js";
+import { moveableEventHandlers } from "../../mixins/editingModes/moveableEventHandlers.js";
+import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
+
 import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 import { mapState, mapGetters } from "vuex";
+
+import { VueSelecto } from "vue-selecto";
+import Moveable from "vue-moveable";
 
 export default {
 	components: {
@@ -33,10 +79,15 @@ export default {
 		pageTitle,
 		textBoxes,
 		shapes,
+		VueSelecto,
+		Moveable,
 	},
-	mixins: [drawing, addTextBox, addShape],
+	mixins: [drawing, addTextBox, addShape, domToOjectId, selectoEventHandlers, moveableEventHandlers, isMountedMixin],
 	data: function() {
 		return {
+			targets: [],
+			selectableTargets: [".object"],
+			body: document.body,
 		};
 	},
 	methods: {
@@ -160,6 +211,7 @@ export default {
 		...mapGetters([
 			"lastSketch",
 			"selectedPencil",
+			"moveableOptions",
 		]),
 	},
 };

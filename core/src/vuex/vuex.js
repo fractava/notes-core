@@ -4,7 +4,7 @@ export default {
 		loadedPage: {
 			title: "",
 			objects: {
-				sketch: [
+				sketches: [
 				],
 				textBoxes: [
 				],
@@ -49,8 +49,10 @@ export default {
 			y: false,
 			pressure: false,
 		},
-		focusedObjectType: false,
-		focuseObjectId: false,
+		focusedObjects: {
+			textBoxes: [],
+			shapes: [],
+		},
 		editingMode: "editing",
 		editingModeAdditionalInformation: "",
 		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
@@ -95,9 +97,8 @@ export default {
 		setPointer(state, options) {
 			state.pointer = options;
 		},
-		focusObject(state, options) {
-			state.focusedObjectType = options.type;
-			state.focuseObjectId = options.id;
+		updateFocusedObjects(state, options) {
+			state.focusedObjects = options.objects;
 		},
 		scroll(state, options) {
 			if(options.x != undefined) {
@@ -129,7 +130,7 @@ export default {
 
 		// Sketch
 		newSketch(state, color) {
-			state.loadedPage.objects.sketch.push({
+			state.loadedPage.objects.sketches.push({
 				coordinates: [],
 				color: JSON.parse(JSON.stringify(color)),
 			});
@@ -169,6 +170,7 @@ export default {
 					width: options.width,
 					height: options.height,
 					rotation: 0,
+					transformOrigin: "50% 50%",
 				},
 				content: {},
 				quill: undefined,
@@ -207,23 +209,6 @@ export default {
 				quill.insertText(selection.index, options.text, {});
 			}
 		},
-		moveTextBox(state, options) {
-			console.log("moveTextBox");
-			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
-				console.log("moveTextBox x")
-				state.loadedPage.objects.textBoxes[options.id].position.x = options.x;
-			}
-			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
-				state.loadedPage.objects.textBoxes[options.id].position.y = options.y;
-			}
-		},
-		resizeTextBox(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].position.width = options.width;
-			state.loadedPage.objects.textBoxes[options.id].position.height = options.height;
-		},
-		rotateTextBox(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].position.rotation = options.rotation;
-		},
 		insertEmbed(state, options) {
 			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
 			let selection = quill.getSelection();
@@ -242,6 +227,7 @@ export default {
 					width: options.width,
 					height: options.height,
 					rotation: 0,
+					transformOrigin: "50% 50%",
 				},
 				strokeWeight: options.strokeWeight,
 				color: {
@@ -251,35 +237,51 @@ export default {
 				distort: options.distort,
 			});
 		},
-		moveShape(state, options) {
-			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
-				state.loadedPage.objects.shapes[options.id].position.x = options.x;
-			}
-			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
-				state.loadedPage.objects.shapes[options.id].position.y = options.y;
-			}
-		},
-		resizeShape(state, options) {
-			state.loadedPage.objects.shapes[options.id].position.width = options.width;
-			state.loadedPage.objects.shapes[options.id].position.height = options.height;
-		},
-		rotateShape(state, options) {
-			state.loadedPage.objects.shapes[options.id].position.rotation = options.rotation;
-		},
-		setFillColor(state, options) {
+		setShapeFillColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
 		},
-		setStrokeColor(state, options) {
+		setShapeStrokeColor(state, options) {
 			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
 		setShapeDistort(state, options) {
 			state.loadedPage.objects.shapes[options.id].distort = options.distort;
-		}
+		},
+
+		// Objects
+		moveObject(state, options) {
+			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
+				state.loadedPage.objects[options.type][options.id].position.x = options.x;
+			}
+			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
+				state.loadedPage.objects[options.type][options.id].position.y = options.y;
+			}
+		},
+		resizeObject(state, options) {
+			state.loadedPage.objects[options.type][options.id].position.width = options.width;
+			state.loadedPage.objects[options.type][options.id].position.height = options.height;
+		},
+		rotateObject(state, options) {
+			state.loadedPage.objects[options.type][options.id].position.rotation = options.rotation;
+		},
+		setObjectTransformOrigin(state, options) {
+			state.loadedPage.objects[options.type][options.id].position.transformOrigin = options.transformOrigin;
+		},
 	},
 	getters: {
 		// Page
-		focusedObject: (state) => () => {
-			return state.objects[state.focusedObjectType][state.focuseObjectId];
+		objectFocused: (state) => (type, id) => {
+			console.log(state.focusedObjects[type]);
+			return state.focusedObjects[type].includes(id);
+		},
+
+		numberOfObjectsFocused: (state) => {
+			let res = 0;
+
+			for(let objectType in state.focusedObjects) {
+				res += state.focusedObjects[objectType].length;
+			}
+
+			return res;
 		},
 
 		moveableOptions: (state) => {
@@ -320,13 +322,13 @@ export default {
 				snapVertical: true,
 				snapHorizontal: true,
 				snapElement: true,
-			}
+			};
 		},
 
 		// Sketch
 		lastSketch: function (state) {
-			if(state.loadedPage.objects.sketch.length != 0) {
-				return state.loadedPage.objects.sketch[state.loadedPage.objects.sketch.length -1];
+			if(state.loadedPage.objects.sketches.length != 0) {
+				return state.loadedPage.objects.sketches[state.loadedPage.objects.sketches.length -1];
 			}else {
 				return false;
 			}
