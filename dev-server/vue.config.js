@@ -1,6 +1,6 @@
 module.exports = {
 	devServer: {
-		disableHostCheck: true
+		allowedHosts: "all"
     },
     publicPath: process.env.NODE_ENV === 'production'
         ? '/notes-core/'
