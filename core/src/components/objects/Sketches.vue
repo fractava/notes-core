@@ -33,7 +33,7 @@
 
 <script>
 import { mapState } from "vuex";
-import * as tinycolor from "tinycolor2";
+import tinycolor from "tinycolor2";
 
 export default {
 	computed: {

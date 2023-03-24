@@ -34,7 +34,7 @@
 
 <script>
 import { mapState } from "vuex";
-import * as tinycolor from "tinycolor2";
+import tinycolor from "tinycolor2";
 import colorPicker from "../ColorPicker.vue";
 
 export default {
