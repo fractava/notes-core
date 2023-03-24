@@ -1,16 +1,25 @@
 export const selectoEventHandlers = {
 	methods: {
-		onSelect: function(e) {
+		onSelectoSelect: function(e) {
 			let selectedObjects = this.domObjectsToIds(e.selected);
 
 			this.$store.commit("updateFocusedObjects", {objects: selectedObjects,}, {module: "core" });
 
 			this.targets = e.selected;
 		},
-		onDrag: function(e) {
-			console.log("onDrag", e.currentTarget.gesto.isDrag, e);
+		onSelectoDragStart: function(e) {
+			const target = e.inputEvent.target;
+            if (
+                this.$refs.moveable.isMoveableElement(target)
+                || this.targets.some(t => t === target || t.contains(target))
+            ) {
+                e.stop();
+            }
+		},
+		onSelectoDrag: function(e) {
+			//console.log("onDrag", e.currentTarget.gesto.isDrag, e.currentTarget.selectedTargets, e.currentTarget.selectedTargets.length, e);
 			// && !(e.inputEvent.target.classList.contains("object") || e.inputEvent.target.parentElement.classList.contains("object"))
-			if(this.editingMode !== "selecting" && e.currentTarget.gesto.isDrag) {
+			if(this.editingMode !== "selecting" && e.currentTarget.selectedTargets.length == 0 && e.isFirstDrag) {
 				/*this.$store.commit(
 					"updateFocusedObjects",
 					{
@@ -26,7 +35,7 @@ export const selectoEventHandlers = {
 				console.log("stop");
 				e.stop();
 			}
-			console.log(e);
+			//console.log(e);
 		},
 	},
 };

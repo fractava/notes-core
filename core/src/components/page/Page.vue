@@ -3,12 +3,13 @@
 		<VueSelecto
 			:selectableTargets.sync='selectableTargets'
 			:selectByClick="true"
-			:selectFromInside="true"
+			:selectFromInside="false"
 			:continueSelect="false"
 			:toggleContinueSelect='"shift"'
 			:hitRate="100"
-			@select="onSelect"
-			@drag="onDrag"
+			@select="onSelectoSelect"
+			@dragStart="onSelectoDragStart"
+			@drag="onSelectoDrag"
 			ref="selecto"
 		/>
 		<div
@@ -34,21 +35,22 @@
 				v-if="isMounted"
 				ref="moveable"
 				:target="targets"
+				:origin="false"
 				
-				@dragGroupStart="handleDragGroupStart"
-				@dragStart="handleDragStart"
-				@dragGroup="handleDragGroup"
-				@drag="handleDrag"
+				@dragGroupStart="handleMoveableDragGroupStart"
+				@dragStart="handleMoveableDragStart"
+				@dragGroup="handleMoveableDragGroup"
+				@drag="handleMoveableDrag"
 
-				@resizeGroupStart="handleResizeGroupStart"
-				@resizeStart="handleResizeStart"
-				@resizeGroup="handleResizeGroup"
-				@resize="handleResize"
+				@resizeGroupStart="handleMoveableResizeGroupStart"
+				@resizeStart="handleMoveableResizeStart"
+				@resizeGroup="handleMoveableResizeGroup"
+				@resize="handleMoveableResize"
 
-				@rotateGroupStart="handleRotateGroupStart"
-				@rotateStart="handleRotateStart"
-				@rotateGroup="handleRotateGroup"
-				@rotate="handleRotate"
+				@rotateGroupStart="handleMoveableRotateGroupStart"
+				@rotateStart="handleMoveableRotateStart"
+				@rotateGroup="handleMoveableRotateGroup"
+				@rotate="handleMoveableRotate"
 				
 			/>
 	</div>
