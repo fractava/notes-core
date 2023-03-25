@@ -8,21 +8,21 @@ import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 
 export default {
-	install: function (Vue, options) {
+	install: function (app, options) {
 		console.log(options);
 
 		//Vue.use(VueMaterial);
 
 		// enable or disable debug output
-		options.store.commit("setDebug", options.debug, {module: "core" });
+		//options.store.commit("setDebug", options.debug, {module: "core" });
 
 		// global Functions
-		Vue.prototype.distance = function(coordinate1, coordinate2) {
+		app.config.globalProperties.distance = function(coordinate1, coordinate2) {
 			let a = coordinate1.x - coordinate2.x;
 			let b = coordinate1.y - coordinate2.y;
 			return Math.sqrt( a*a + b*b );
 		};
 
-		Vue.component("FractavaNotes", FractavaNotes);
+		app.component("FractavaNotes", FractavaNotes);
 	}
 };

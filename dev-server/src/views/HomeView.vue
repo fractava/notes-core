@@ -3,5 +3,6 @@
 
 <template>
   <main>
+    <fractava-notes />
   </main>
 </template>
