@@ -1,7 +1,7 @@
 <template>
 	<div class="textBoxesContainer">
 		<text-box
-			v-for="(textBox, index) in this.loadedPage.objects.textBoxes"
+			v-for="(textBox, index) in this.coreState.loadedPage.objects.textBoxes"
 			:key="'text-box-' + index"
 			:id="index"
 			v-on:pointerdown="stopPropagation"
@@ -13,8 +13,10 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 import textBox from "./TextBox.vue";
-import { mapState } from "vuex";
 
 export default {
 	methods: {
@@ -28,9 +30,7 @@ export default {
 		textBox,
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-		}),
+		...mapStores(useCoreStore),
 	},
 };
 </script>

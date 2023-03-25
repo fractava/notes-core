@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	data: function() {
@@ -107,15 +108,13 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-		}),
+		...mapStores(useCoreStore),
 		width: {
 			set(width) {
 				this.$store.commit("setPageWidth", {width,}, {module: "core" });
 			},
 			get() {
-				return this.loadedPage.size.x;
+				return this.coreStore.loadedPage.size.x;
 			}
 		},
 		height: {
@@ -123,7 +122,7 @@ export default {
 				this.$store.commit("setPageHeight", {height,}, {module: "core" });
 			},
 			get() {
-				return this.loadedPage.size.y;
+				return this.coreStore.loadedPage.size.y;
 			}
 		},
 		selectedPresetName: function() {
@@ -133,7 +132,7 @@ export default {
 			for(let id in this.presets) {
 				let preset = this.presets[id];
 
-				if(this.loadedPage.size.x == preset.width &&  this.loadedPage.size.y == preset.height) {
+				if(this.coreStore.loadedPage.size.x == preset.width &&  this.coreStore.loadedPage.size.y == preset.height) {
 					return preset.name;
 				}
 			}

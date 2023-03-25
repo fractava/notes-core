@@ -1,5 +1,3 @@
-import { mapState } from "vuex";
-
 export const drawing = {
 	methods: {
 		drawingPointerDown: function(event) {
@@ -45,10 +43,5 @@ export const drawing = {
 
 			return drawLine;
 		},
-	},
-	computed: {
-		...mapState({
-			selectedColor: state => state.core.selectedColor,
-		})
 	},
 };

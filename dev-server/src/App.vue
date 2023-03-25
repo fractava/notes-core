@@ -1,20 +1,10 @@
-<template>
-  <div id="devServerContainer">
-    <fractava-notes />
-  </div>
-</template>
-
-<script>
-export default {
-	name: "DevServer",
-	components: {
-	}
-};
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
 </script>
 
-<style>
-#devServerContainer {
-    width: 100%;
-    height: 100%;
-}
+<template>
+  <RouterView />
+</template>
+
+<style scoped>
 </style>

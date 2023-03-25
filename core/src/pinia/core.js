@@ -1,63 +1,67 @@
-export default {
-	state: {
-		debug: false,
-		loadedPage: {
-			title: "",
-			objects: {
-				sketches: [
-				],
-				textBoxes: [
-				],
-				shapes: [
-				],
-				images: [
-				],
-				files: [
-				],
+import { defineStore } from 'pinia';
+
+export const useCoreStore = defineStore('core', {
+	state: () => {
+		return {
+			debug: false,
+			loadedPage: {
+				title: "",
+				objects: {
+					sketches: [
+					],
+					textBoxes: [
+					],
+					shapes: [
+					],
+					images: [
+					],
+					files: [
+					],
+				},
+				background: {
+					type: "grid",
+					size: 50,
+				},
+				size: {
+					x: 4000,
+					y: 4000,
+				},
+				scrollOffsetX: 0,
+				scrollOffsetY: 0,
+				scale: 1,
 			},
-			background: {
-				type: "grid",
-				size: 50,
+			navbarHeight: 10,
+			pencils: [
+				{
+					color: {r: 0, g: 0, b:0, },
+					width: 10,
+					opacity: 1,
+				},
+				{
+					color: {r: 255, g: 0, b:0, },
+					width: 15,
+					opacity: 1,
+				}
+			],
+			selectedPencilId: 0,
+			activeNavbarTab: 0,
+			openedPencilSettingsId: -1,
+			pointer: {
+				down: false,
+				x: false,
+				y: false,
+				pressure: false,
 			},
-			size: {
-				x: 4000,
-				y: 4000,
+			focusedObjects: {
+				textBoxes: [],
+				shapes: [],
 			},
-			scrollOffsetX: 0,
-			scrollOffsetY: 0,
-			scale: 1,
-		},
-		navbarHeight: 10,
-		pencils: [
-			{
-				color: {r: 0, g: 0, b:0, },
-				width: 10,
-				opacity: 1,
-			},
-			{
-				color: {r: 255, g: 0, b:0, },
-				width: 15,
-				opacity: 1,
-			}
-		],
-		selectedPencilId: 0,
-		activeNavbarTab: 0,
-		openedPencilSettingsId: -1,
-		pointer: {
-			down: false,
-			x: false,
-			y: false,
-			pressure: false,
-		},
-		focusedObjects: {
-			textBoxes: [],
-			shapes: [],
-		},
-		editingMode: "editing",
-		editingModeAdditionalInformation: "",
-		presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
-		openedDialog: false,
-		exportInProgress: false,
+			editingMode: "editing",
+			editingModeAdditionalInformation: "",
+			presetColors:["#f00", "#00ff00", "#00ff0055", "rgb(201, 76, 76)", "rgba(0,0,255,1)", "hsl(89, 43%, 51%)", "hsla(89, 43%, 51%, 0.6)"],
+			openedDialog: false,
+			exportInProgress: false,
+		};
 	},
 	mutations: {
 		// System
@@ -372,4 +376,4 @@ export default {
 			commit("switchEditingMode", {mode: "drawing", }, {module: "core" });
 		}
 	}
-};
+});

@@ -18,15 +18,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	methods: {
 		plus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: "core" });
+			this.$store.commit("setScale", {scale: this.coreStore.loadedPage.scale + 0.1,}, {module: "core" });
 		},
 		minus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale - 0.1,}, {module: "core" });
+			this.$store.commit("setScale", {scale: this.coreStore.loadedPage.scale - 0.1,}, {module: "core" });
 		},
 		reset: function() {
 			console.log("reset");
@@ -36,11 +37,11 @@ export default {
 		snapToWidth: function() {
 			let bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
 
-			let mostLeft = this.loadedPage.objects.textBoxes[0].position.x;
-			let mostRight = this.loadedPage.objects.textBoxes[0].position.x + this.loadedPage.objects.textBoxes[0].position.width;
+			let mostLeft = this.coreStore.loadedPage.objects.textBoxes[0].position.x;
+			let mostRight = this.coreStore.loadedPage.objects.textBoxes[0].position.x + this.coreStore.loadedPage.objects.textBoxes[0].position.width;
 
-			for(let textBoxId in this.loadedPage.objects.textBoxes) {
-				let textBox = this.loadedPage.objects.textBoxes[textBoxId];
+			for(let textBoxId in this.coreStore.loadedPage.objects.textBoxes) {
+				let textBox = this.coreStore.loadedPage.objects.textBoxes[textBoxId];
 				if(textBox.position.x < mostLeft) {
 					mostLeft = textBox.x;
 				}
@@ -61,8 +62,8 @@ export default {
 			this.$store.commit("scroll", {x: mostLeft,}, {module: "core" });
 		},
 	},
-	computed: mapState({
-		loadedPage: state => state.core.loadedPage,
-	}),
+	computed: {
+		...mapStores(useCoreStore),
+	}
 };
 </script>

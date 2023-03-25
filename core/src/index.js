@@ -13,6 +13,8 @@ export default {
 
 		Vue.use(VueMaterial);
 
+
+
 		// enable or disable debug output
 		options.store.commit("setDebug", options.debug, {module: "core" });
 

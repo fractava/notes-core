@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 
 export default {
 	data: function() {
@@ -57,11 +56,6 @@ export default {
 		add: function(information) {
 			this.$store.commit("switchEditingMode", {mode: "addShape", information,}, {module: "core" });
 		},
-	},
-	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-		}),
 	},
 };
 </script>

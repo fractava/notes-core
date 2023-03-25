@@ -10,14 +10,15 @@
           <label>Title</label>
           <md-input
             v-model="title"
-            :disabled="editingMode != 'editing'"
+            :disabled="coreState.editingMode != 'editing'"
           ></md-input>
         </md-field>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	computed: {
@@ -26,40 +27,36 @@ export default {
 				this.$store.commit("setPageTitle", { title }, {module: "core" });
 			},
 			get() {
-				return this.loadedPage.title;
+				return this.coreState.loadedPage.title;
 			}
 		},
 		inputHeight: function() {
-			let size = this.loadedPage.background.size;
+			let size = this.coreState.loadedPage.background.size;
 
 			while(size < 32) {
-				size = size + this.loadedPage.background.size;
+				size = size + this.coreState.loadedPage.background.size;
 			}
 
 			return size;
 		},
 		inputWidth: function() {
-			let size = this.loadedPage.background.size;
+			let size = this.coreState.loadedPage.background.size;
 
 			while(size < 250) {
-				size = size + this.loadedPage.background.size;
+				size = size + this.coreState.loadedPage.background.size;
 			}
 
 			return size;
 		},
 		containerStyle: function() {
 			return {
-				"top": this.loadedPage.background.size + 1  + "px",
-				"left": this.loadedPage.background.size + 1 + "px",
+				"top": this.coreState.loadedPage.background.size + 1  + "px",
+				"left": this.coreState.loadedPage.background.size + 1 + "px",
 				"height": this.inputHeight   + "px",
 				"min-width": this.inputWidth - 1 + "px",
 			};
 		},
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			navbarHeight: state => state.core.navbarHeight,
-			editingMode: state => state.core.editingMode,
-		}),
+		...mapStores(useCoreStore),
 	},
 };
 </script>

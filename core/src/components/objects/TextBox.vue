@@ -24,7 +24,9 @@
 <script>
 import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
 
-import { mapState } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 import quill from "./quill.vue";
 
 export default {
@@ -44,8 +46,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapStores(useCoreStore),
 		textBox: function() {
-			return this.loadedPage.objects.textBoxes[this.id];
+			return this.coreState.loadedPage.objects.textBoxes[this.id];
 		},
 		content: {
 			set(content) {
@@ -56,10 +59,10 @@ export default {
 			}
 		},
 		disabled: function() {
-			return this.editingMode != "editing";
+			return this.coreState.editingMode != "editing";
 		},
 		active: function() {
-			return this.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.openedDialog == false;
+			return this.coreState.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.coreState.openedDialog == false;
 		},
 		style: function() {
 			return {
@@ -69,13 +72,6 @@ export default {
 				transform: `translate(${this.textBox.position.x}px, ${this.textBox.position.y}px)` + ` rotate(${this.textBox.position.rotation}deg)`
 			};
 		},
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			editingMode: state => state.core.editingMode,
-			focusedObjectType: state => state.core.focusedObjectType,
-			focuseObjectId: state => state.core.focuseObjectId,
-			openedDialog: state => state.core.openedDialog,
-		}),
 	},
 	methods: {
 		activate: function() {

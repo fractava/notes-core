@@ -17,12 +17,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
-	computed: mapState({
-		editingMode: state => state.core.editingMode,
-	}),
+	computed: {
+    ...mapStores(useCoreStore),
+  },
 	methods: {
 		switchEditingMode: function(mode) {
 			this.$store.commit("switchEditingMode", {mode, }, {module: "core" });

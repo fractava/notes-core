@@ -12,11 +12,11 @@
           <md-icon>print</md-icon>
         </md-button>
         <export-menu />
-        <quill-toolbar v-if="editingMode == 'editing' && focusedObjects.textBoxes && focusedObjects.textBoxes.length === 1 && numberOfObjectsFocused === 1" />
-        <shape-toolbar v-if="editingMode == 'editing' && focusedObjects.shapes && focusedObjects.shapes.length === 1 && numberOfObjectsFocused === 1" />
+        <quill-toolbar v-if="coreStore.editingMode == 'editing' && coreStore.focusedObjects.textBoxes && coreStore.focusedObjects.textBoxes.length === 1 && coreStore.numberOfObjectsFocused === 1" />
+        <shape-toolbar v-if="coreStore.editingMode == 'editing' && coreStore.focusedObjects.shapes && coreStore.focusedObjects.shapes.length === 1 && coreStore.numberOfObjectsFocused === 1" />
       </tab>
       <tab id="1" style="display: flex; flex-direction: row;">
-        <pencilSelector v-for="(pencil, index) in pencils" :id="index" :key="index"></pencilSelector>
+        <pencilSelector v-for="(pencil, index) in coreStore.pencils" :id="index" :key="index"></pencilSelector>
         <add-pencil/>
       </tab>
       <tab id="2" style="display: flex; flex-direction: row;">
@@ -54,7 +54,8 @@ import zoomControl from "./Tab3/ZoomControl.vue";
 import backgroundSelector from "./Tab3/BackgroundSelector.vue";
 import pageResize from "./Tab3/PageResize.vue";
 
-import { mapState, mapGetters } from "vuex";
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	components: {
@@ -77,15 +78,7 @@ export default {
 		};
 	},
 	computed: {
-    ...mapState({
-      activeNavbarTab: state => state.core.activeNavbarTab,
-      pencils: state => state.core.pencils,
-      focusedObjects: state => state.core.focusedObjects,
-      editingMode: state => state.core.editingMode,
-    }),
-    ...mapGetters([
-      "numberOfObjectsFocused",
-    ]),
+    ...mapStores(useCoreStore),
   },
 	mixins: [],
 };

@@ -3,7 +3,7 @@
 		<div ref="container">
 			<shape
 				ref="shape"
-				v-for="(shape, index) in loadedPage.objects.shapes"
+				v-for="(shape, index) in coreStore.loadedPage.objects.shapes"
 				:id="index"
 				:key="'shape'+index"
 			/>
@@ -13,7 +13,9 @@
 <script>
 
 import shape from "./Shape.vue";
-import { mapState } from "vuex";
+
+import { mapStores } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	props: {
@@ -27,9 +29,7 @@ export default {
 		shape,
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-		}),
+		...mapStores(useCoreStore),
 	},
 };
 </script>
