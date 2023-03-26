@@ -61,6 +61,99 @@ export const useCoreStore = defineStore('core', {
 		openedDialog: false,
 		exportInProgress: false,
 	}),
+	getters: {
+		// Page
+		objectFocused: (state) => (type, id) => {
+			console.log(state.focusedObjects[type]);
+			return state.focusedObjects[type].includes(id);
+		},
+
+		numberOfObjectsFocused: (state) => {
+			let res = 0;
+
+			for(let objectType in state.focusedObjects) {
+				res += state.focusedObjects[objectType].length;
+			}
+
+			return res;
+		},
+
+		moveableOptions: (state) => {
+			let horizontalGuidelines = [];
+			for(let coordinate = 0; coordinate <= state.loadedPage.size.x; coordinate += state.loadedPage.background.size) {
+				horizontalGuidelines.push(coordinate);
+			}
+
+			let verticalGuidelines = [];
+			for(let coordinate = 0; coordinate <= state.loadedPage.size.y; coordinate += state.loadedPage.background.size) {
+				verticalGuidelines.push(coordinate);
+			}
+
+			return {
+				draggable: true,
+				throttleDrag: 1,
+				resizable: true,
+				throttleResize: 1,
+				keepRatio: false,
+				scalable: false,
+				throttleScale: 1,
+				rotatable: true,
+				throttleRotate: 1,
+				pinchable: true,
+				originDraggable: true,
+				edge: true,
+				renderDirections: ["nw","n","ne","w","e","sw","s","se"],
+				//bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				bounds: {
+					left: 0,
+					top: 0,
+				},
+				//padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
+				horizontalGuidelines,
+				verticalGuidelines,
+				snappable: true,
+				snapThreshold: 5,
+				snapVertical: true,
+				snapHorizontal: true,
+				snapElement: true,
+			};
+		},
+
+		// Sketch
+		lastSketch: (state) => {
+			if(state.loadedPage.objects.sketches.length != 0) {
+				return state.loadedPage.objects.sketches[state.loadedPage.objects.sketches.length -1];
+			}else {
+				return false;
+			}
+		},
+		selectedPencil: (state) => {
+			return state.pencils[state.selectedPencilId];
+		},
+
+		// TextBoxes
+		textSelection: (state) => {
+			if(state.focusedObjectType == "textBoxes") {
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				if(quill) {
+					if(state.openedDialog == false) {
+						return quill.getSelection();
+					}
+				}
+			}
+
+			return false;
+		},
+		getFormat: (state) => (options) => {
+			if(state.focusedObjectType == "textBoxes") {
+				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+				if(quill) {
+					return quill.getFormat(options.index, options.length)[options.format];
+				}
+				return false;
+			}
+		},
+	},
 });
 
 /*
@@ -272,98 +365,6 @@ mutations: {
 			state.loadedPage.objects[options.type][options.id].position.transformOrigin = options.transformOrigin;
 		},
 	},
-	getters: {
-		// Page
-		objectFocused: (state) => (type, id) => {
-			console.log(state.focusedObjects[type]);
-			return state.focusedObjects[type].includes(id);
-		},
-
-		numberOfObjectsFocused: (state) => {
-			let res = 0;
-
-			for(let objectType in state.focusedObjects) {
-				res += state.focusedObjects[objectType].length;
-			}
-
-			return res;
-		},
-
-		moveableOptions: (state) => {
-			let horizontalGuidelines = [];
-			for(let coordinate = 0; coordinate <= state.loadedPage.size.x; coordinate += state.loadedPage.background.size) {
-				horizontalGuidelines.push(coordinate);
-			}
-
-			let verticalGuidelines = [];
-			for(let coordinate = 0; coordinate <= state.loadedPage.size.y; coordinate += state.loadedPage.background.size) {
-				verticalGuidelines.push(coordinate);
-			}
-
-			return {
-				draggable: true,
-				throttleDrag: 1,
-				resizable: true,
-				throttleResize: 1,
-				keepRatio: false,
-				scalable: false,
-				throttleScale: 1,
-				rotatable: true,
-				throttleRotate: 1,
-				pinchable: true,
-				originDraggable: true,
-				edge: true,
-				renderDirections: ["nw","n","ne","w","e","sw","s","se"],
-				//bounds: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-				bounds: {
-					left: 0,
-					top: 0,
-				},
-				//padding: {"left": 0,"top": 0,"right": 0,"bottom": 0},
-				horizontalGuidelines,
-				verticalGuidelines,
-				snappable: true,
-				snapThreshold: 5,
-				snapVertical: true,
-				snapHorizontal: true,
-				snapElement: true,
-			};
-		},
-
-		// Sketch
-		lastSketch: function (state) {
-			if(state.loadedPage.objects.sketches.length != 0) {
-				return state.loadedPage.objects.sketches[state.loadedPage.objects.sketches.length -1];
-			}else {
-				return false;
-			}
-		},
-		selectedPencil: function(state) {
-			return state.pencils[state.selectedPencilId];
-		},
-
-		// TextBoxes
-		textSelection: function(state) {
-			if(state.focusedObjectType == "textBoxes") {
-				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
-				if(quill) {
-					if(state.openedDialog == false) {
-						return quill.getSelection();
-					}
-				}
-			}
-
-			return false;
-		},
-		getFormat: (state) => (options) => {
-			if(state.focusedObjectType == "textBoxes") {
-				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
-				if(quill) {
-					return quill.getFormat(options.index, options.length)[options.format];
-				}
-				return false;
-			}
-		},
 	},
 	actions: {
 		// Page
