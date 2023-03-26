@@ -41,7 +41,7 @@
 	</div>
 </template>
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 import colorPicker from "../ColorPicker.vue";
@@ -68,12 +68,15 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			focusedObjects: store => store.focusedObjects,
+			loadedPage: store => store.loadedPage,
+		}),
 		id: function() {
-			return this.coreStore.focusedObjects.shapes[0];
+			return this.focusedObjects.shapes[0];
 		},
 		shape: function() {
-			return this.coreStore.loadedPage.objects.shapes[this.id];
+			return this.loadedPage.objects.shapes[this.id];
 		},
 		strokeColor: function() {
 			return this.shape.color.stroke;

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbarTab" v-if="id == coreStore.activeNavbarTab">
+  <div class="navbarTab" v-if="id == activeNavbarTab">
     <mode-switch-buttons />
     <slot />
   </div>
@@ -8,7 +8,7 @@
 <script>
 import modeSwitchButtons from "./ModeSwitchButtons.vue";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 export default {
@@ -21,7 +21,9 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			activeNavbarTab: store => store.activeNavbarTab,
+		}),
 	},
 };
 </script>

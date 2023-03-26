@@ -1,9 +1,9 @@
  <template>
   <div class="FractavaNotes">
-    <navbar :style="{height: coreStore.navbarHeight+'%'}" :navbarHeight="coreStore.navbarHeight" />
+    <navbar :style="{height: navbarHeight+'%'}" :navbarHeight="navbarHeight" />
     <pageContainer
         v-on:scroll.native="scroll"
-        :style="{height: 100-coreStore.navbarHeight+'%'}"
+        :style="{height: 100-navbarHeight+'%'}"
     >
         <page/>
     </pageContainer>
@@ -15,7 +15,7 @@ import Page from "./page/Page.vue";
 import Navbar from "./navbar/Navbar.vue";
 import PageContainer from "./page/PageContainer.vue";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../pinia/core.js";
 
 
@@ -29,7 +29,7 @@ export default {
 	},
 	methods: {
 		scroll: function(event) {
-			if(this.coreStore.debug) {
+			if(this.debug) {
 				console.log(event);
 			}
 			let scrollOffsetX = event.srcElement.scrollLeft;
@@ -39,7 +39,10 @@ export default {
 		}
 	},
 	computed: {
-    ...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+      navbarHeight: store => store.navbarHeight,
+		}),
   },
 };
 </script>

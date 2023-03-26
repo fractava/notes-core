@@ -24,7 +24,7 @@
 <script>
 import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 import quill from "./quill.vue";
@@ -46,9 +46,13 @@ export default {
 		};
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+			editingMode: store => store.editingMode,
+			openedDialog: store => store.openedDialog,
+		}),
 		textBox: function() {
-			return this.coreState.loadedPage.objects.textBoxes[this.id];
+			return this.loadedPage.objects.textBoxes[this.id];
 		},
 		content: {
 			set(content) {
@@ -59,10 +63,10 @@ export default {
 			}
 		},
 		disabled: function() {
-			return this.coreState.editingMode != "editing";
+			return this.editingMode != "editing";
 		},
 		active: function() {
-			return this.coreState.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.coreState.openedDialog == false;
+			return this.editingMode == "editing" && this.$store.getters.objectFocused("textBoxes", this.id) && this.openedDialog == false;
 		},
 		style: function() {
 			return {

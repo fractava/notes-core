@@ -49,7 +49,7 @@
 <script>
 import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 export default {
@@ -60,12 +60,15 @@ export default {
 	},
 	mixins: [isMountedMixin],
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+			editingMode: store => store.editingMode,
+		}),
 		shape: function() {
-			return this.coreState.loadedPage.objects.shapes[this.id];
+			return this.loadedPage.objects.shapes[this.id];
 		},
 		active: function() {
-			return (this.coreState.editingMode == "editing" || this.coreState.editingMode == "selecting") && this.$store.getters.objectFocused("shapes", this.id);
+			return (this.editingMode == "editing" || this.editingMode == "selecting") && this.$store.getters.objectFocused("shapes", this.id);
 		},
 		aspectRatioAttribute: function() {
 			return this.shape.distort ? "none" : "xMidYMid meet";

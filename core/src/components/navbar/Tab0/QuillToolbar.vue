@@ -103,14 +103,14 @@
     <md-button class="navbarButton smallNavbarButton" v-on:click="setFormatRelativeAdvanced('font-size', 'size', 1, 20, 'px')">
         <md-icon>arrow_drop_up</md-icon>
     </md-button>
-    <md-button class="navbarButton smallNavbarButton" v-if="coreStore.debug" v-on:click="debugOutput">
+    <md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
         debug
     </md-button>-->
 </div>
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 import colorPicker from "../ColorPicker.vue";
@@ -130,7 +130,7 @@ export default {
 	},
 	methods: {
 		debugOutput: function() {
-			console.log(this.coreStore.loadedPage);
+			console.log(this.loadedPage);
 		},
 		selectedText: function() {
 			return this.$store.getters.textSelection;
@@ -210,7 +210,10 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+			loadedPage: store => store.loadedPage,
+		}),
 		font: {
 			set(font) {
 				this.setFormat("font", font);

@@ -21,12 +21,12 @@
 									v-for="(type, index) in backgroundTypes"
 									v-on:click="apply(type)"
 									:key="'backgroundType'+index"
-									:class="{'md-raised': coreStore.loadedPage.background.type == type}"
+									:class="{'md-raised': loadedPage.background.type == type}"
 								>
 									{{ type }}
 								</md-button>
 							</div>
-							<div v-if="coreStore.loadedPage.background.type != 'none'">
+							<div v-if="loadedPage.background.type != 'none'">
 								<input
 									class="sizeSlider"
 									type="range"
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
@@ -59,13 +59,15 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+		}),
 		size: {
 			set(size) {
 				this.$store.commit("setBackgroundSize", {size,}, {module: "core" });
 			},
 			get() {
-				return this.coreStore.loadedPage.background.size;
+				return this.loadedPage.background.size;
 			}
 		},
 	},

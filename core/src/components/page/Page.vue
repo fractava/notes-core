@@ -1,5 +1,5 @@
 <template>
-	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (coreState.loadedPage.scale * coreState.loadedPage.size.x) + 'px', height: (coreState.loadedPage.scale * coreState.loadedPage.size.y) + 'px'}">
+	<!--<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (coreState.loadedPage.scale * coreState.loadedPage.size.x) + 'px', height: (coreState.loadedPage.scale * coreState.loadedPage.size.y) + 'px'}">
 		<VueSelecto
 			:selectableTargets.sync='selectableTargets'
 			:selectByClick="true"
@@ -54,7 +54,8 @@
 				
 			/>
 	</div>
-  </div>
+  </div>-->
+  <div>{{ debug }}</div>
 </template>
 
 <script>
@@ -74,7 +75,7 @@ import pageTitle from "../objects/PageTitle.vue";
 import { VueSelecto } from "vue-selecto";
 import Moveable from "vue-moveable";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 console.log(useCoreStore);
@@ -203,7 +204,9 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+		}),
 	},
 };
 </script>

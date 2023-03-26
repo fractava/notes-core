@@ -3,12 +3,12 @@
 			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
-				:md-active="coreStore.openedPencilSettingsId == id"
+				:md-active="openedPencilSettingsId == id"
 				class="navbarButton"
 				v-on:click="select"
 			>
 				<md-button
-          :class="{'md-raised': id == coreStore.selectedPencilId && coreStore.editingMode == 'drawing'}"
+          :class="{'md-raised': id == selectedPencilId && editingMode == 'drawing'}"
         >
 					<md-icon :style="{color: pencilRGBAString, }">create</md-icon>
 				</md-button>
@@ -16,7 +16,7 @@
 				<md-menu-content class="navbarMenu">
 					<span>
 						Pencil Settings:
-            <color-picker :colorRGBA="coreStore.pencils[id].color" v-on:update="updateColor"/>
+            <color-picker :colorRGBA="pencils[id].color" v-on:update="updateColor"/>
             <div class="widthSliderContainer">
               <input
                 class="widthSlider"
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 import tinycolor from "tinycolor2";
@@ -50,9 +50,14 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			pencils: store => store.pencils,
+			openedPencilSettingsId: store => store.openedPencilSettingsId,
+			editingMode: store => store.editingMode,
+			selectedPencilId: store => store.selectedPencilId,
+		}),
 		pencilRGBAString: function() {
-			var color = tinycolor(this.coreStore.pencils[this.id].color);
+			var color = tinycolor(this.pencils[this.id].color);
 			return color.toRgbString();
 		},
 		width: {
@@ -60,13 +65,13 @@ export default {
 				this.$store.commit("changePencilWidth", {id: this.id, width,}, {module: "core" });
 			},
 			get() {
-				return this.coreStore.pencils[this.id].width;
+				return this.pencils[this.id].width;
 			}
 		},
 	},
 	methods: {
 		select: function() {
-			if(this.coreStore.editingMode == "drawing" && this.coreStore.selectedPencilId == this.id && this.coreStore.openedPencilSettingsId != this.id) {
+			if(this.editingMode == "drawing" && this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
 				this.$store.commit("switchPencilSettings", {id: this.id,}, {module: "core" });
 			}else {
 				this.$store.commit("closePencilSettings", {}, {module: "core" });

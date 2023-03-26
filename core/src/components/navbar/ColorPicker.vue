@@ -3,12 +3,12 @@
 	class="sketchPicker"
 	@input="update"
 	:value="color || colorRGBA"
-	:presetColors="coreStore.presetColors"
+	:presetColors="presetColors"
 	></sketch-picker>
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 import { Sketch } from "vue-color";
 
@@ -34,7 +34,9 @@ export default {
 		},
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			presetColors: store => store.presetColors,
+		}),
 	},
 };
 </script>

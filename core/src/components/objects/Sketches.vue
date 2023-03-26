@@ -1,7 +1,7 @@
 <template>
-    <svg class="sketch" :style="{width: coreState.loadedPage.size.x + 'px', height: coreState.loadedPage.size.y + 'px'}">
+    <svg class="sketch" :style="{width: loadedPage.size.x + 'px', height: loadedPage.size.y + 'px'}">
         <g
-          v-for="(sketch, index) in coreState.loadedPage.objects.sketches"
+          v-for="(sketch, index) in loadedPage.objects.sketches"
           :key="index"
           :opacity="sketch.color.a"
         >
@@ -32,14 +32,16 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 import tinycolor from "tinycolor2";
 
 export default {
 	computed: {
-        ...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+		}),
 	},
 	methods: {
 		sketchRGBString: function(sketch) {

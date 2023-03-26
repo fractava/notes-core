@@ -17,12 +17,14 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	computed: {
-    ...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			editingMode: store => store.editingMode,
+		}),
   },
 	methods: {
 		switchEditingMode: function(mode) {

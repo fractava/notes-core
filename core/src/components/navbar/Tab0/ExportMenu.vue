@@ -4,7 +4,7 @@
     md-align-trigger
     md-close-on-click
   >
-    <md-button md-menu-trigger class="navbarButton smallNavbarButton" :class="{'md-raised': coreStore.exportInProgress}">
+    <md-button md-menu-trigger class="navbarButton smallNavbarButton" :class="{'md-raised': exportInProgress}">
       <md-icon>save_alt</md-icon>
     </md-button>
 
@@ -17,12 +17,13 @@
       </div>
     </md-menu-content>
   </md-menu>-->
+  <div></div>
 </template>
 
 <script>
 import html2pdf from "html2pdf.js";
 
-import { mapStores } from "pinia";
+import { mapState } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
@@ -35,7 +36,7 @@ export default {
 				filename:     "download.pdf",
 				image:        { type: imageType},
 				html2canvas:  this.html2canvasOptions,
-				jsPDF:        {unit: "pt", format: [this.coreStore.loadedPage.size.x, this.coreStore.loadedPage.size.y]}
+				jsPDF:        {unit: "pt", format: [this.loadedPage.size.x, this.loadedPage.size.y]}
 			};
 
 			return html2pdf().set(opt).from(element);
@@ -85,14 +86,17 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(useCoreStore),
+		...mapState(useCoreStore, {
+			exportInProgress: store => store.exportInProgress,
+			loadedPage: store => store.loadedPage,
+		}),
 		html2canvasOptions: function() {
 			return {
 				ignoreElements: function(element) {
 					return element.classList.contains("handle");
 				},
-				width: this.coreStore.loadedPage.size.x,
-				height: this.coreStore.loadedPage.size.y,
+				width: this.loadedPage.size.x,
+				height: this.loadedPage.size.y,
 				onclone: (element) => {
 					const svgElements = Array.from(element.querySelectorAll("svg:not(.sketch)"));
 					svgElements.forEach(s => {
