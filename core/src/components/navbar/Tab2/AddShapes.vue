@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
 				md-close-on-click
@@ -19,12 +19,13 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	data: function() {
@@ -53,15 +54,13 @@ export default {
 			]
 		};
 	},
+	computed: {
+		...mapActions(useCoreStore, ["switchEditingMode"]),
+	},
 	methods: {
 		add: function(information) {
-			this.$store.commit("switchEditingMode", {mode: "addShape", information,}, {module: "core" });
+			this.switchEditingMode({mode: "addShape", information,});
 		},
-	},
-	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-		}),
 	},
 };
 </script>

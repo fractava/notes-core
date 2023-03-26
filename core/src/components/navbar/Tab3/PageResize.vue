@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md->menu
 				md-direction="bottom-start"
 				md-align-trigger
 				class="navbarButton"
@@ -50,12 +50,13 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	data: function() {
@@ -107,12 +108,13 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["setPageWidth", "setPageHeight"]),
 		width: {
 			set(width) {
-				this.$store.commit("setPageWidth", {width,}, {module: "core" });
+				this.setPageWidth({width,});
 			},
 			get() {
 				return this.loadedPage.size.x;
@@ -120,7 +122,7 @@ export default {
 		},
 		height: {
 			set(height) {
-				this.$store.commit("setPageHeight", {height,}, {module: "core" });
+				this.setPageHeight({height,});
 			},
 			get() {
 				return this.loadedPage.size.y;

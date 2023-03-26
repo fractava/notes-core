@@ -1,12 +1,12 @@
 <template>
-	<md-card class="relativeMenu" :style="{width: width+'px'}">
+	<!--<md-card class="relativeMenu" :style="{width: width+'px'}">
 		<md-card-header>
 				<div class="md-title">{{ title }}</div>
 		</md-card-header>
 		<md-card-content>
 				<slot />
 		</md-card-content>
-	</md-card>
+	</md-card>-->
 </template>
 
 <script>

@@ -1,8 +1,11 @@
 <template>
-    <md-tab :md-label="content" v-on:click="select"></md-tab>
+    <!--<md-tab :md-label="content" v-on:click="select"></md-tab>-->
+	<v-tab :value="id">{{ content }}</v-tab>
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	props: {
@@ -14,9 +17,12 @@ export default {
 			default: "",
 		},
 	},
+	computed: {
+		...mapActions(useCoreStore, ["selectNavbarTab"])
+	},
 	methods: {
 		select: function() {
-			this.$store.commit("selectNavbarTab", {id: this.id,}, {module: "core" });
+			this.selectNavbarTab({id: this.id,});
 		},
 	}
 };

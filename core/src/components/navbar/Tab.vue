@@ -8,7 +8,8 @@
 <script>
 import modeSwitchButtons from "./ModeSwitchButtons.vue";
 
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	components: {
@@ -19,9 +20,11 @@ export default {
 			default: 0,
 		},
 	},
-	computed: mapState({
-		activeNavbarTab: state => state.core.activeNavbarTab,
-	}),
+	computed: {
+		...mapState(useCoreStore, {
+			activeNavbarTab: store => store.activeNavbarTab,
+		}),
+	},
 };
 </script>
 

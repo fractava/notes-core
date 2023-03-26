@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
 				class="navbarButton"
@@ -39,12 +39,13 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	data: function() {
@@ -54,16 +55,17 @@ export default {
 	},
 	methods: {
 		apply: function(type) {
-			this.$store.commit("selectBackground", {type,}, {module: "core" });
+			this.selectBackground({type,});
 		},
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["selectBackground", "setBackgroundSize"]),
 		size: {
 			set(size) {
-				this.$store.commit("setBackgroundSize", {size,}, {module: "core" });
+				this.setBackgroundSize({size,});
 			},
 			get() {
 				return this.loadedPage.background.size;

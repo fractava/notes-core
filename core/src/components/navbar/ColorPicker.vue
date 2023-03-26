@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 import { Sketch } from "vue-color";
 
 export default {
@@ -33,8 +34,8 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			presetColors: state => state.core.presetColors,
+		...mapState(useCoreStore, {
+			presetColors: store => store.presetColors,
 		}),
 	},
 };

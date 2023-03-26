@@ -49,7 +49,8 @@
 <script>
 import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
 
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	props: {
@@ -59,11 +60,9 @@ export default {
 	},
 	mixins: [isMountedMixin],
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			editingMode: state => state.core.editingMode,
-			focusedObjectType: state => state.core.focusedObjectType,
-			focuseObjectId: state => state.core.focuseObjectId,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+			editingMode: store => store.editingMode,
 		}),
 		shape: function() {
 			return this.loadedPage.objects.shapes[this.id];

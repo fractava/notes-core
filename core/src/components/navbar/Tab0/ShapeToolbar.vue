@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 100%;">
-		<md-menu
+		<!--<md-menu
 			md-direction="bottom-start"
 			md-align-trigger
 			class="navbarButton"
@@ -37,11 +37,13 @@
 		</md-menu>
 		<md-button class="navbarButton" v-on:click="toggleDistort()" :class="{'md-raised': shape.distort }">
         Distort
-    </md-button>
+    </md-button>-->
 	</div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
+
 import colorPicker from "../ColorPicker.vue";
 
 export default {
@@ -56,20 +58,21 @@ export default {
 	},
 	methods: {
 		updateFillColor: function(color) {
-			this.$store.commit("setShapeFillColor", {id: this.id, color: color.hex8,}, {module: "core" });
+			this.setShapeFillColor({id: this.id, color: color.hex8,});
 		},
 		updateStrokeColor: function(color) {
-			this.$store.commit("setShapeStrokeColor", {id: this.id, color: color.hex8,}, {module: "core" });
+			this.setShapeStrokeColor({id: this.id, color: color.hex8,});
 		},
 		toggleDistort: function() {
-			this.$store.commit("setShapeDistort", {id: this.id, distort: !this.shape.distort,}, {module: "core" });
+			this.setShapeDistort({id: this.id, distort: !this.shape.distort,});
 		},
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			focusedObjects: state => state.core.focusedObjects,
+		...mapState(useCoreStore, {
+			focusedObjects: store => store.focusedObjects,
+			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["setShapeFillColor", "setShapeStrokeColor", "setShapeDistort"]),
 		id: function() {
 			return this.focusedObjects.shapes[0];
 		},

@@ -1,4 +1,10 @@
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 export const moveableEventHandlers = {
+	computed: {
+		...mapActions(useCoreStore, ["moveObject", "resizeObject"]),
+	},
 	methods: {
 		handleMoveableDragGroupStart({ events }) {
 			console.log("handleDragGroupStart");
@@ -26,7 +32,7 @@ export const moveableEventHandlers = {
 
 			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("moveObject", {id, type, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+			this.moveObject({id, type, x: beforeTranslate[0], y: beforeTranslate[1],});
 		},
 
 		handleMoveableResizeGroupStart({ events }) {
@@ -60,8 +66,8 @@ export const moveableEventHandlers = {
 
 			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("resizeObject", {id, type, width, height,}, {module: "core" });
-			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+			this.resizeObject({id, type, width, height,});
+			this.moveObject({id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],});
 		},
 
 		handleMoveableRotateGroupStart({ events }) {
@@ -93,8 +99,8 @@ export const moveableEventHandlers = {
 
 			let {id, type} = this.domObjectToId(target);
 
-			this.$store.commit("rotateObject", {id, type, rotation: rotate,}, {module: "core" });
-			this.$store.commit("moveObject", {id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+			this.rotateObject({id, type, rotation: rotate,});
+			this.moveObject({id, type, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],});
 		},
 	},
 };

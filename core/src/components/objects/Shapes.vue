@@ -13,7 +13,9 @@
 <script>
 
 import shape from "./Shape.vue";
-import { mapState } from "vuex";
+
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	props: {
@@ -27,8 +29,8 @@ export default {
 		shape,
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
 		}),
 	},
 };

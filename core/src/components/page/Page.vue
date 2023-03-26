@@ -16,10 +16,10 @@
 			class="Page"
 			ref="page"
 			:class="[loadedPage.background.type]"
-			v-on:pointerdown="pointerdown"
-			v-on:pointermove="pointermove"
-			v-on:pointerup="pointerup"
-			v-on:pointerleave="pointerleave"
+			v-on:pointerdown="onPointerDown"
+			v-on:pointermove="onPointerMove"
+			v-on:pointerup="onPointerUp"
+			v-on:pointerleave="onPointerLeave"
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
@@ -70,10 +70,14 @@ import Sketches from "../objects/Sketches.vue";
 import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
-import { mapState, mapGetters } from "vuex";
 
-import { VueSelecto } from "vue-selecto";
-import Moveable from "vue-moveable";
+import { VueSelecto } from "vue3-selecto";
+import Moveable from "vue3-moveable";
+
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
+console.log(useCoreStore);
 
 export default {
 	components: {
@@ -93,7 +97,7 @@ export default {
 		};
 	},
 	methods: {
-		pointerdown: function(event) {
+		onPointerDown: function(event) {
 			if(this.debug) {
 				console.log("pointerdown");
 				console.log(event);
@@ -113,7 +117,7 @@ export default {
 				break;
 			}
 		},
-		pointermove: function(event) {
+		onPointerMove: function(event) {
 			if(this.pointer.down) {
 				if(this.debug) {
 					console.log("pointermove");
@@ -135,7 +139,7 @@ export default {
 				}
 			}
 		},
-		pointerup: function(event) {
+		onPointerUp: function(event) {
 			if(this.debug) {
 				console.log("pointerup");
 				console.log(event);
@@ -153,9 +157,9 @@ export default {
 				break;
 			}
 
-			this.$store.dispatch("pointerUp");
+			this.pointerUp();
 		},
-		pointerleave: function(event) {
+		onPointerLeave: function(event) {
 			if(this.debug) {
 				console.log("pointerleave");
 				console.log(event);
@@ -173,12 +177,12 @@ export default {
 				break;
 			}
 
-			this.$store.dispatch("pointerUp");
+			this.pointerUp();
 		},
-		setPointerPositionFromEvent: function(event) {
+		setPointerPositionFromEvent(event) {
 			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
 
-			this.$store.commit("setPointer", {
+			this.setPointer({
 				down: true,
 				x: pageCoordinates.x,
 				y: pageCoordinates.y,
@@ -186,8 +190,8 @@ export default {
 			});
 		},
 		globalCoordinatesToPageCoordinates: function(globalX, globalY) {
-			let offsetX =  ((1 / this.loadedPage.scale) * this.scrollOffsetX);
-			let offsetY =  ((1 / this.loadedPage.scale) * this.scrollOffsetY);
+			let offsetX =  ((1 / this.loadedPage.scale) * this.loadedPage.scrollOffsetX);
+			let offsetY =  ((1 / this.loadedPage.scale) * this.loadedPage.scrollOffsetY);
 
 			let pageX =  ((1 / this.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
 			let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
@@ -199,22 +203,15 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			debug: state => state.core.debug,
-			loadedPage: state => state.core.loadedPage,
-			navbarHeight: state => state.core.navbarHeight,
-			scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
-			scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
-			editingMode: state => state.core.editingMode,
-			editingModeAdditionalInformation: state => state.core.editingModeAdditionalInformation,
-			pointer: state => state.core.pointer,
-			exportInProgress: state => state.core.exportInProgress,
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+			loadedPage: store => store.loadedPage,
+			selectedPencil: store => store.selectedPencil,
+			moveableOptions: store => store.moveableOptions,
+			editingMode: store => store.editingMode,
+			pointer: store => store.pointer,
 		}),
-		...mapGetters([
-			"lastSketch",
-			"selectedPencil",
-			"moveableOptions",
-		]),
+		...mapActions(useCoreStore, ["setPointer", "pointerUp"]),
 	},
 };
 </script>

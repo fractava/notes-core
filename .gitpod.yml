@@ -3,4 +3,4 @@ tasks:
 
 vscode:
   extensions:
-    - octref.vetur
+    - Vue.volar

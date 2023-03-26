@@ -1,14 +1,20 @@
 <template>
-	<md-button class="navbarButton" v-on:click="add">
+	<!--<md-button class="navbarButton" v-on:click="add">
 			<md-icon>post_add</md-icon>
-	</md-button>
+	</md-button>-->
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
+
 export default {
+	computed: {
+		...mapActions(useCoreStore, ["switchEditingMode"]),
+	},
 	methods: {
 		add: function() {
-			this.$store.commit("switchEditingMode", {mode: "addTextBox"}, {module: "core" });
+			this.switchEditingMode({mode: "addTextBox"});
 		},
 	},
 };

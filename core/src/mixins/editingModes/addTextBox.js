@@ -1,9 +1,15 @@
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 export const addTextBox = {
 	data: function() {
 		return {
 			addTextBoxStartCoordinates: {},
 			addTextBoxEndCoordinates: {},
 		};
+	},
+	computed: {
+		...mapActions(useCoreStore, ["newTextBox", "switchEditingMode"]),
 	},
 	methods: {
 		addTextBoxPointerDown: function(){
@@ -23,11 +29,11 @@ export const addTextBox = {
 			let width = endX - startX;
 			let height = endY - startY;
 			console.log(width, height);
-			this.$store.commit("newTextBox", {x: startX, y: startY, width, height,}, {module: "core" });
-			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
+			this.newTextBox({x: startX, y: startY, width, height,});
+			this.switchEditingMode({mode: "editing"});
 		},
 		addTextBoxPointerLeave: function() {
-			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
+			this.switchEditingMode({mode: "editing"});
 		},
 	},
 };

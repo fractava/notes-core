@@ -9,7 +9,7 @@
         >
           <label>Title</label>
           <md-input
-            v-model="title"
+            v-model="loadedPage.title"
             :disabled="editingMode != 'editing'"
           ></md-input>
         </md-field>
@@ -17,18 +17,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	computed: {
-		title: {
-			set(title) {
-				this.$store.commit("setPageTitle", { title }, {module: "core" });
-			},
-			get() {
-				return this.loadedPage.title;
-			}
-		},
 		inputHeight: function() {
 			let size = this.loadedPage.background.size;
 
@@ -55,10 +48,9 @@ export default {
 				"min-width": this.inputWidth - 1 + "px",
 			};
 		},
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			navbarHeight: state => state.core.navbarHeight,
-			editingMode: state => state.core.editingMode,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
+			editingMode: store => store.editingMode,
 		}),
 	},
 };

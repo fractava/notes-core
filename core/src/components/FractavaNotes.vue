@@ -15,7 +15,9 @@ import Page from "./page/Page.vue";
 import Navbar from "./navbar/Navbar.vue";
 import PageContainer from "./page/PageContainer.vue";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../pinia/core.js";
+
 
 export default {
 	components: {
@@ -33,15 +35,16 @@ export default {
 			let scrollOffsetX = event.srcElement.scrollLeft;
 			let scrollOffsetY = event.srcElement.scrollTop;
 
-			this.$store.commit("setScrollOffset", {x: scrollOffsetX, y: scrollOffsetY}, {module: "core" });
+			this.setScrollOffset({x: scrollOffsetX, y: scrollOffsetY});
 		}
 	},
-	computed: mapState({
-		debug: state => state.core.debug,
-		navbarHeight: state => state.core.navbarHeight,
-		scrollOffsetX: state => state.core.loadedPage.scrollOffsetX,
-		scrollOffsetY: state => state.core.loadedPage.scrollOffsetY,
-	}),
+	computed: {
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+      navbarHeight: store => store.navbarHeight,
+		}),
+    ...mapActions(useCoreStore, ['setScrollOffset'])
+  },
 };
 </script>
 

@@ -32,13 +32,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 import tinycolor from "tinycolor2";
 
 export default {
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
+		...mapState(useCoreStore, {
+			loadedPage: store => store.loadedPage,
 		}),
 	},
 	methods: {

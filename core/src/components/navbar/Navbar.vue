@@ -1,16 +1,19 @@
 <template>
   <div class="navbar">
-    <md-tabs>
+    <v-tabs
+      v-model="tab"
+      bg-color="primary"
+    >
       <tab-selector content="Start" id="0" />
       <tab-selector content="Drawing" id="1" />
       <tab-selector content="Insert" id="2" />
       <tab-selector content="View" id="3" />
-    </md-tabs>
+    </v-tabs>
     <div class="navbarContent">
       <tab id="0">
-        <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
+        <!--<md-button class="navbarButton smallNavbarButton" onclick="window.print()">
           <md-icon>print</md-icon>
-        </md-button>
+        </md-button>-->
         <export-menu />
         <quill-toolbar v-if="editingMode == 'editing' && focusedObjects.textBoxes && focusedObjects.textBoxes.length === 1 && numberOfObjectsFocused === 1" />
         <shape-toolbar v-if="editingMode == 'editing' && focusedObjects.shapes && focusedObjects.shapes.length === 1 && numberOfObjectsFocused === 1" />
@@ -54,7 +57,8 @@ import zoomControl from "./Tab3/ZoomControl.vue";
 import backgroundSelector from "./Tab3/BackgroundSelector.vue";
 import pageResize from "./Tab3/PageResize.vue";
 
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	components: {
@@ -77,15 +81,12 @@ export default {
 		};
 	},
 	computed: {
-    ...mapState({
-      activeNavbarTab: state => state.core.activeNavbarTab,
-      pencils: state => state.core.pencils,
-      focusedObjects: state => state.core.focusedObjects,
-      editingMode: state => state.core.editingMode,
-    }),
-    ...mapGetters([
-      "numberOfObjectsFocused",
-    ]),
+		...mapState(useCoreStore, {
+			editingMode: store => store.editingMode,
+      focusedObjects: store => store.focusedObjects,
+      numberOfObjectsFocused: store => store.numberOfObjectsFocused,
+      pencils: store => store.pencils,
+		}),
   },
 	mixins: [],
 };

@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
 				class="navbarButton"
@@ -19,20 +19,26 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
+
 export default {
 	data: function(){
 		return {
 			symbols: ["€", "£", "¥", "©", "®", "™", "±", "≠", "≤", "≥", "÷", "×", "∞", "µ", "α", "β", "π", "Ω", "Σ", "Δ", "√","∩", "∪", "⊆"],
 		};
 	},
+	computed: {
+		...mapActions(useCoreStore, ['insertText'])
+	},
 	methods: {
 		add: function(symbol) {
-			this.$store.commit("insertText", {text: symbol,}, {module: "core" });
+			this.insertText({text: symbol,});
 		},
 	},
 };

@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100%; display: flex;">
-    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
+    <!--<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
         <md-icon>format_bold</md-icon>
     </md-button>
     <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('italic')" :class="{'md-raised': isFormat('italic', true)}">
@@ -105,12 +105,14 @@
     </md-button>
     <md-button class="navbarButton smallNavbarButton" v-if="debug" v-on:click="debugOutput">
         debug
-    </md-button>
+    </md-button>-->
 </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
+
 import colorPicker from "../ColorPicker.vue";
 import addSymbol from "./AddSymbol.vue";
 
@@ -155,7 +157,7 @@ export default {
 			}
 		},
 		setFormat: function(format, value) {
-			this.$store.commit("formatText", {format, value}, {module: "core" });
+			this.formatText({format, value});
 		},
 		setFormatRelative: function(format, value) {
 			let currentFormat = this.getFormat(format) || 0;
@@ -183,7 +185,7 @@ export default {
 			return this.getFormat(format) == value;
 		},
 		removeFormat: function() {
-			this.$store.commit("removeFormat", {}, {module: "core" });
+			this.removeFormat();
 		},
 		updateTextColor: function(color) {
 			this.setFormat("color", color.hex8);
@@ -204,14 +206,15 @@ export default {
 			this.linkDialogActive = true;
 		},
 		insertEmbed: function(type, content) {
-			this.$store.commit("insertEmbed", {type, content,}, {module: "core" });
+			this.insertEmbed({type, content,});
 		},
 	},
 	computed: {
-		...mapState({
-			loadedPage: state => state.core.loadedPage,
-			debug: state => state.core.debug,
+		...mapState(useCoreStore, {
+			debug: store => store.debug,
+			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["formatText", "openedDialog", "closedDialog", "insertEmbed", "removeFormat"]),
 		font: {
 			set(font) {
 				this.setFormat("font", font);
@@ -224,9 +227,9 @@ export default {
 	watch: {
 		linkDialogActive: function(newVal) {
 			if(newVal) {
-				this.$store.commit("openedDialog", {}, {module: "core" });
+				this.openedDialog();
 			} else {
-				this.$store.commit("closedDialog", {}, {module: "core" });
+				this.closedDialog();
 				this.currentLink = "";
 			}
 		},
