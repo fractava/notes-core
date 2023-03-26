@@ -1,7 +1,7 @@
 <template>
-	<md-button class="navbarButton" v-on:click="add">
+	<!--<md-button class="navbarButton" v-on:click="add">
 			<md-icon>post_add</md-icon>
-	</md-button>
+	</md-button>-->
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md->menu
 				md-direction="bottom-start"
 				md-align-trigger
 				class="navbarButton"
@@ -50,7 +50,7 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 

@@ -1,16 +1,16 @@
 <template>
   <div class="navbar">
-    <md-tabs>
+    <!--<md-tabs>
       <tab-selector content="Start" id="0" />
       <tab-selector content="Drawing" id="1" />
       <tab-selector content="Insert" id="2" />
       <tab-selector content="View" id="3" />
-    </md-tabs>
+    </md-tabs>-->
     <div class="navbarContent">
       <tab id="0">
-        <md-button class="navbarButton smallNavbarButton" onclick="window.print()">
+        <!--<md-button class="navbarButton smallNavbarButton" onclick="window.print()">
           <md-icon>print</md-icon>
-        </md-button>
+        </md-button>-->
         <export-menu />
         <quill-toolbar v-if="coreStore.editingMode == 'editing' && coreStore.focusedObjects.textBoxes && coreStore.focusedObjects.textBoxes.length === 1 && coreStore.numberOfObjectsFocused === 1" />
         <shape-toolbar v-if="coreStore.editingMode == 'editing' && coreStore.focusedObjects.shapes && coreStore.focusedObjects.shapes.length === 1 && coreStore.numberOfObjectsFocused === 1" />

@@ -77,6 +77,8 @@ import Moveable from "vue-moveable";
 import { mapStores } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
+console.log(useCoreStore);
+
 export default {
 	components: {
 		Sketches,

@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100%; display: flex;">
-    <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
+    <!--<md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('bold')" :class="{'md-raised': isFormat('bold', true)}">
         <md-icon>format_bold</md-icon>
     </md-button>
     <md-button class="navbarButton smallNavbarButton" v-on:click="toggleFormat('italic')" :class="{'md-raised': isFormat('italic', true)}">
@@ -105,7 +105,7 @@
     </md-button>
     <md-button class="navbarButton smallNavbarButton" v-if="coreStore.debug" v-on:click="debugOutput">
         debug
-    </md-button>
+    </md-button>-->
 </div>
 </template>
 

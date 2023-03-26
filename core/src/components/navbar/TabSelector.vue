@@ -1,5 +1,5 @@
 <template>
-    <md-tab :md-label="content" v-on:click="select"></md-tab>
+    <!--<md-tab :md-label="content" v-on:click="select"></md-tab>-->
 </template>
 
 <script>

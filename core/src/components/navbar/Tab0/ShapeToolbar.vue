@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 100%;">
-		<md-menu
+		<!--<md-menu
 			md-direction="bottom-start"
 			md-align-trigger
 			class="navbarButton"
@@ -37,7 +37,7 @@
 		</md-menu>
 		<md-button class="navbarButton" v-on:click="toggleDistort()" :class="{'md-raised': shape.distort }">
         Distort
-    </md-button>
+    </md-button>-->
 	</div>
 </template>
 <script>

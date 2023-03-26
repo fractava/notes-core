@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
 				:md-active="coreStore.openedPencilSettingsId == id"
@@ -28,7 +28,7 @@
             </div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 

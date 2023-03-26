@@ -1,6 +1,6 @@
 <template>
     <div>
-			<md-menu
+			<!--<md-menu
 				md-direction="bottom-start"
 				md-align-trigger
 				md-close-on-click
@@ -19,7 +19,7 @@
 						</div>
 					</span>
 				</md-menu-content>
-			</md-menu>
+			</md-menu>-->
     </div>
 </template>
 

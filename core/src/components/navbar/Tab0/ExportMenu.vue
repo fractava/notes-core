@@ -1,5 +1,5 @@
 <template>
-  <md-menu
+  <!--<md-menu
     md-direction="bottom-start"
     md-align-trigger
     md-close-on-click
@@ -16,7 +16,7 @@
         <md-button class="exportButton" v-on:click="exportJPG()">JPG</md-button>
       </div>
     </md-menu-content>
-  </md-menu>
+  </md-menu>-->
 </template>
 
 <script>

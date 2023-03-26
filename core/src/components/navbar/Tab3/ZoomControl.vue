@@ -1,6 +1,6 @@
 <template>
 	<div class="zoomControlContainer">
-		<md-button class="navbarButton" v-on:click="plus">
+		<!--<md-button class="navbarButton" v-on:click="plus">
 			<md-icon>add</md-icon>
 		</md-button>
 		<md-button class="navbarButton" v-on:click="minus">
@@ -13,7 +13,7 @@
 		<md-button class="navbarButton" v-on:click="snapToWidth">
 			<md-icon>highlight_alt</md-icon>
 			<md-tooltip md-direction="bottom">Snap to objects</md-tooltip>
-		</md-button>
+		</md-button>-->
 	</div>
 </template>
 
