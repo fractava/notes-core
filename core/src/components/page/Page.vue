@@ -1,5 +1,5 @@
 <template>
-	<!--<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
+	<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
 		<VueSelecto
 			:selectableTargets.sync='selectableTargets'
 			:selectByClick="true"
@@ -54,8 +54,7 @@
 				
 			/>
 	</div>
-  </div>-->
-  <div>{{ debug }}</div>
+  </div>
 </template>
 
 <script>
@@ -72,7 +71,7 @@ import textBoxes from "../objects/TextBoxes.vue";
 import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 
-import { VueSelecto } from "vue-selecto";
+import { VueSelecto } from "vue3-selecto";
 import Moveable from "vue-moveable";
 
 import { mapState, mapActions } from "pinia";
