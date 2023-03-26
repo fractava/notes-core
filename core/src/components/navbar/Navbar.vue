@@ -1,5 +1,10 @@
 <template>
   <div class="navbar">
+    <v-tabs
+      v-model="tab"
+      bg-color="primary"
+    >
+    </v-tabs>
     <!--<md-tabs>
       <tab-selector content="Start" id="0" />
       <tab-selector content="Drawing" id="1" />

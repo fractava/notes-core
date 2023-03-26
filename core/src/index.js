@@ -1,17 +1,18 @@
 import FractavaNotes from "./components/FractavaNotes.vue";
 
-/*import VueMaterial from "vue-material";
-import "vue-material/dist/vue-material.min.css";
-import "vue-material/dist/theme/default.css";*/
-
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
+
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
 
 export default {
 	install: function (app, options) {
 		console.log(options);
+		
+		const vuetify = createVuetify();
 
-		//Vue.use(VueMaterial);
+		app.use(vuetify);
 
 		// enable or disable debug output
 		//options.store.commit("setDebug", options.debug, {module: "core" });
