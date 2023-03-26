@@ -157,7 +157,7 @@ export default {
 				break;
 			}
 
-			this.$store.dispatch("pointerUp");
+			this.pointerUp();
 		},
 		pointerleave: function(event) {
 			if(this.debug) {
@@ -177,7 +177,7 @@ export default {
 				break;
 			}
 
-			this.$store.dispatch("pointerUp");
+			this.pointerUp();
 		},
 		setPointerPositionFromEvent: function(event) {
 			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
@@ -211,7 +211,7 @@ export default {
 			editingMode: store => store.editingMode,
 			pointer: store => store.pointer,
 		}),
-		...mapActions(useCoreStore, ["setPointer"]),
+		...mapActions(useCoreStore, ["setPointer", "pointerUp"]),
 	},
 };
 </script>

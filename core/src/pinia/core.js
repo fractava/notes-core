@@ -156,7 +156,7 @@ export const useCoreStore = defineStore('core', {
 	},
 	actions: {
 		// Page
-		pointerUp: function() {
+		pointerUp() {
 			this.setPointer({down: false, x: false, y: false, pressure: false,});
 		},
 

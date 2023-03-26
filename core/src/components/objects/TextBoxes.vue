@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 import textBox from "./TextBox.vue";
@@ -23,7 +23,7 @@ export default {
 		stopPropagation: function(event) {
 			console.log("preventing event");
 			event.stopPropagation();
-			this.$store.dispatch("pointerUp");
+			this.pointerUp();
 		},
 	},
 	components: {
@@ -32,7 +32,9 @@ export default {
 	computed: {
 		...mapState(useCoreStore, {
 			loadedPage: store => store.loadedPage,
-		}),	},
+		}),
+		...mapActions(useCoreStore, ["pointerUp"]),
+	},
 };
 </script>
 
