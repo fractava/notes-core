@@ -1,5 +1,5 @@
 <template>
-	<!--<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (coreState.loadedPage.scale * coreState.loadedPage.size.x) + 'px', height: (coreState.loadedPage.scale * coreState.loadedPage.size.y) + 'px'}">
+	<!--<div class="zoomedContainer" ref="zoomedContainer" :style="{width: (loadedPage.scale * loadedPage.size.x) + 'px', height: (loadedPage.scale * loadedPage.size.y) + 'px'}">
 		<VueSelecto
 			:selectableTargets.sync='selectableTargets'
 			:selectByClick="true"
@@ -15,12 +15,12 @@
 		<div
 			class="Page"
 			ref="page"
-			:class="[coreState.loadedPage.background.type]"
+			:class="[loadedPage.background.type]"
 			v-on:pointerdown="pointerdown"
 			v-on:pointermove="pointermove"
 			v-on:pointerup="pointerup"
 			v-on:pointerleave="pointerleave"
-			:style="{width: coreState.loadedPage.size.x+'px', height: coreState.loadedPage.size.y+'px', transform: 'scale(' + coreState.loadedPage.scale + ')', '--backgroundSize': coreState.loadedPage.background.size+'px'}"
+			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
 			<sketches class="collectionContainer" />
@@ -28,7 +28,7 @@
 			<shapes class="collectionContainer" />
 			<Moveable
 				class="moveable"
-				v-bind="coreState.moveableOptions"
+				v-bind="moveableOptions"
 				
 				:rootContainer="body"
 				:container="$refs.page"
@@ -99,14 +99,14 @@ export default {
 	},
 	methods: {
 		pointerdown: function(event) {
-			if(this.coreState.debug) {
+			if(this.debug) {
 				console.log("pointerdown");
 				console.log(event);
 			}
 
 			this.setPointerPositionFromEvent(event);
 
-			switch(this.coreState.editingMode) {
+			switch(this.editingMode) {
 			case "drawing":
 				this.drawingPointerDown(event);
 				break;
@@ -119,15 +119,15 @@ export default {
 			}
 		},
 		pointermove: function(event) {
-			if(this.coreState.pointer.down) {
-				if(this.coreState.debug) {
+			if(this.pointer.down) {
+				if(this.debug) {
 					console.log("pointermove");
 					console.log(event);
 				}
 
 				this.setPointerPositionFromEvent(event);
 
-				switch(this.coreState.editingMode) {
+				switch(this.editingMode) {
 				case "drawing":
 					this.drawingPointerMove(event);
 					break;
@@ -141,12 +141,12 @@ export default {
 			}
 		},
 		pointerup: function(event) {
-			if(this.coreState.debug) {
+			if(this.debug) {
 				console.log("pointerup");
 				console.log(event);
 			}
 
-			switch(this.coreState.editingMode) {
+			switch(this.editingMode) {
 			case "drawing":
 				this.drawingPointerUp(event);
 				break;
@@ -161,12 +161,12 @@ export default {
 			this.$store.dispatch("pointerUp");
 		},
 		pointerleave: function(event) {
-			if(this.coreState.debug) {
+			if(this.debug) {
 				console.log("pointerleave");
 				console.log(event);
 			}
 
-			switch(this.coreState.editingMode) {
+			switch(this.editingMode) {
 			case "drawing":
 				this.drawingPointerLeave(event);
 				break;
@@ -191,21 +191,26 @@ export default {
 			});
 		},
 		globalCoordinatesToPageCoordinates: function(globalX, globalY) {
-			let offsetX =  ((1 / this.coreState.loadedPage.scale) * this.coreState.loadedPage.scrollOffsetX);
-			let offsetY =  ((1 / this.coreState.loadedPage.scale) * this.coreState.loadedPage.scrollOffsetY);
+			let offsetX =  ((1 / this.loadedPage.scale) * this.loadedPage.scrollOffsetX);
+			let offsetY =  ((1 / this.loadedPage.scale) * this.loadedPage.scrollOffsetY);
 
-			let pageX =  ((1 / this.coreState.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
-			let pageY =  ((1 / this.coreState.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
+			let pageX =  ((1 / this.loadedPage.scale) * (globalX - this.$el.offsetLeft)) + offsetX;
+			let pageY =  ((1 / this.loadedPage.scale) * (globalY - this.$el.offsetTop)) + offsetY;
 
 			return {x: pageX, y: pageY,};
 		},
 		calculatePressure: function(event) {
-			return this.coreState.selectedPencil.width * 2 * (event.pressure || 0.5);
+			return this.selectedPencil.width * 2 * (event.pressure || 0.5);
 		},
 	},
 	computed: {
 		...mapState(useCoreStore, {
 			debug: store => store.debug,
+			loadedPage: store => store.loadedPage,
+			selectedPencil: store => store.selectedPencil,
+			moveableOptions: store => store.moveableOptions,
+			editingMode: store => store.editingMode,
+			pointer: store => store.pointer,
 		}),
 	},
 };
