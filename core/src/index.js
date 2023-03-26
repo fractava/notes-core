@@ -4,6 +4,8 @@ import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 
 import 'vuetify/styles';
+
+import { createPinia } from 'pinia';
 import { createVuetify } from 'vuetify';
 
 export default {
@@ -11,8 +13,10 @@ export default {
 		console.log(options);
 		
 		const vuetify = createVuetify();
+		const pinia = createPinia();
 
 		app.use(vuetify);
+		app.use(pinia);
 
 		// enable or disable debug output
 		//options.store.commit("setDebug", options.debug, {module: "core" });

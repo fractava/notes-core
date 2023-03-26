@@ -16,10 +16,10 @@
 			class="Page"
 			ref="page"
 			:class="[loadedPage.background.type]"
-			v-on:pointerdown="pointerdown"
-			v-on:pointermove="pointermove"
-			v-on:pointerup="pointerup"
-			v-on:pointerleave="pointerleave"
+			v-on:pointerdown="onPointerDown"
+			v-on:pointermove="onPointerMove"
+			v-on:pointerup="onPointerUp"
+			v-on:pointerleave="onPointerLeave"
 			:style="{width: loadedPage.size.x+'px', height: loadedPage.size.y+'px', transform: 'scale(' + loadedPage.scale + ')', '--backgroundSize': loadedPage.background.size+'px'}"
 		>
 			<pageTitle />
@@ -97,7 +97,7 @@ export default {
 		};
 	},
 	methods: {
-		pointerdown: function(event) {
+		onPointerDown: function(event) {
 			if(this.debug) {
 				console.log("pointerdown");
 				console.log(event);
@@ -117,7 +117,7 @@ export default {
 				break;
 			}
 		},
-		pointermove: function(event) {
+		onPointerMove: function(event) {
 			if(this.pointer.down) {
 				if(this.debug) {
 					console.log("pointermove");
@@ -139,7 +139,7 @@ export default {
 				}
 			}
 		},
-		pointerup: function(event) {
+		onPointerUp: function(event) {
 			if(this.debug) {
 				console.log("pointerup");
 				console.log(event);
@@ -159,7 +159,7 @@ export default {
 
 			this.pointerUp();
 		},
-		pointerleave: function(event) {
+		onPointerLeave: function(event) {
 			if(this.debug) {
 				console.log("pointerleave");
 				console.log(event);
@@ -179,7 +179,7 @@ export default {
 
 			this.pointerUp();
 		},
-		setPointerPositionFromEvent: function(event) {
+		setPointerPositionFromEvent(event) {
 			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
 
 			this.setPointer({
