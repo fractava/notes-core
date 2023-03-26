@@ -72,7 +72,7 @@ import shapes from "../objects/Shapes.vue";
 import pageTitle from "../objects/PageTitle.vue";
 
 import { VueSelecto } from "vue3-selecto";
-import Moveable from "vue-moveable";
+import Moveable from "vue3-moveable";
 
 import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
