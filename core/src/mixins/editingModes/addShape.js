@@ -1,9 +1,15 @@
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../pinia/core.js";
+
 export const addShape = {
 	data: function() {
 		return {
 			addShapeStartCoordinates: {},
 			addShapeEndCoordinates: {},
 		};
+	},
+	computed: {
+		...mapActions(useCoreStore, ["newShape", "switchEditingMode"]),
 	},
 	methods: {
 		addShapePointerDown: function(){
@@ -23,7 +29,7 @@ export const addShape = {
 			let width = endX - startX;
 			let height = endY - startY;
 			console.log(startX, startY, width, height);
-			this.$store.commit("newShape", {
+			this.newShape({
 				type: this.editingModeAdditionalInformation.name,
 				x: startX,
 				y: startY,
@@ -31,11 +37,11 @@ export const addShape = {
 				height,
 				distort: this.editingModeAdditionalInformation.distort,
 				strokeWeight: 4,
-			}, {module: "core" });
-			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
+			});
+			this.switchEditingMode({mode: "editing"});
 		},
 		addShapePointerLeave: function() {
-			this.$store.commit("switchEditingMode", {mode: "editing"}, {module: "core" });
+			this.switchEditingMode({mode: "editing"});
 		},
 	},
 };

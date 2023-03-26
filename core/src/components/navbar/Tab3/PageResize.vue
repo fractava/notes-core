@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
@@ -111,9 +111,10 @@ export default {
 		...mapState(useCoreStore, {
 			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["setPageWidth", "setPageHeight"]),
 		width: {
 			set(width) {
-				this.$store.commit("setPageWidth", {width,}, {module: "core" });
+				this.setPageWidth({width,});
 			},
 			get() {
 				return this.loadedPage.size.x;
@@ -121,7 +122,7 @@ export default {
 		},
 		height: {
 			set(height) {
-				this.$store.commit("setPageHeight", {height,}, {module: "core" });
+				this.setPageHeight({height,});
 			},
 			get() {
 				return this.loadedPage.size.y;

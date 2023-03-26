@@ -4,13 +4,11 @@
       v-model="tab"
       bg-color="primary"
     >
-    </v-tabs>
-    <!--<md-tabs>
       <tab-selector content="Start" id="0" />
       <tab-selector content="Drawing" id="1" />
       <tab-selector content="Insert" id="2" />
       <tab-selector content="View" id="3" />
-    </md-tabs>-->
+    </v-tabs>
     <div class="navbarContent">
       <tab id="0">
         <!--<md-button class="navbarButton smallNavbarButton" onclick="window.print()">

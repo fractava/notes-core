@@ -9,7 +9,7 @@
         >
           <label>Title</label>
           <md-input
-            v-model="title"
+            v-model="loadedPage.title"
             :disabled="editingMode != 'editing'"
           ></md-input>
         </md-field>
@@ -22,14 +22,6 @@ import { useCoreStore } from "../../pinia/core.js";
 
 export default {
 	computed: {
-		title: {
-			set(title) {
-				this.$store.commit("setPageTitle", { title }, {module: "core" });
-			},
-			get() {
-				return this.loadedPage.title;
-			}
-		},
 		inputHeight: function() {
 			let size = this.loadedPage.background.size;
 

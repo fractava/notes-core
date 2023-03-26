@@ -6,20 +6,21 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	methods: {
 		add: function() {
-			this.$store.commit("addPencil", {color: {r: 0, g: 0, b:0}, width: 8,}, {module: "core" });
-			this.$store.dispatch("selectPencil", {id: this.pencils.length - 1,}, {module: "core" });
+			this.addPencil({color: {r: 0, g: 0, b:0}, width: 8,});
+			this.selectPencil({id: this.pencils.length - 1,});
 		},
 	},
 	computed: {
 		...mapState(useCoreStore, {
 			pencils: store => store.pencils,
 		}),
+		...mapActions(useCoreStore, ["addPencil", "selectPencil"])
 	}
 };
 </script>

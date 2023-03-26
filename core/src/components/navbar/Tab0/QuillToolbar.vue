@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 import colorPicker from "../ColorPicker.vue";
@@ -157,7 +157,7 @@ export default {
 			}
 		},
 		setFormat: function(format, value) {
-			this.$store.commit("formatText", {format, value}, {module: "core" });
+			this.formatText({format, value});
 		},
 		setFormatRelative: function(format, value) {
 			let currentFormat = this.getFormat(format) || 0;
@@ -185,7 +185,7 @@ export default {
 			return this.getFormat(format) == value;
 		},
 		removeFormat: function() {
-			this.$store.commit("removeFormat", {}, {module: "core" });
+			this.removeFormat();
 		},
 		updateTextColor: function(color) {
 			this.setFormat("color", color.hex8);
@@ -206,7 +206,7 @@ export default {
 			this.linkDialogActive = true;
 		},
 		insertEmbed: function(type, content) {
-			this.$store.commit("insertEmbed", {type, content,}, {module: "core" });
+			this.insertEmbed({type, content,});
 		},
 	},
 	computed: {
@@ -214,6 +214,7 @@ export default {
 			debug: store => store.debug,
 			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["formatText", "openedDialog", "closedDialog", "insertEmbed", "removeFormat"]),
 		font: {
 			set(font) {
 				this.setFormat("font", font);
@@ -226,9 +227,9 @@ export default {
 	watch: {
 		linkDialogActive: function(newVal) {
 			if(newVal) {
-				this.$store.commit("openedDialog", {}, {module: "core" });
+				this.openedDialog();
 			} else {
-				this.$store.commit("closedDialog", {}, {module: "core" });
+				this.closedDialog();
 				this.currentLink = "";
 			}
 		},

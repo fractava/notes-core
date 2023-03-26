@@ -24,15 +24,21 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
+
 export default {
 	data: function(){
 		return {
 			symbols: ["€", "£", "¥", "©", "®", "™", "±", "≠", "≤", "≥", "÷", "×", "∞", "µ", "α", "β", "π", "Ω", "Σ", "Δ", "√","∩", "∪", "⊆"],
 		};
 	},
+	computed: {
+		...mapActions(useCoreStore, ['insertText'])
+	},
 	methods: {
 		add: function(symbol) {
-			this.$store.commit("insertText", {text: symbol,}, {module: "core" });
+			this.insertText({text: symbol,});
 		},
 	},
 };

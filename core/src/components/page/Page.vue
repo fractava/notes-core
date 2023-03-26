@@ -75,7 +75,7 @@ import pageTitle from "../objects/PageTitle.vue";
 import { VueSelecto } from "vue-selecto";
 import Moveable from "vue-moveable";
 
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 console.log(useCoreStore);
@@ -183,7 +183,7 @@ export default {
 		setPointerPositionFromEvent: function(event) {
 			let pageCoordinates = this.globalCoordinatesToPageCoordinates(event.x, event.y);
 
-			this.$store.commit("setPointer", {
+			this.setPointer({
 				down: true,
 				x: pageCoordinates.x,
 				y: pageCoordinates.y,
@@ -212,6 +212,7 @@ export default {
 			editingMode: store => store.editingMode,
 			pointer: store => store.pointer,
 		}),
+		...mapActions(useCoreStore, ["setPointer"]),
 	},
 };
 </script>

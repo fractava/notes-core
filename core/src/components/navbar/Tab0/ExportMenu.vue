@@ -23,13 +23,13 @@
 <script>
 import html2pdf from "html2pdf.js";
 
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	methods: {
 		html2pdfStart: function(imageType) {
-			this.$store.commit("exportStarted", {}, {module: "core" });
+			this.exportStarted();
 
 			var element = this.getPageClone();
 			var opt = {
@@ -46,7 +46,7 @@ export default {
 			this.html2pdfStart("png").outputImg("datauristring").then(function(result) {
 				console.log(result);
 				self.saveFile(result, "png", "download");
-				self.$store.commit("exportStopped", {}, {module: "core" });
+				self.exportStopped();
 			});
 		},
 		exportWEBP: function() {
@@ -54,7 +54,7 @@ export default {
 			this.html2pdfStart("webp").outputImg("datauristring").then(function(result) {
 				console.log(result);
 				self.saveFile(result, "webp", "download");
-				self.$store.commit("exportStopped", {}, {module: "core" });
+				self.exportStopped();
 			});
 		},
 		exportJPG: function() {
@@ -62,13 +62,13 @@ export default {
 			this.html2pdfStart("jpeg").outputImg("datauristring").then(function(result) {
 				console.log(result);
 				self.saveFile(result, "jpg", "download");
-				self.$store.commit("exportStopped", {}, {module: "core" });
+				self.exportStopped();
 			});
 		},
 		exportPDF: function() {
 			let self = this;
 			this.html2pdfStart("png").save().then(function() {
-				self.$store.commit("exportStopped", {}, {module: "core" });
+				self.exportStopped();
 			});
 		},
 		getPageClone: function() {
@@ -90,6 +90,7 @@ export default {
 			exportInProgress: store => store.exportInProgress,
 			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["exportStarted", "exportStopped"]),
 		html2canvasOptions: function() {
 			return {
 				ignoreElements: function(element) {

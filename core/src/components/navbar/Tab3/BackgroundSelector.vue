@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
@@ -55,16 +55,17 @@ export default {
 	},
 	methods: {
 		apply: function(type) {
-			this.$store.commit("selectBackground", {type,}, {module: "core" });
+			this.selectBackground({type,});
 		},
 	},
 	computed: {
 		...mapState(useCoreStore, {
 			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["selectBackground", "setBackgroundSize"]),
 		size: {
 			set(size) {
-				this.$store.commit("setBackgroundSize", {size,}, {module: "core" });
+				this.setBackgroundSize({size,});
 			},
 			get() {
 				return this.loadedPage.background.size;

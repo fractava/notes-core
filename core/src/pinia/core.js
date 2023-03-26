@@ -154,114 +154,121 @@ export const useCoreStore = defineStore('core', {
 			}
 		},
 	},
-});
+	actions: {
+		// Page
+		pointerUp: function() {
+			this.setPointer({down: false, x: false, y: false, pressure: false,});
+		},
 
-/*
-mutations: {
+		// Sketches
+		/*selectPencil: function(options) {
+			this.selectPencil({id: options.id, });
+			this.switchEditingMode({mode: "drawing", });
+		},*/
+
 		// System
-		setDebug(state, value) {
-			state.debug = value;
+		setDebug(value) {
+			this.debug = value;
 		},
-		openedDialog(state) {
-			state.openedDialog = true;
+		openedDialog() {
+			this.openedDialog = true;
 		},
-		closedDialog(state) {
-			state.openedDialog = false;
+		closedDialog() {
+			this.openedDialog = false;
 		},
-		exportStarted(state) {
-			state.exportInProgress = true;
+		exportStarted() {
+			this.exportInProgress = true;
 		},
-		exportStopped(state) {
-			state.exportInProgress = false;
+		exportStopped() {
+			this.exportInProgress = false;
 		},
 
 		// Navbar
-		selectNavbarTab(state, options) {
-			state.activeNavbarTab = options.id;
+		selectNavbarTab(options) {
+			this.activeNavbarTab = options.id;
 		},
 
 		// Page
-		switchEditingMode(state, options) {
-			state.editingMode = options.mode;
-			state.editingModeAdditionalInformation = options.information;
+		switchEditingMode(options) {
+			this.editingMode = options.mode;
+			this.editingModeAdditionalInformation = options.information;
 		},
-		setPageTitle(state, options) {
-			state.loadedPage.title = options.title;
+		setPageTitle(options) {
+			this.loadedPage.title = options.title;
 		},
-		setScrollOffset(state, options) {
-			state.loadedPage.scrollOffsetX = options.x;
-			state.loadedPage.scrollOffsetY = options.y;
+		setScrollOffset(options) {
+			this.loadedPage.scrollOffsetX = options.x;
+			this.loadedPage.scrollOffsetY = options.y;
 		},
-		setPointer(state, options) {
-			state.pointer = options;
+		setPointer(options) {
+			this.pointer = options;
 		},
-		updateFocusedObjects(state, options) {
-			state.focusedObjects = options.objects;
+		updateFocusedObjects(options) {
+			this.focusedObjects = options.objects;
 		},
-		scroll(state, options) {
+		scroll(options) {
 			if(options.x != undefined) {
-				state.loadedPage.scrollOffsetX = options.x;
-				document.getElementsByClassName("PageContainer")[0].scrollLeft = options.x * state.loadedPage.scale;
+				this.loadedPage.scrollOffsetX = options.x;
+				document.getElementsByClassName("PageContainer")[0].scrollLeft = options.x * this.loadedPage.scale;
 			}
 			if(options.y != undefined) {
-				state.loadedPage.scrollOffsetY = options.y;
-				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * state.loadedPage.scale;
+				this.loadedPage.scrollOffsetY = options.y;
+				document.getElementsByClassName("PageContainer")[0].scrollTop = options.y * this.loadedPage.scale;
 			}
 		},
-		setScale(state, options) {
+		setScale(options) {
 			if(options.scale >= 0.1) {
-				state.loadedPage.scale = options.scale;
+				this.loadedPage.scale = options.scale;
 			}
 		},
-		selectBackground(state, options) {
-			state.loadedPage.background.type = options.type;
+		selectBackground(options) {
+			this.loadedPage.background.type = options.type;
 		},
-		setBackgroundSize(state, options) {
-			state.loadedPage.background.size = options.size;
+		setBackgroundSize(options) {
+			this.loadedPage.background.size = options.size;
 		},
-		setPageWidth(state, options) {
-			state.loadedPage.size.x = options.width;
+		setPageWidth(options) {
+			this.loadedPage.size.x = options.width;
 		},
-		setPageHeight(state, options) {
-			state.loadedPage.size.y = options.height;
+		setPageHeight(options) {
+			this.loadedPage.size.y = options.height;
 		},
 
 		// Sketch
-		newSketch(state, color) {
-			state.loadedPage.objects.sketches.push({
+		newSketch(color) {
+			this.loadedPage.objects.sketches.push({
 				coordinates: [],
 				color: JSON.parse(JSON.stringify(color)),
 			});
 		},
-		drawLine(state, options) {
+		drawLine(options) {
 			options.sketch.coordinates.push({x: options.x, y: options.y, width: options.pressure});
 		},
-		addPencil(state, options) {
-			state.pencils.push({color: options.color, width: options.width,});
+		addPencil(options) {
+			this.pencils.push({color: options.color, width: options.width,});
 		},
-		changePencilColor(state, options) {
-			state.pencils[options.id].color = options.color;
+		changePencilColor(options) {
+			this.pencils[options.id].color = options.color;
 		},
-		changePencilWidth(state, options) {
-			state.pencils[options.id].width = options.width;
+		changePencilWidth(options) {
+			this.pencils[options.id].width = options.width;
 		},
-		selectPencil(state, options) {
-			if(options.id < state.pencils.length) {
-				state.selectedPencilId = options.id;
+		selectPencil(options) {
+			if(options.id < this.pencils.length) {
+				this.selectedPencilId = options.id;
 			}
-
 		},
-		switchPencilSettings(state, options) {
-			state.openedPencilSettingsId = options.id;
+		switchPencilSettings(options) {
+			this.openedPencilSettingsId = options.id;
 		},
-		closePencilSettings(state) {
-			state.openedPencilSettingsId = -1;
+		closePencilSettings() {
+			this.openedPencilSettingsId = -1;
 		},
 
 		// Text Boxes
-		newTextBox(state, options) {
+		newTextBox(options) {
 			console.log("newTextBox");
-			state.loadedPage.objects.textBoxes.push({
+			this.loadedPage.objects.textBoxes.push({
 				position: {
 					x: options.x,
 					y: options.y,
@@ -274,50 +281,50 @@ mutations: {
 				quill: undefined,
 			});
 		},
-		setTextBoxContent(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].content = options.content;
+		setTextBoxContent(options) {
+			this.loadedPage.objects.textBoxes[options.id].content = options.content;
 		},
-		assignQuillToTextBox(state, options) {
-			state.loadedPage.objects.textBoxes[options.id].quill = options.quill;
+		assignQuillToTextBox(options) {
+			this.loadedPage.objects.textBoxes[options.id].quill = options.quill;
 		},
-		formatText(state, options) {
-			if(state.focusedObjectType == "textBoxes") {
+		formatText(options) {
+			if(this.focusedObjectType == "textBoxes") {
 				let quill;
 				if(options.id) {
-					quill = state.loadedPage.objects.textBoxes[options.id].quill;
+					quill = this.loadedPage.objects.textBoxes[options.id].quill;
 				}else {
-					quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+					quill = this.loadedPage.objects.textBoxes[this.focuseObjectId].quill;
 				}
 
 				quill.format(options.format, options.value, "api");
 			}
 		},
-		removeFormat(state) {
-			if(state.focusedObjectType == "textBoxes") {
-				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+		removeFormat() {
+			if(this.focusedObjectType == "textBoxes") {
+				let quill = this.loadedPage.objects.textBoxes[this.focuseObjectId].quill;
 				let selection = quill.getSelection();
 
 				quill.removeFormat(selection.index, selection.length, "api");
 			}
 		},
-		insertText(state, options) {
-			if(state.focusedObjectType == "textBoxes") {
-				let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+		insertText(options) {
+			if(this.focusedObjectType == "textBoxes") {
+				let quill = this.loadedPage.objects.textBoxes[this.focuseObjectId].quill;
 				let selection = quill.getSelection();
 				quill.insertText(selection.index, options.text, {});
 			}
 		},
-		insertEmbed(state, options) {
-			let quill = state.loadedPage.objects.textBoxes[state.focuseObjectId].quill;
+		insertEmbed(options) {
+			let quill = this.loadedPage.objects.textBoxes[this.focuseObjectId].quill;
 			let selection = quill.getSelection();
 			console.log(selection);
 			quill.insertEmbed(selection.index, options.type, options.content);
 		},
 
 		// Shapes
-		newShape(state, options) {
+		newShape(options) {
 			console.log("newShape");
-			state.loadedPage.objects.shapes.push({
+			this.loadedPage.objects.shapes.push({
 				type: options.type,
 				position: {
 					x: options.x,
@@ -335,47 +342,34 @@ mutations: {
 				distort: options.distort,
 			});
 		},
-		setShapeFillColor(state, options) {
-			state.loadedPage.objects.shapes[options.id].color.fill = options.color;
+		setShapeFillColor(options) {
+			this.loadedPage.objects.shapes[options.id].color.fill = options.color;
 		},
-		setShapeStrokeColor(state, options) {
-			state.loadedPage.objects.shapes[options.id].color.stroke = options.color;
+		setShapeStrokeColor(options) {
+			this.loadedPage.objects.shapes[options.id].color.stroke = options.color;
 		},
-		setShapeDistort(state, options) {
-			state.loadedPage.objects.shapes[options.id].distort = options.distort;
+		setShapeDistort(options) {
+			this.loadedPage.objects.shapes[options.id].distort = options.distort;
 		},
 
 		// Objects
-		moveObject(state, options) {
-			if(options.x >= 0 && options.x <= state.loadedPage.size.x) {
-				state.loadedPage.objects[options.type][options.id].position.x = options.x;
+		moveObject(options) {
+			if(options.x >= 0 && options.x <= this.loadedPage.size.x) {
+				this.loadedPage.objects[options.type][options.id].position.x = options.x;
 			}
-			if(options.y >= 0 && options.y <= state.loadedPage.size.y) {
-				state.loadedPage.objects[options.type][options.id].position.y = options.y;
+			if(options.y >= 0 && options.y <= this.loadedPage.size.y) {
+				this.loadedPage.objects[options.type][options.id].position.y = options.y;
 			}
 		},
-		resizeObject(state, options) {
-			state.loadedPage.objects[options.type][options.id].position.width = options.width;
-			state.loadedPage.objects[options.type][options.id].position.height = options.height;
+		resizeObject(options) {
+			this.loadedPage.objects[options.type][options.id].position.width = options.width;
+			this.loadedPage.objects[options.type][options.id].position.height = options.height;
 		},
-		rotateObject(state, options) {
-			state.loadedPage.objects[options.type][options.id].position.rotation = options.rotation;
+		rotateObject(options) {
+			this.loadedPage.objects[options.type][options.id].position.rotation = options.rotation;
 		},
-		setObjectTransformOrigin(state, options) {
-			state.loadedPage.objects[options.type][options.id].position.transformOrigin = options.transformOrigin;
+		setObjectTransformOrigin(options) {
+			this.loadedPage.objects[options.type][options.id].position.transformOrigin = options.transformOrigin;
 		},
-	},
-	},
-	actions: {
-		// Page
-		pointerUp: function({ commit }) {
-			commit("setPointer", {down: false, x: false, y: false, pressure: false,});
-		},
-
-		// Sketches
-		selectPencil: function({commit}, options) {
-			commit("selectPencil", {id: options.id, }, {module: "core" });
-			commit("switchEditingMode", {mode: "drawing", }, {module: "core" });
-		}
 	}
-*/
+});

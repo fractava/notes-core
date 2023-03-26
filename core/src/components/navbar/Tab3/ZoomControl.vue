@@ -18,21 +18,21 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	methods: {
 		plus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale + 0.1,}, {module: "core" });
+			this.setScale({scale: this.loadedPage.scale + 0.1,});
 		},
 		minus: function() {
-			this.$store.commit("setScale", {scale: this.loadedPage.scale - 0.1,}, {module: "core" });
+			this.setScale({scale: this.loadedPage.scale - 0.1,});
 		},
 		reset: function() {
 			console.log("reset");
-			this.$store.commit("setScale", {scale: 1,}, {module: "core" });
-			this.$store.commit("scroll", {x: 0, y: 0,}, {module: "core" });
+			this.setScale({scale: 1,});
+			this.scroll({x: 0, y: 0,});
 		},
 		snapToWidth: function() {
 			let bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
@@ -58,14 +58,15 @@ export default {
 
 			console.log(scale);
 
-			this.$store.commit("setScale", {scale,}, {module: "core" });
-			this.$store.commit("scroll", {x: mostLeft,}, {module: "core" });
+			this.setScale({scale,});
+			this.scroll({x: mostLeft,});
 		},
 	},
 	computed: {
 		...mapState(useCoreStore, {
 			loadedPage: store => store.loadedPage,
 		}),
+		...mapActions(useCoreStore, ["setScale", "scroll"]),
 	}
 };
 </script>

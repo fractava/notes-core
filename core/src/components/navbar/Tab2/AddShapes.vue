@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useCoreStore } from "../../../pinia/core.js";
 
 export default {
 	data: function() {
@@ -52,9 +54,12 @@ export default {
 			]
 		};
 	},
+	computed: {
+		...mapActions(useCoreStore, ["switchEditingMode"]),
+	},
 	methods: {
 		add: function(information) {
-			this.$store.commit("switchEditingMode", {mode: "addShape", information,}, {module: "core" });
+			this.switchEditingMode({mode: "addShape", information,});
 		},
 	},
 };

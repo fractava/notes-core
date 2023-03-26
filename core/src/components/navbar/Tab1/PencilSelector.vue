@@ -33,15 +33,15 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../../pinia/core.js";
 
 import tinycolor from "tinycolor2";
-import colorPicker from "../ColorPicker.vue";
+import ColorPicker from "../ColorPicker.vue";
 
 export default {
 	components: {
-		colorPicker,
+		ColorPicker,
 	},
 	props: {
 		id: {
@@ -56,13 +56,14 @@ export default {
 			editingMode: store => store.editingMode,
 			selectedPencilId: store => store.selectedPencilId,
 		}),
+		...mapActions(useCoreStore, ["changePencilWidth", "switchPencilSettings", "closePencilSettings", "selectPencil", "changePencilColor"]),
 		pencilRGBAString: function() {
 			var color = tinycolor(this.pencils[this.id].color);
 			return color.toRgbString();
 		},
 		width: {
 			set(width) {
-				this.$store.commit("changePencilWidth", {id: this.id, width,}, {module: "core" });
+				this.changePencilWidth({id: this.id, width,});
 			},
 			get() {
 				return this.pencils[this.id].width;
@@ -72,16 +73,16 @@ export default {
 	methods: {
 		select: function() {
 			if(this.editingMode == "drawing" && this.selectedPencilId == this.id && this.openedPencilSettingsId != this.id) {
-				this.$store.commit("switchPencilSettings", {id: this.id,}, {module: "core" });
+				this.switchPencilSettings({id: this.id,});
 			}else {
-				this.$store.commit("closePencilSettings", {}, {module: "core" });
+				this.closePencilSettings();
 			}
 
-			this.$store.dispatch("selectPencil", {id: this.id,}, {module: "core" });
+			this.selectPencil({id: this.id,});
 		},
 		updateColor: function(color) {
 			console.log(color);
-			this.$store.commit("changePencilColor", {id: this.id, color: color.rgba, }, {module: "core" });
+			this.changePencilColor({id: this.id, color: color.rgba, });
 		},
 	}
 };

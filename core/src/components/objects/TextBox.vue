@@ -7,7 +7,7 @@
 			<quill
 				class="textBox object"
 				:data-textBox-id="id"
-				v-model="content"
+				v-model="textBox.content"
 				v-on:assign:quill="assignQuill"
 				v-on:activate="activate"
 				:focused="active"
@@ -24,7 +24,7 @@
 <script>
 import { isMountedMixin } from "../../mixins/editingModes/isMountedMixin.js";
 
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useCoreStore } from "../../pinia/core.js";
 
 import quill from "./quill.vue";
@@ -51,16 +51,9 @@ export default {
 			editingMode: store => store.editingMode,
 			openedDialog: store => store.openedDialog,
 		}),
+		...mapActions(useCoreStore, ["focusObject", "assignQuillToTextBox", "moveTextBox", "resizeTextBox", "rotateTextBox"]),
 		textBox: function() {
 			return this.loadedPage.objects.textBoxes[this.id];
-		},
-		content: {
-			set(content) {
-				this.$store.commit("setTextBoxContent", { id: this.id, content }, {module: "core" });
-			},
-			get() {
-				return this.textBox.content;
-			}
 		},
 		disabled: function() {
 			return this.editingMode != "editing";
@@ -79,11 +72,11 @@ export default {
 	},
 	methods: {
 		activate: function() {
-			this.$store.commit("focusObject", {type: "textBoxes", id: this.id,}, {module: "core" });
+			this.focusObject({type: "textBoxes", id: this.id,});
 		},
 		assignQuill: function(quill) {
 			console.log(quill);
-			this.$store.commit("assignQuillToTextBox", { id: this.id, quill }, {module: "core" });
+			this.assignQuillToTextBox({ id: this.id, quill });
 		},
 		handleDragStart(e) {
 			e.set([this.textBox.position.x, this.textBox.position.y]);
@@ -92,7 +85,7 @@ export default {
 			console.log("onDrag left, top", transform);
 			target.style.transform = transform;
 
-			this.$store.commit("moveTextBox", {id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],}, {module: "core" });
+			this.moveTextBox({id: this.id, x: beforeTranslate[0], y: beforeTranslate[1],});
 		},
 		handleResizeStart(e) {
 			console.log("handleResizeStart", e);
@@ -106,8 +99,8 @@ export default {
 			delta[0] && (target.style.width = `${width}px`);
 			delta[1] && (target.style.height = `${height}px`);
 
-			this.$store.commit("resizeTextBox", {id: this.id, width, height,}, {module: "core" });
-			this.$store.commit("moveTextBox", {id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],}, {module: "core" });
+			this.resizeTextBox({id: this.id, width, height,});
+			this.moveTextBox({id: this.id, x: drag.beforeTranslate[0], y: drag.beforeTranslate[1],});
 		},
 		handleRotateStart(e) {
 			console.log("onRotateStart", e);
@@ -119,7 +112,7 @@ export default {
 
 			target.style.transform = transform;
 
-			this.$store.commit("rotateTextBox", {id: this.id, rotation: rotate,}, {module: "core" });
+			this.rotateTextBox({id: this.id, rotation: rotate,});
 		},
 		handleRender(e) {
 			this.updateStyles(e.target);
